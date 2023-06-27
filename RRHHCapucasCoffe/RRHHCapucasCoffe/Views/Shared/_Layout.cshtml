@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/vendor/bootstrap-icons/bootstrap-icons.css" asp-append-version="true" />
-
+    <link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -20,7 +20,7 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
             <a class="logo d-flex align-items-center" asp-area="" asp-controller="home" asp-action="index">
-                <img src="assets/img/logo.png" alt="">
+                <img src="/img/LogoCapucas.png" alt="">
                 <span class="d-none d-lg-block">CAPUCAS COFFE</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -76,7 +76,7 @@
             </li><!-- End Home Nav -->
             <li class="nav-item">
                 <!-- Planilla Nav -->
-                <a class="nav-link collapsed" href="">
+                <a class="nav-link collapsed" is-active-route asp-area="" asp-controller="home" asp-action="privacy">
                     <i class="bi bi-file-ruled"></i>
                     <span>Planillas</span>
                 </a>
@@ -104,8 +104,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
-                            <i class="bi bi-circle"></i><span>Empleados</span>
+                        <a>
+                            <i class="is-active-route bi bi-circle"></i><span>Empleados</span>
                         </a>
                     </li>
                     <li>
@@ -133,13 +133,95 @@
                     </li>
                 </ul>
             </li><!-- End Vacaciones -->
-
             <li class="nav-heading">System</li>
+            <li class="nav-item"><!-- Configuracion -->
+                <a class="nav-link collapsed" data-bs-target="#config-nav" data-bs-toggle="collapse" href="">
+                    <i class="bi bi-gear"></i><span>Configuración</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+
+                <ul id="config-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Corporativo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Sucursal</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Agencia</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="bi bi-circle"></i><span>Banco</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Cargo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Colegio Profesional</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Deduccion</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Paises" asp-action="Pais">
+                            <i class="bi bi-circle"></i><span>Pais</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Departamentos" asp-action="Departamento">
+                            <i class="bi bi-circle"></i><span>Departamento</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Municipios" asp-action="Municipio">
+                            <i class="bi bi-circle"></i><span>Municipio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Aldeas" asp-action="Aldea">
+                            <i class="bi bi-circle"></i><span>Aldea</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Estado Civil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Profesión</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Remuneración</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Unidad</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Configuracion Nav-->
         </ul>
     </aside><!-- End Sidebar-->
     
     <main id="main" class="main">
-            @RenderBody()
+        @RenderBody()
     </main>
 
     @*    <footer class="border-top footer text-muted">

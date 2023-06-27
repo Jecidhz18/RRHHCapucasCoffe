@@ -1,0 +1,109 @@
+﻿@model Aldea
+
+@{
+    ViewData["Title"] = "Crear Aldeas";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Crear Aldea</h3>
+
+        <form class="row g-3" asp-action="">
+            <div class="col-12">
+                <label for="inputName" class="form-label">Nombre de la Aldea</label>
+                <input type="text" class="form-control" id="inputNanme4">
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <label class="form-check-label" for="gridCheck1">Activo</label>
+                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                </div>
+
+                @*                <div class="form-check form-switch">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Activo</label>
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                </div>*@
+            </div>
+
+            <div>
+                <span>País, departamento y municipio al que pertenece la aldea:</span>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Pais</th>
+                            <th scope="col">Departamento</th>
+                            <th scope="col">Municipio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Selecciona un pais</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Selecciona un departamento</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Selecciona un municipio</option>
+                                </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Selecciona un pais</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Selecciona un departamento</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Selecciona un municipio</option>
+                                </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Selecciona un pais</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Selecciona un departamento</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Selecciona un municipio</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary" asp-controller="Aldeas" asp-action="Aldea">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
