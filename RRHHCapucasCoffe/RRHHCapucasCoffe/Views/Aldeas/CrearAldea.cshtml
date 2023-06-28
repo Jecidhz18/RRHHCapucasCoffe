@@ -8,21 +8,17 @@
     <div class="card-body">
         <h3 class="card-title">Crear Aldea</h3>
 
-        <form class="row g-3" asp-action="">
+        <form class="row g-3" asp-action="CrearAldea">
             <div class="col-12">
-                <label for="inputName" class="form-label">Nombre de la Aldea</label>
-                <input type="text" class="form-control" id="inputNanme4">
+                <label asp-for="DivisionPoliticaAldeaNombre" class="form-label"></label>
+                <input asp-for="DivisionPoliticaAldeaNombre" type="text" class="form-control">
+                <span asp-validation-for="DivisionPoliticaAldeaNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
-                <div class="form-check">
-                    <label class="form-check-label" for="gridCheck1">Activo</label>
-                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                <div class="form-check form-switch">
+                    <label asp-for="DivisionPoliticaAldeaActivo" class="form-check-label"></label>
+                    <input asp-for="DivisionPoliticaAldeaActivo" class="form-check-input" type="checkbox">
                 </div>
-
-                @*                <div class="form-check form-switch">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Activo</label>
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                </div>*@
             </div>
 
             <div>
@@ -53,47 +49,7 @@
                             </th>
                             <th>
                                 <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un municipio</option>
-                                </select>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-
-                            </th>
-                            <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un pais</option>
-                                </select>
-                            </th>
-                            <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un departamento</option>
-                                </select>
-                            </th>
-                            <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un municipio</option>
-                                </select>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-
-                            </th>
-                            <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un pais</option>
-                                </select>
-                            </th>
-                            <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un departamento</option>
-                                </select>
-                            </th>
-                            <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un municipio</option>
+                                    <option selected disabled>Selecciona un municipio</option>
                                 </select>
                             </th>
                         </tr>
@@ -101,9 +57,14 @@
                 </table>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary" asp-controller="Aldeas" asp-action="Aldea">Submit</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
+                <button type="submit" class="btn btn-primary">Crear</button>
+                <button type="reset" class="btn btn-secondary">Limpiar</button>
             </div>
         </form>
     </div>
 </div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

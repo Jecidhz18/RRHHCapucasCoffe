@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RRHHCapucasCoffe.Models;
 
 namespace RRHHCapucasCoffe.Controllers
 {
@@ -12,6 +13,17 @@ namespace RRHHCapucasCoffe.Controllers
         public IActionResult CrearDepartamento() 
         {
             return View();       
+        }
+
+        [HttpPost]
+        public IActionResult CrearDepartamento(Departamento departamento)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(departamento);
+            }
+
+            return View(departamento);  
         }
     }
 }

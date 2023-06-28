@@ -17,6 +17,10 @@ namespace RRHHCapucasCoffe.Controllers
         [HttpPost]
         public IActionResult CrearAldea(Aldea aldea)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(aldea); 
+            }
             return View();
         }
     }

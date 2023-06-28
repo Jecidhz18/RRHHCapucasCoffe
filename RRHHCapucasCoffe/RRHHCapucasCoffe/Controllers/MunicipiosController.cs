@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RRHHCapucasCoffe.Models;
 
 namespace RRHHCapucasCoffe.Controllers
 {
@@ -11,6 +12,16 @@ namespace RRHHCapucasCoffe.Controllers
         public IActionResult CrearMunicipio()
         {
             return View();  
+        }
+
+        [HttpPost]
+        public IActionResult CrearMunicipio(Municipio municipio)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(municipio);
+            }
+            return View(municipio); 
         }
 
     }

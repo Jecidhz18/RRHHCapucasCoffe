@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Departamento
+
+@{
     ViewData["Title"] = "Crear Departamento";
 }
 
@@ -6,21 +8,22 @@
     <div class="card-body">
         <h3 class="card-title">Crear Departamento</h3>
 
-        <form class="row g-3" asp-action="">
+        <form class="row g-3" asp-action="CrearDepartamento">
             <div class="col-12">
-                <label for="deptoNombre" class="form-label">Nombre del departamento</label>
-                <input type="text" placeholder="" class="form-control" id="deptoNombre">
+                <label asp-for="DivisionPoliticaDepartamentoNombre" class="form-label"></label>
+                <input asp-for="DivisionPoliticaDepartamentoNombre" type="text" class="form-control">
+                <span asp-validation-for="DivisionPoliticaDepartamentoNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
-                <div class="form-check">
+                @*<div class="form-check">
                     <label class="form-check-label" for="gridCheck1">Activo</label>
                     <input class="form-check-input" type="checkbox" id="gridCheck1">
-                </div>
-
-                @*                <div class="form-check form-switch">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Activo</label>
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
                 </div>*@
+
+                <div class="form-check form-switch">
+                    <label asp-for="DivisionPoliticaDepartamentoActivo" class="form-check-label"></label>
+                    <input asp-for="DivisionPoliticaDepartamentoActivo" class="form-check-input" type="checkbox">
+                </div>
             </div>
             <div>
                 <span class="card-subtitle">País al que pertenece el departamento:</span>
@@ -34,43 +37,25 @@
                     <tbody>
                         <tr>
                             <th>
-
+                                <button for="select1" value="" type="reset" class="bi bi-trash btn btn-secondary"></button>
                             </th>
                             <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un pais</option>
-                                </select>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-
-                            </th>
-                            <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un pais</option>
-                                </select>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-
-                            </th>
-                            <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un pais</option>
+                                <select id="select1" name="select1" class="form-select" aria-label="Default select example">
+                                    <option value="" selected>Selecciona un pais</option>
                                 </select>
                             </th>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Crear</button>
-                <button type="reset" class="btn btn-secondary">Limpiar</button>
+                <button for= type="reset" class="btn btn-secondary">Limpiar</button>
             </div>
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

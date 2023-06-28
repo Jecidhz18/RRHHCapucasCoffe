@@ -18,6 +18,10 @@ namespace RRHHCapucasCoffe.Controllers
         [HttpPost]
         public IActionResult CrearPais(Pais pais)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(pais);
+            }
             return View();
         }
     }
