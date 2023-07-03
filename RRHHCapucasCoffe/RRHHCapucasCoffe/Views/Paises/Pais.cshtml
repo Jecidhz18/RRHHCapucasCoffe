@@ -1,13 +1,12 @@
-﻿@model Pais
-
+﻿@model IEnumerable<Pais>
 @{
-    ViewData["Title"] = "Pais";
+    ViewData["Title"] = "Países";
 }
 
 <div class="card">
 
     <div class="card-header">
-        <h5 class="card-title">Paises</h5>
+        <h5 class="card-title">Países</h5>
         <div class="d-flex justify-content-between">
             <div class="datatable-search d-inline">
                 <input class="datatable-input" placeholder="buscar..." type="search" title="BuscarTabla" />
@@ -35,12 +34,33 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th></th>
                         <th>Pais</th>
                         <th>Pais Activo</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach (var pais in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a class="btn btn-outline-primary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="btn btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                            <td>
+                                @pais.PaisNombre
+                            </td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" disabled checked="@pais.PaisActivo">
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

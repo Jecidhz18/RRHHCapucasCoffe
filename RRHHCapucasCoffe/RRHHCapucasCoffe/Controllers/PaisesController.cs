@@ -6,24 +6,24 @@ namespace RRHHCapucasCoffe.Controllers
 {
     public class PaisesController : Controller
     {
-        private IRepositorioPais repositorioPais;
+        private readonly IRepositorioPais repositorioPais;
 
         public PaisesController(IRepositorioPais repositorioPais)
         {
             this.repositorioPais = repositorioPais;
             
         }
-        public IActionResult Pais()
+
+        public async Task<IActionResult> Pais()
         {
-            return View();
+            var pais = await repositorioPais.ObtenerPais();
+            return View(pais);
         }
 
         public IActionResult CrearPais()
         {
             return View();  
         }
-
-
 
         [HttpPost]
         public async Task<IActionResult> CrearPais(Pais pais)
@@ -44,7 +44,7 @@ namespace RRHHCapucasCoffe.Controllers
 
             await repositorioPais.CrearPais(pais);
 
-            return View();
+            return RedirectToAction("Pais");
         }
     }
 }
