@@ -1,0 +1,43 @@
+﻿@model EstadoCivil
+
+@{
+    ViewData["Title"] = "Crear Estado Civil";
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+    @*<i class="bi bi-exclamation-octagon flex"></i>*@
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Crear Estado Civil</h3>
+
+        <form class="row g-3" asp-action="CrearEstadoCivil">
+            <div class="col-12">
+                <label asp-for="EstadoCivilNombre" class="form-label"></label>
+                <input asp-for="EstadoCivilNombre" type="text" placeholder="" class="form-control">
+                <span asp-validation-for="EstadoCivilNombre" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                @*<div class="form-check">
+                <label asp-for="DivisionPoliticaPaisActivo" class="form-check-label"></label>
+                <input asp-for="DivisionPoliticaPaisActivo" type="checkbox"  class="form-check-input">
+                </div>*@
+
+                <div class="form-check form-switch">
+                    <label asp-for="EstadoCivilActivo" class="form-check-label"></label>
+                    <input asp-for="EstadoCivilActivo" class="form-check-input" type="checkbox" checked>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Crear</button>
+                <button type="reset" class="btn btn-secondary">Limpiar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

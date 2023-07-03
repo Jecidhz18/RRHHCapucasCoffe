@@ -3,16 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RRHHCapucasCoffe.Models
 {
-    public class Pais
+    public class EstadoCivil
     {
-        public int PaisId { get; set; }
+        public int EstadoCivilId { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
-        [Display(Name = "Nombre del Pais")]
+        [Display(Name = "Estado Civil")]
         [PrimeraLetraMayusAtribute]
         [TodoMayusculaAtribute]
         [RegularExpression(@"^[A-Z+a-z ]*$", ErrorMessage = "Caracteres no validos")]
-        public string PaisNombre { get; set; }
+        public string EstadoCivilNombre { get; set; }
         [Display(Name = "Activo")]
-        public bool PaisActivo { get; set; }
+        public bool EstadoCivilActivo { get; set; }
     }
 }

@@ -1,19 +1,19 @@
-﻿@model Pais
+﻿@model Remuneracion
 
 @{
-    ViewData["Title"] = "Pais";
+    ViewData["Title"] = "Remuneración";
 }
 
 <div class="card">
 
     <div class="card-header">
-        <h5 class="card-title">Paises</h5>
+        <h5 class="card-title">Remuneraciones</h5>
         <div class="d-flex justify-content-between">
             <div class="datatable-search d-inline">
                 <input class="datatable-input" placeholder="buscar..." type="search" title="BuscarTabla" />
             </div>
             <div class="d-flex ">
-                <button type="button" class="d-flex align-items-center btn btn-outline-primary" onclick="location.href='@Url.Action("CrearPais", "Paises")'">
+                <button type="button" class="d-flex align-items-center btn btn-outline-primary" onclick="location.href='@Url.Action("CrearRemuneracion", "Remuneraciones")'">
                     <i class="bi bi-file-plus"></i>
                     <span class="mx-1 d-none d-md-block">Agregar</span>
                 </button>
@@ -36,8 +36,8 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Pais</th>
-                        <th>Pais Activo</th>
+                        <th>Remuneracion</th>
+                        <th>Activo</th>
                     </tr>
                 </thead>
                 <tbody>

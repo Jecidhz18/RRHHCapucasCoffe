@@ -13,6 +13,11 @@
   scroll-behavior: smooth;
 }
 
+ul{
+    margin-bottom: 0px;
+    /*list-style: none;*/
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;

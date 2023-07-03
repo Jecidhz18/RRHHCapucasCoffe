@@ -1,7 +1,7 @@
-﻿@model Pais
+﻿@model Remuneracion
 
 @{
-    ViewData["Title"] = "Crear País";
+    ViewData["Title"] = "Crear Remuneración";
 }
 
 <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
@@ -11,18 +11,18 @@
 
 <div class="card">
     <div class="card-body">
-        <h3 class="card-title">Crear Pais</h3>
+        <h3 class="card-title">Crear Remuneración</h3>
 
-        <form class="row g-3" asp-action="CrearPais">
+        <form class="row g-3" asp-action="CrearRemuneracion">
             <div class="col-12">
-                <label asp-for="PaisNombre" class="form-label"></label>
-                <input asp-for="PaisNombre"  type="text" placeholder="" class="form-control">
-                <span asp-validation-for="PaisNombre" class="text-danger"></span>
+                <label asp-for="RemuneracionDescripcion" class="form-label"></label>
+                <input asp-for="RemuneracionDescripcion" type="text" placeholder="" class="form-control">
+                <span asp-validation-for="RemuneracionDescripcion" class="text-danger"></span>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
-                    <label asp-for="PaisActivo" class="form-check-label"></label>
-                    <input asp-for="PaisActivo" class="form-check-input" type="checkbox" checked>
+                    <label asp-for="RemuneracionActiva" class="form-check-label"></label>
+                    <input asp-for="RemuneracionActiva" class="form-check-input" type="checkbox" checked>
                 </div>
             </div>
             <div class="text-center">
@@ -34,5 +34,5 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
 }
