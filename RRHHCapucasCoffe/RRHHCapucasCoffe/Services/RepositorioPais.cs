@@ -6,9 +6,11 @@ namespace RRHHCapucasCoffe.Services
 {
     public interface IRepositorioPais
     {
+        Task ActualizarPais(Pais pais);
         Task CrearPais(Pais pais);
         Task<bool> ExistePais(string paisNombre);
         Task<IEnumerable<Pais>> ObtenerPais();
+        Task<Pais> ObtenerPaisPorId(int paisId);
     }
     public class RepositorioPais : IRepositorioPais
     {
@@ -45,6 +47,23 @@ namespace RRHHCapucasCoffe.Services
             using var connection = new SqlConnection(connectionString);
             return await connection.QueryAsync<Pais>(@"SELECT PaisId, PaisNombre, PaisActivo
                                                             FROM Paises");
+        }
+
+        public async Task ActualizarPais(Pais pais)
+        {
+            using var connection = new SqlConnection(connectionString);
+            await connection.ExecuteAsync(@"UPDATE Paises 
+                                            SET PaisNombre = @PaisNombre, PaisActivo = @PaisActivo
+                                            WHERE PaisId = @PaisId", pais);
+        }
+
+        public async Task<Pais> ObtenerPaisPorId(int paisId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryFirstOrDefaultAsync<Pais>(@"
+                            SELECT PaisId, PaisNombre, PaisActivo 
+                            FROM Paises WHERE PaisId = @PaisId", new {paisId});
         }
     }
 }

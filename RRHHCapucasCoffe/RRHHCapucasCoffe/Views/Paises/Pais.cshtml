@@ -9,7 +9,7 @@
         <h5 class="card-title">Países</h5>
         <div class="d-flex justify-content-between">
             <div class="datatable-search d-inline">
-                <input class="datatable-input" placeholder="buscar..." type="search" title="BuscarTabla" />
+                <input asp-action="Pais" class="datatable-input" placeholder="buscar..." type="search" title="BuscarTabla" />
             </div>
             <div class="d-flex ">
                 <button type="button" class="d-flex align-items-center btn btn-outline-primary" onclick="location.href='@Url.Action("CrearPais", "Paises")'">
@@ -35,6 +35,7 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th>#</th>
                         <th>Pais</th>
                         <th>Pais Activo</th>
                     </tr>
@@ -44,12 +45,15 @@
                     {
                         <tr>
                             <td>
-                                <a class="btn btn-outline-primary">
+                                <a class="btn btn-outline-primary" asp-action="EditarPais" asp-route-paisId="@pais.PaisId">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 <a class="btn btn-outline-danger">
                                     <i class="bi bi-trash"></i>
                                 </a>
+                            </td>
+                            <td>
+                                @pais.PaisId
                             </td>
                             <td>
                                 @pais.PaisNombre

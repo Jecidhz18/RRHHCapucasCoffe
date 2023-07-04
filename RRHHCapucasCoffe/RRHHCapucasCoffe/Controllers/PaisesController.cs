@@ -46,5 +46,34 @@ namespace RRHHCapucasCoffe.Controllers
 
             return RedirectToAction("Pais");
         }
+
+        [HttpGet]
+        public async Task<ActionResult> EditarPais(int paisId)
+            {
+            var pais = await repositorioPais.ObtenerPaisPorId(paisId);
+
+            if (pais is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+
+            return View(pais);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditarPais(Pais pais)
+        {
+            var paisExiste = await repositorioPais.ExistePais(pais.PaisNombre);
+
+            if (paisExiste)
+            {
+                ModelState.AddModelError("", $"El pais {pais.PaisNombre} ya existe!");
+
+                return View(pais);
+            }
+
+            await repositorioPais.ActualizarPais(pais);
+            return RedirectToAction("Pais");
+        }
     }
 }
