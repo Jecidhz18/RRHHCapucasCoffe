@@ -8,6 +8,7 @@ namespace RRHHCapucasCoffe.Services
     {
         Task ActualizarPais(Pais pais);
         Task CrearPais(Pais pais);
+        Task EliminarPais(int paisId);
         Task<bool> ExistePais(string paisNombre);
         Task<IEnumerable<Pais>> ObtenerPais();
         Task<Pais> ObtenerPaisPorId(int paisId);
@@ -64,6 +65,13 @@ namespace RRHHCapucasCoffe.Services
             return await connection.QueryFirstOrDefaultAsync<Pais>(@"
                             SELECT PaisId, PaisNombre, PaisActivo 
                             FROM Paises WHERE PaisId = @PaisId", new {paisId});
+        }
+
+        public async Task EliminarPais(int paisId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(@"DELETE Paises WHERE PaisId = @PaisId", new {paisId});
         }
     }
 }

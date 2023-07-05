@@ -48,8 +48,8 @@ namespace RRHHCapucasCoffe.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> EditarPais(int paisId)
-            {
+        public async Task<IActionResult> EditarPais(int paisId)
+        {
             var pais = await repositorioPais.ObtenerPaisPorId(paisId);
 
             if (pais is null)
@@ -61,18 +61,42 @@ namespace RRHHCapucasCoffe.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditarPais(Pais pais)
+        public async Task<IActionResult> EditarPais(Pais pais)
         {
-            var paisExiste = await repositorioPais.ExistePais(pais.PaisNombre);
+            var paisExiste = await repositorioPais.ObtenerPaisPorId(pais.PaisId);
 
-            if (paisExiste)
+            if (paisExiste is null)
             {
-                ModelState.AddModelError("", $"El pais {pais.PaisNombre} ya existe!");
-
-                return View(pais);
+                return RedirectToAction("NoEncontrado", "Home");
             }
 
             await repositorioPais.ActualizarPais(pais);
+            return RedirectToAction("Pais");
+        }
+
+        public async Task<IActionResult> EliminarPais(int paisId)
+        {
+            var pais = await repositorioPais.ObtenerPaisPorId(paisId);
+
+            if (pais is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+
+            return View(pais);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarPaisSelect(int paisId)
+        {
+            var pais = await repositorioPais.ObtenerPaisPorId(paisId);
+
+            if (pais is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+
+            await repositorioPais.EliminarPais(paisId);
             return RedirectToAction("Pais");
         }
     }
