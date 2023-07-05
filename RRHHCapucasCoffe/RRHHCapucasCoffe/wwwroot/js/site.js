@@ -45,3 +45,17 @@
         })
     }
 })();
+
+
+function insertarFila() {
+    const tblDatos = document.getElementById('data-table').insertRow(1);
+    const col1 = tblDatos.insertCell(0);
+    const col2 = tblDatos.insertCell(1);
+
+    col1.innerHTML = '<button onclick="eliminarFila()" class="bi bi-trash btn btn-outline-danger"></button>';
+    col2.innerHTML = '<select class="form-select"><option value="" selected>Selecciona un pais</option></select>';
+}
+
+function eliminarFila() {
+    const tblDatos = document.getElementById('data-table').deleteRow(1);
+}
