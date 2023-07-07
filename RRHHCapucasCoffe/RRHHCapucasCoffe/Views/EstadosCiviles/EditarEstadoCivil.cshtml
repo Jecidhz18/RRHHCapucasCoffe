@@ -1,7 +1,6 @@
 ﻿@model EstadoCivil
-
 @{
-    ViewData["Title"] = "Crear Estado Civil";
+    ViewData["Title"] = "Editar Estado Civil";
 }
 
 <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
@@ -11,28 +10,24 @@
 
 <div class="card">
     <div class="card-body">
-        <h3 class="card-title">Crear Estado Civil</h3>
+        <h3 class="card-title">Editar Estado Civil: @Model.EstadoCivilNombre</h3>
 
-        <form class="row g-3" asp-action="CrearEstadoCivil">
+        <form class="row g-3" asp-action="EditarEstadoCivil">
+            <input type="hidden" asp-for="EstadoCivilId" />
             <div class="col-12">
                 <label asp-for="EstadoCivilNombre" class="form-label"></label>
                 <input asp-for="EstadoCivilNombre" type="text" placeholder="" class="form-control">
                 <span asp-validation-for="EstadoCivilNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
-                @*<div class="form-check">
-                <label asp-for="DivisionPoliticaPaisActivo" class="form-check-label"></label>
-                <input asp-for="DivisionPoliticaPaisActivo" type="checkbox"  class="form-check-input">
-                </div>*@
-
                 <div class="form-check form-switch">
                     <label asp-for="EstadoCivilActivo" class="form-check-label"></label>
-                    <input asp-for="EstadoCivilActivo" class="form-check-input" type="checkbox" checked>
+                    <input asp-for="EstadoCivilActivo" class="form-check-input" type="checkbox">
                 </div>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary">Crear</button>
-                <button type="reset" class="btn btn-secondary" onclick="location.href='@Url.Action("EstadoCivil", "EstadosCiviles")'">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Editar</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("EstadoCivil", "EstadosCiviles")'">Cancelar</button>
             </div>
         </form>
     </div>
@@ -41,3 +36,5 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+

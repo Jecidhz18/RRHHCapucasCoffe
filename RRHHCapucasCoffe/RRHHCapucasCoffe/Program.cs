@@ -1,3 +1,4 @@
+using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRepositorioPais, RepositorioPais>();
 builder.Services.AddTransient<IRepositorioColegioProfesional, RepositorioColegioProfesional>();
+builder.Services.AddTransient<IRepositorioEstadoCivil,  RepositorioEstadoCivil>();
 
 var app = builder.Build();
 

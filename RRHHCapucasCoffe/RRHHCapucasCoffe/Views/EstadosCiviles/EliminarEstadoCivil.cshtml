@@ -1,0 +1,33 @@
+﻿@model EstadoCivil
+@{
+    ViewData["Title"] = "Eliminar Estado Civil";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Eliminar Estado Civil: @Model.EstadoCivilNombre</h3>
+
+        <form class="row g-3" asp-action="EliminarEstadoCivilSelect">
+            <input type="hidden" asp-for="EstadoCivilId" />
+            <span class="text-warning">Confirme la eliminación de los datos</span>
+            <div class="col-12">
+                <label asp-for="EstadoCivilNombre" class="form-label"></label>
+                <input asp-for="EstadoCivilNombre" type="text" placeholder="" class="form-control" disabled>
+            </div>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <label asp-for="EstadoCivilActivo" class="form-check-label"></label>
+                    <input asp-for="EstadoCivilActivo" class="form-check-input" type="checkbox" disabled>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("EstadoCivil", "EstadosCiviles")'">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
