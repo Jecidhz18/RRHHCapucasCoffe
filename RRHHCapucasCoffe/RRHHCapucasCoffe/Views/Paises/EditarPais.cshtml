@@ -14,8 +14,7 @@
         <h3 class="card-title">Editar Pais: @Model.PaisNombre</h3>
 
         <form class="row g-3" asp-action="EditarPais">
-            <input 
-                type="hidden" asp-for="PaisId"/>
+            <input type="hidden" asp-for="PaisId"/>
             <div class="col-12">
                 <label asp-for="PaisNombre" class="form-label"></label>
                 <input asp-for="PaisNombre" type="text" class="form-control">

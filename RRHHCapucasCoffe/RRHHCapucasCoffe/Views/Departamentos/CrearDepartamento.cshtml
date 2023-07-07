@@ -1,4 +1,4 @@
-﻿@model Departamento
+﻿@model DeptoCrearViewModel
 
 @{
     ViewData["Title"] = "Crear Departamento";
@@ -7,6 +7,12 @@
 <div class="card">
     <div class="card-body">
         <h3 class="card-title">Crear Departamento</h3>
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <ul id="errorList"></ul>
+        </div>
+
 
         <form class="row g-3" asp-action="CrearDepartamento">
             <div class="col-12">
@@ -25,27 +31,27 @@
                 <table id="data-table" class="table">
                     <thead>
                         <tr>
-                            <th scope="col"></th>
                             <th scope="col">Pais</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="data-table-body">
                         <tr>
                             <td>
-                                <button onclick="eliminarFila()" class="bi bi-trash btn btn-outline-danger"></button>
+                                @*<button asp-action="CrearDep" onclick="eliminarFila(this)" class="bi bi-trash btn btn-outline-danger"></button>*@
                             </td>
                             <td>
-                                <select id="select1" name="select1" class="form-select" aria-label="Default select example">
-                                    <option value="" selected>Selecciona un pais</option>
+                                <select id="listselect"  asp-items="Model.Paises" class="form-select" aria-label="Default select example">
+                                    @*<option value="" disabled selected hidden>Seleccione una opctión</option>*@
                                 </select>
                             </td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th class="text-center">
-                                <a onclick="insertarFila()" class="btn btn-outline-primary">Añadir fila</a>
-                            </th>
+                            <td colspan="2" class="text-center">
+                                <a onclick="agregarFila()" class="btn btn-outline-primary">Añadir fila</a>
+                            </td>
                         </tr>
                     </tfoot>
                 </table>
@@ -57,7 +63,3 @@
         </form>
     </div>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

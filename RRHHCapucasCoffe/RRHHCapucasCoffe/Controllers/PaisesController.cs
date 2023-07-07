@@ -17,6 +17,7 @@ namespace RRHHCapucasCoffe.Controllers
         public async Task<IActionResult> Pais()
         {
             var pais = await repositorioPais.ObtenerPais();
+            
             return View(pais);
         }
 
