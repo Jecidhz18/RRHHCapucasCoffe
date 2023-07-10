@@ -10,7 +10,7 @@ namespace RRHHCapucasCoffe.Models
         [Display(Name = "Estado Civil")]
         [PrimeraLetraMayusAtribute]
         [TodoMayusculaAtribute]
-        [RegularExpression(@"^[A-Z+a-z ]*$", ErrorMessage = "Caracteres no validos")]
+        [RegularExpression(@"^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]*$", ErrorMessage = "Caracteres no validos")]
         public string EstadoCivilNombre { get; set; }
         [Display(Name = "Activo")]
         public bool EstadoCivilActivo { get; set; }

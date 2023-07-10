@@ -10,7 +10,7 @@ namespace RRHHCapucasCoffe.Models
         [Display(Name = "Nombre del Pais")]
         [PrimeraLetraMayusAtribute]
         [TodoMayusculaAtribute]
-        [RegularExpression(@"^[A-Z+a-z ]*$", ErrorMessage = "Caracteres no validos")]
+        [RegularExpression(@"^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]*$", ErrorMessage = "Caracteres no validos")]
         public string PaisNombre { get; set; }
         [Display(Name = "Activo")]
         public bool PaisActivo { get; set; }
