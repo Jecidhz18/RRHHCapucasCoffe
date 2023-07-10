@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRepositorioPais, RepositorioPais>();
 builder.Services.AddTransient<IRepositorioColegioProfesional, RepositorioColegioProfesional>();
 builder.Services.AddTransient<IRepositorioEstadoCivil,  RepositorioEstadoCivil>();
+builder.Services.AddTransient<IRepositorioRemuneracion, RepositorioRemuneracion>();
 
 var app = builder.Build();
 
