@@ -1,0 +1,14 @@
+﻿using RRHHCapucasCoffe.Models;
+
+namespace RRHHCapucasCoffe.Interfaces
+{
+    public interface IRepositorioPais
+    {
+        Task ActualizarPais(Pais pais);
+        Task CrearPais(Pais pais);
+        Task EliminarPais(int paisId);
+        Task<bool> ExistePais(string paisNombre);
+        Task<IEnumerable<Pais>> ObtenerPais();
+        Task<Pais> ObtenerPaisPorId(int paisId);
+    }
+}

@@ -17,7 +17,7 @@
         <form class="row g-3" asp-action="CrearDepartamento">
             <div class="col-12">
                 <label asp-for="DepartamentoNombre" class="form-label"></label>
-                <input asp-for="DepartamentoNombre" type="text" class="form-control">
+                <input asp-for="DepartamentoNombre" type="text" class="form-control departamentoNombre">
                 <span asp-validation-for="DepartamentoNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
@@ -41,7 +41,7 @@
                                 @*<button asp-action="CrearDep" onclick="eliminarFila(this)" class="bi bi-trash btn btn-outline-danger"></button>*@
                             </td>
                             <td>
-                                <select id="listselect"  asp-items="Model.Paises" class="form-select" aria-label="Default select example">
+                                <select id="listselect" asp-for="PaisId" asp-items="@Model.Paises" class="form-select" aria-label="Default select example">
                                     @*<option value="" disabled selected hidden>Seleccione una opctión</option>*@
                                 </select>
                             </td>
@@ -51,15 +51,50 @@
                         <tr>
                             <td colspan="2" class="text-center">
                                 <a onclick="agregarFila()" class="btn btn-outline-primary">Añadir fila</a>
+                                @*<a id="click" class="btn btn-outline-primary">mostrar</a>*@
                             </td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary">Crear</button>
+                <button id="click" type="submit" class="btn btn-primary">Crear</button>
                 <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Departamento", "Departamentos")'">Cancelar</button>
             </div>
         </form>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        const urlCrearDepto = '@Url.Action("CrearReferencia")';
+
+        $("#click").click(async function(){
+            await guardarDeptos()
+        });
+
+        async function guardarDeptos() {
+            const ids = obteneridsselect();
+            await enviarIdsBackend(ids);
+        }
+
+        function obtenerIdsSelect() {
+            const ids = $('.form-select').map(function () {
+                return $(this).val();
+            }).get();
+            return ids;
+        }
+
+        async function enviarIdsBackend(ids) {
+            var data = JSON.stringify(ids);
+
+            await fetch(urlCrearDepto, {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+    </script>
+}

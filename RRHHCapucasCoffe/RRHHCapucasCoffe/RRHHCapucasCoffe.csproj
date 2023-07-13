@@ -7,6 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Views\Aldeas\Aldea.cshtml" />
+    <None Include="Views\Aldeas\CrearAldea.cshtml" />
+    <None Include="Views\ColegiosProfesionales\ColegioProfesional.cshtml" />
+    <None Include="Views\ColegiosProfesionales\CrearColegioProfesional.cshtml" />
+    <None Include="Views\ColegiosProfesionales\EditarColegioProfesional.cshtml" />
+    <None Include="Views\ColegiosProfesionales\EliminarColegioProfesional.cshtml" />
+    <None Include="Views\EstadosCiviles\CrearEstadoCivil.cshtml" />
+    <None Include="Views\EstadosCiviles\EditarEstadoCivil.cshtml" />
+    <None Include="Views\EstadosCiviles\EliminarEstadoCivil.cshtml" />
+    <None Include="Views\EstadosCiviles\EstadoCivil.cshtml" />
+    <None Include="Views\Municipios\CrearMunicipio.cshtml" />
+    <None Include="Views\Municipios\Municipio.cshtml" />
+    <None Include="Views\Profesiones\CrearProfesion.cshtml" />
+    <None Include="Views\Profesiones\Profesion.cshtml" />
+    <None Include="Views\Remuneraciones\CrearRemuneracion.cshtml" />
+    <None Include="Views\Remuneraciones\Remuneracion.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.143" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
   </ItemGroup>

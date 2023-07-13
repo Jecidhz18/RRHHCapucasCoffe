@@ -90,25 +90,25 @@ function eliminarFila(botonEliminar) {
 }
 
 
-function validarSelectsUnicos() {
-    var selects = document.getElementsByTagName("select");
-    var opcionesSeleccionadas = [];
-    var errorList = document.getElementById("errorList");
-    errorList.innerHTML = ""; // Limpiar la lista de errores
+//function validarSelectsUnicos() {
+//    var selects = document.getElementsByTagName("select");
+//    var opcionesSeleccionadas = [];
+//    var errorList = document.getElementById("errorList");
+//    errorList.innerHTML = ""; // Limpiar la lista de errores
 
-    for (var i = 0; i < selects.length; i++) {
-        var select = selects[i];
-        var opcionSeleccionada = select.value;
+//    for (var i = 0; i < selects.length; i++) {
+//        var select = selects[i];
+//        var opcionSeleccionada = select.value;
 
-        if (opcionesSeleccionadas.includes(opcionSeleccionada)) {
-            var mensajeError = document.createElement("li");
-            mensajeError.textContent = "No se pueden seleccionar opciones repetidas.";
-            errorList.appendChild(mensajeError);
-            return false; // Devolver false para detener el envío del formulario
-        }
+//        if (opcionesSeleccionadas.includes(opcionSeleccionada)) {
+//            var mensajeError = document.createElement("li");
+//            mensajeError.textContent = "No se pueden seleccionar opciones repetidas.";
+//            errorList.appendChild(mensajeError);
+//            return false; // Devolver false para detener el envío del formulario
+//        }
 
-        opcionesSeleccionadas.push(opcionSeleccionada);
-    }
+//        opcionesSeleccionadas.push(opcionSeleccionada);
+//    }
 
-    return true; // Devolver true para permitir el envío del formulario
-}
+//    return true; // Devolver true para permitir el envío del formulario
+//}
