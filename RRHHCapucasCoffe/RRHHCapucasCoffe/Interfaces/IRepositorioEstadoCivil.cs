@@ -1,4 +1,4 @@
-﻿using RRHHCapucasCoffe.Models;
+﻿using RRHHCapucasCoffe.Models.EstadosCiviles;
 
 namespace RRHHCapucasCoffe.Interfaces
 {

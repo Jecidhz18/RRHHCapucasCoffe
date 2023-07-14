@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace RRHHCapucasCoffe.Models
+namespace RRHHCapucasCoffe.Models.Departamentos
 {
     public class DeptoCrearViewModel : Departamento
     {

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RRHHCapucasCoffe.Interfaces;
-using RRHHCapucasCoffe.Models;
-using RRHHCapucasCoffe.Services;
+using RRHHCapucasCoffe.Models.Departamentos;
 
 namespace RRHHCapucasCoffe.Controllers
 {

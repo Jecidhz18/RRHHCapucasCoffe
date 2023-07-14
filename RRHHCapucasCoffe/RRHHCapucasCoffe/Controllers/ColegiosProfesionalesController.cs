@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RRHHCapucasCoffe.Interfaces;
-using RRHHCapucasCoffe.Models;
+using RRHHCapucasCoffe.Models.ColegiosProfesionales;
 
 namespace RRHHCapucasCoffe.Controllers
 {

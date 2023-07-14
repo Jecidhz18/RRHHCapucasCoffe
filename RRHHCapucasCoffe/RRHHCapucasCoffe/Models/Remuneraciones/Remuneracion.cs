@@ -1,13 +1,13 @@
 ﻿using RRHHCapucasCoffe.Validators;
 using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models
+namespace RRHHCapucasCoffe.Models.Remuneraciones
 {
     public class Remuneracion
     {
         public int RemuneracionId { get; set; }
-        [Required(ErrorMessage ="El campo {0} es requerido")]
-        [Display(Name ="Descripción")]
+        [Required(ErrorMessage = "El campo {0} es requerido")]
+        [Display(Name = "Descripción")]
         [PrimeraLetraMayusAtribute]
         [TodoMayusculaAtribute]
         [RegularExpression(@"^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]*$", ErrorMessage = "Caracteres no validos")]

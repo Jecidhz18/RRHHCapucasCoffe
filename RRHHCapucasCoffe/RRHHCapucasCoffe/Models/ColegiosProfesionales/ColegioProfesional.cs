@@ -1,7 +1,7 @@
 ﻿using RRHHCapucasCoffe.Validators;
 using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models
+namespace RRHHCapucasCoffe.Models.ColegiosProfesionales
 {
     public class ColegioProfesional
     {

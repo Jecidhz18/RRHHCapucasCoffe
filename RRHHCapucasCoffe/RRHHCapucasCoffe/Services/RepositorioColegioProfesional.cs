@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Interfaces;
-using RRHHCapucasCoffe.Models;
+using RRHHCapucasCoffe.Models.ColegiosProfesionales;
 
 namespace RRHHCapucasCoffe.Services
 {

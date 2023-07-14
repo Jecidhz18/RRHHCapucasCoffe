@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RRHHCapucasCoffe.Models;
+using RRHHCapucasCoffe.Models.Municipios;
 
 namespace RRHHCapucasCoffe.Controllers
 {
