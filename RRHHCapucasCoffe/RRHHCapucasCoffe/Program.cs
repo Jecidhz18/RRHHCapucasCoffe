@@ -5,11 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IRepositorioUsuario, RepositorioUsuario>();
 builder.Services.AddTransient<IRepositorioPais, RepositorioPais>();
 builder.Services.AddTransient<IRepositorioDepartamento, RepositorioDepartamento>(); 
 builder.Services.AddTransient<IRepositorioColegioProfesional, RepositorioColegioProfesional>();
 builder.Services.AddTransient<IRepositorioEstadoCivil,  RepositorioEstadoCivil>();
 builder.Services.AddTransient<IRepositorioRemuneracion, RepositorioRemuneracion>();
+builder.Services.AddTransient<IRepositorioUnidad, RepositorioUnidad>();
 
 var app = builder.Build();
 

@@ -1,4 +1,4 @@
-﻿namespace RRHHCapucasCoffe.Models
+﻿namespace RRHHCapucasCoffe.Models.Usuarios
 {
     public class Usuario
     {

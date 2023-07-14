@@ -1,0 +1,84 @@
+﻿@model IEnumerable<RRHHCapucasCoffe.Models.Unidades.Unidad>
+@{
+    ViewData["Title"] = "Unidad";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Unidades</h5>
+        <div class="d-flex justify-content-between">
+            <div class="datatable-search d-inline">
+                <input class="datatable-input" placeholder="buscar..." type="search" title="BuscarTabla" />
+            </div>
+            <div class="d-flex ">
+                <button type="submit" class="d-flex align-items-center btn btn-outline-primary" onclick="location.href='@Url.Action("CrearUnidad", "Unidades")'" title="Agregar">
+                    <i class="bi bi-file-plus"></i>
+                    <span class="mx-1 d-none d-md-block">Agregar</span>
+                </button>
+                <button type="button" class="mx-1 d-flex align-items-center btn btn-outline-primary" title="Exportar a Excel">
+                    <i class="bi bi-file-pdf"></i>
+                    <span class="mx-1 d-none d-md-block ">PDF</span>
+                </button>
+                <button type="button" class="d-flex align-items-center btn btn-outline-primary" title="Exportar a PDF">
+                    <i class="bi bi-file-excel"></i>
+                    <span class="mx-1 d-none d-md-block">Excel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body ">
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Unidad</th>
+                        <th>Activo</th>
+                        <th>Usuario Grabo</th>
+                        <th>Fecha Grabo</th>
+                        <th>Usuario Editó</th>
+                        <th>Fecha Editó</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var unidad in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a class="btn btn-outline-primary" asp-action="EditarUnidad" asp-route-unidadId="@unidad.UnidadId" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="btn btn-outline-danger" asp-action="EliminarUnidad" asp-route-unidadId="@unidad.UnidadId" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                            <td>
+                                @unidad.UnidadDescripcion
+                            </td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" disabled checked="@unidad.UnidadActiva">
+                                </div>
+                            </td>
+                            <td>
+                                @unidad.UsuarioGrabo
+                            </td>
+                            <td>
+                                @unidad.UnidadFechaGrabo
+                            </td>
+                            <td>
+                                @unidad.UsuarioModifico
+                            </td>
+                            <td>
+                                @unidad.UnidadFechaModifico
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

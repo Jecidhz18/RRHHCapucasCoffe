@@ -1,19 +1,10 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models;
 
 namespace RRHHCapucasCoffe.Services
 {
-
-    public interface IRepositorioColegioProfesional
-    {
-        Task CrearColegioProfesional(ColegioProfesional colegioProfesional);
-        Task EditarColegioProfesional(ColegioProfesional colegioProfesional);
-        Task EliminarColegioProfesional(int colegioProfesionalId);
-        Task<bool> ExisteColegioProfesional(string colegioProfesionalNombre);
-        Task<IEnumerable<ColegioProfesional>> ObtenerColegioProfesional();
-        Task<ColegioProfesional> ObtenerColegioProfesionalPorId(int colegioProfesionalId);
-    }
     public class RepositorioColegioProfesional : IRepositorioColegioProfesional
     {
         private readonly string connectionString;
