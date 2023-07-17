@@ -1,7 +1,6 @@
 ﻿@model RRHHCapucasCoffe.Models.Profesiones.Profesion
-
 @{
-    ViewData["Title"] = "Crear Profesión";
+    ViewData["Title"] = "Editar Profesion";
 }
 
 <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
@@ -11,9 +10,10 @@
 
 <div class="card">
     <div class="card-body">
-        <h3 class="card-title">Crear Profesión</h3>
+        <h3 class="card-title">Editar Profesión: @Model.ProfesionNombre</h3>
 
-        <form class="row g-3" asp-action="CrearProfesion">
+        <form class="row g-3" asp-action="EditarProfesion">
+            <input type="hidden" asp-for="ProfesionId" />
             <div class="col-12">
                 <label asp-for="ProfesionNombre" class="form-label"></label>
                 <input asp-for="ProfesionNombre" type="text" placeholder="" class="form-control">
@@ -22,13 +22,12 @@
             <div class="col-12">
                 <div class="form-check form-switch">
                     <label asp-for="ProfesionActivo" class="form-check-label"></label>
-                    <input asp-for="ProfesionActivo" class="form-check-input" type="checkbox" checked>
+                    <input asp-for="ProfesionActivo" class="form-check-input" type="checkbox">
                 </div>
             </div>
-
             <div class="text-center">
-                <button type="submit" class="btn btn-primary" title="Crear">Crear</button>
-                <button type="reset" class="btn btn-secondary" onclick="location.href='@Url.Action("Profesion", "Profesiones")'" title="Cancelar">Cancelar</button>
+                <button type="submit" class="btn btn-primary" title="Confirmar">Confirmar</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Profesion", "Profesiones")'" title="Cancelar">Cancelar</button>
             </div>
         </form>
     </div>

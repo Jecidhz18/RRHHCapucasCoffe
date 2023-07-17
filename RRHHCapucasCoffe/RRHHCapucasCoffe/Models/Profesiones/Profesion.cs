@@ -7,5 +7,6 @@
         public bool ProfesionActivo { get; set; }
         public int ProfesionUsuarioGrabo { get; set; }
         public DateTime ProfesionFechaGrabo { get; set; }
+        public string PUsuarioGrabo { get; set; }
     }
 }
