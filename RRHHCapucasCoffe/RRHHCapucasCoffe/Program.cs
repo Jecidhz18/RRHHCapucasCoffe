@@ -13,6 +13,8 @@ builder.Services.AddTransient<IRepositorioEstadoCivil,  RepositorioEstadoCivil>(
 builder.Services.AddTransient<IRepositorioRemuneracion, RepositorioRemuneracion>();
 builder.Services.AddTransient<IRepositorioUnidad, RepositorioUnidad>();
 builder.Services.AddTransient<IRepositorioProfesion, RepositorioProfesion>(); 
+builder.Services.AddTransient<IRepositorioBanco, RepositorioBanco>();
+builder.Services.AddTransient<IRepositorioCargo, RepositorioCargo>();   
 
 var app = builder.Build();
 

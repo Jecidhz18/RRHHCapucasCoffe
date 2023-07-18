@@ -1,0 +1,31 @@
+﻿@model RRHHCapucasCoffe.Models.Cargos.Cargo
+@{
+    ViewData["Title"] = "Eliminar Cargo";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Crear Cargo</h3>
+
+        <form class="row g-3" asp-action="EliminarCargoSelect">
+            <input type="hidden" asp-for="CargoId" />
+            <span class="text-warning">Confirme la eliminación de los datos</span>
+            <div class="col-12">
+                <label asp-for="CargoNombre" class="form-label"></label>
+                <input asp-for="CargoNombre" type="text" placeholder="" class="form-control">
+                <span asp-validation-for="CargoNombre" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <label asp-for="CargoActivo" class="form-check-label"></label>
+                    <input asp-for="CargoActivo" class="form-check-input" type="checkbox" disabled>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger" title="Confirmar">Confirmar</button>
+                <button type="reset" class="btn btn-secondary" onclick="location.href='@Url.Action("Cargo", "Cargos")'" title="Cancelar">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
