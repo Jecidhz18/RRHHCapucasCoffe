@@ -7,9 +7,9 @@
     <div class="card-header">
         <h5 class="card-title">Bancos</h5>
         <div class="d-flex justify-content-between">
-            <div class="datatable-search d-inline">
+@*            <div class="datatable-search d-inline">
                 <input class="datatable-input" placeholder="buscar..." type="search" title="BuscarTabla" />
-            </div>
+            </div>*@
             <div class="d-flex ">
                 <button type="submit" class="d-flex align-items-center btn btn-outline-primary" onclick="location.href='@Url.Action("CrearBanco", "Bancos")'" title="Agregar">
                     <i class="bi bi-file-plus"></i>
@@ -29,7 +29,7 @@
 
     <div class="card-body ">
 
-        <div class="table-responsive">
+        <div class="">
             <table class="table datatable">
                 <thead>
                     <tr>
@@ -54,24 +54,24 @@
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
-                            <td>
+                            <td scope="row"> 
                                 @banco.BancoNombre
                             </td>
-                            <td>
+                            <td scope="row">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" disabled checked="@banco.BancoActivo">
                                 </div>
                             </td>
-                            <td>
+                            <td scope="row">
                                 @banco.BUsuarioGrabo
                             </td>
-                            <td>
+                            <td scope="row">
                                 @banco.BancoFechaGrabo
                             </td>
-                            <td>
+                            <td scope="row">
                                 @banco.BUsuarioModifico
                             </td>
-                            <td>
+                            <td scope="row">
                                 @banco.BancoFechaModifico
                             </td>
                         </tr>
