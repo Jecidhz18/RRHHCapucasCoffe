@@ -44,7 +44,18 @@
             select('body').classList.toggle('toggle-sidebar')
         })
     }
+
+    /**
+    * Initiate Datatables
+    */
+    const datatables = select('.datatable', true)
+    datatables.forEach(datatable => {
+        new simpleDatatables.DataTable(datatable);
+    })
+
 })();
+
+
 
 function agregarFila() {
     var tablaBody = document.getElementById("data-table-body");
