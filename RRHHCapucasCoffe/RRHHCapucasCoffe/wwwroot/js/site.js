@@ -46,16 +46,40 @@
     }
 
     /**
-    * Initiate Datatables
-    */
-    const datatables = select('.datatable', true)
-    datatables.forEach(datatable => {
-        new simpleDatatables.DataTable(datatable);
-    })
+ * Navbar links active state on scroll
+ */
+    let navbarlinks = select('#navbar .scrollto', true)
+    const navbarlinksActive = () => {
+        let position = window.scrollY + 200
+        navbarlinks.forEach(navbarlink => {
+            if (!navbarlink.hash) return
+            let section = select(navbarlink.hash)
+            if (!section) return
+            if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+                navbarlink.classList.add('active')
+            } else {
+                navbarlink.classList.remove('active')
+            }
+        })
+    }
+    window.addEventListener('load', navbarlinksActive)
+    onscroll(document, navbarlinksActive)
 
+    function keepMenuExpanded() {
+        const activeLink = document.querySelector('.nav-content a.active');
+        if (activeLink) {
+            const parentCollapse = activeLink.closest('.collapse');
+            if (parentCollapse) {
+                const collapseId = parentCollapse.getAttribute('id');
+                const collapseInstance = new bootstrap.Collapse(document.getElementById(collapseId));
+                collapseInstance.show();
+            }
+        }
+    }
+
+    // Ejecutar la función cuando el DOM esté completamente cargado
+    document.addEventListener('DOMContentLoaded', keepMenuExpanded);
 })();
-
-
 
 function agregarFila() {
     var tablaBody = document.getElementById("data-table-body");
@@ -99,6 +123,16 @@ function eliminarFila(botonEliminar) {
 
     validarSelectsUnicos();
 }
+
+
+//(Document).ready(function () {
+//    var table = ('#dataTable').DataTable({
+//        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+//    });
+
+//    table.buttons().container()
+//        .appendTo('#example_wrapper .col-md-6:eq(0)');
+//});
 
 
 //function validarSelectsUnicos() {

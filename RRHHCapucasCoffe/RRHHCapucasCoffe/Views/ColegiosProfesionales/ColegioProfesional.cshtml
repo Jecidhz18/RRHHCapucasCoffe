@@ -6,31 +6,24 @@
 
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title">Colegios Profesionales</h5>
-        <div class="d-flex justify-content-between">
-            <div class="datatable-search d-inline">
-                <input class="form-control border-secondary" placeholder="buscar..." type="search" />
-            </div>
-            <div class="d-flex ">
-                <button type="button" class="d-flex align-items-center btn btn-outline-primary" onclick="location.href='@Url.Action("CrearColegioProfesional", "ColegiosProfesionales")'">
-                    <i class="bi bi-file-plus"></i>
-                    <span class="mx-1 d-none d-md-block">Agregar</span>
-                </button>
-                <button type="button" class="mx-1 d-flex align-items-center btn btn-outline-primary">
-                    <i class="bi bi-file-pdf"></i>
-                    <span class="mx-1 d-none d-md-block ">PDF</span>
-                </button>
-                <button type="button" class="d-flex align-items-center btn btn-outline-primary">
-                    <i class="bi bi-file-excel"></i>
-                    <span class="mx-1 d-none d-md-block">Excel</span>
-                </button>
+        <h5 class="card-title mx-3 mt-2 py-0">Colegios Profesionales</h5>
+        <div class="d-flex" id="container-buttons">
+            <div class="p-1 flex-fill">
+                <div class="d-flex d-flex justify-content-end dt-buttons">
+                    <button type="submit" class="d-flex align-items-center btn btn-outline-primary mx-1" onclick="location.href='@Url.Action("CrearColegioProfesional", "ColegiosProfesionales")'" title="Agregar">
+                        <span>
+                            <i class="bi bi-file-plus d-block d-lg-none"></i>
+                            <span class="mx-1 d-none d-lg-block">Agregar</span>
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="card-body ">
+    
+    <div class="card-body mt-3">
         <div class="table-responsive">
-            <table id="" class="table">
+            <table id="datatable" class="table dataTable">
                 <thead>
                     <tr>
                         <th></th>

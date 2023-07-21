@@ -30,4 +30,9 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\data-table\css\" />
+    <Folder Include="wwwroot\lib\data-table\js\" />
+  </ItemGroup>
+
 </Project>

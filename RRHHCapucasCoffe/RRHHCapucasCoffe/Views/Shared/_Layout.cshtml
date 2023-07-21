@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentPage = ViewContext.RouteData.Values["action"].ToString().ToLower();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,7 +10,9 @@
 
     <!-- Vendor CSS Files-->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/data-table/css/datatables.min.css"/>
     <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.css" asp-append-version="true" />
+    <link />
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect" asp-append-version="true">
@@ -16,7 +21,7 @@
     <!-- Main CSS File-->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RRHHCapucasCoffe.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true"/>
 </head>
 <body>
     <!-- ======= Header ======= -->
@@ -70,23 +75,24 @@
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
+            <!-- Home Nav -->
             <li class="nav-item">
-                <!-- Home Nav -->
-                <a class="nav-link collapsed" asp-area="" asp-controller="home" asp-action="index">
+                <a class="nav-link @((currentPage == "index") ? "": "collapsed")" asp-controller="home" asp-action="index">
                     <i class="bi bi-grid"></i>
                     <span>Inicio</span>
                 </a>
             </li><!-- End Home Nav -->
             <li class="nav-item">
                 <!-- Planilla Nav -->
-                <a class="nav-link collapsed" is-active-route asp-area="" asp-controller="home" asp-action="privacy">
+                <a class="nav-link collapsed" asp-area="" asp-controller="home" asp-action="privacy">
                     <i class="bi bi-file-ruled"></i>
                     <span>Planillas</span>
                 </a>
             </li><!-- End Planilla Nav -->
+            <!-- Recursos Humanos Nav-->
             <li class="nav-item">
-                <!-- Recursos Humanos Nav-->
-                <a class="nav-link collapsed" data-bs-target="#human-nav" data-bs-toggle="collapse" href="">
+                
+                <a class="nav-link collapsed" data-bs-target="#human-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-person-lines-fill"></i><span>Recursos Humanos</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
 
@@ -120,17 +126,17 @@
             </li><!-- End Recursos Humanos Nav-->
             <li class="nav-item">
                 <!-- Vacaciones Nav-->
-                <a class="nav-link collapsed" data-bs-target="#vacation-nav" data-bs-toggle="collapse" href="">
+                <a class="nav-link collapsed" data-bs-target="#vacation-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-journal-text"></i><span>Vacaciones</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="vacation-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="">
+                        <a asp-controller="" asp-action="" class="">
                             <i class="bi bi-circle"></i><span>Vacaciones de Empleados</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a asp-controller="" asp-action="" class="">
                             <i class="bi bi-circle"></i><span>Registro de Vacaciones</span>
                         </a>
                     </li>
@@ -159,17 +165,17 @@
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Bancos" asp-action="Banco" title="Banco">
+                        <a asp-controller="Bancos" asp-action="Banco" title="Banco" class="@((currentPage == "banco") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Banco</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Cargos" asp-action="Cargo" title="Cargo">
+                        <a asp-controller="Cargos" asp-action="Cargo" title="Cargo" class="@((currentPage == "cargo") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Cargo</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="ColegiosProfesionales" asp-action="ColegioProfesional">
+                        <a asp-controller="ColegiosProfesionales" asp-action="ColegioProfesional" class="@((currentPage == "colegioprofesional") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Colegio Profesional</span>
                         </a>
                     </li>
@@ -179,42 +185,42 @@
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Paises" asp-action="Pais">
+                        <a asp-controller="Paises" asp-action="Pais" class="@((currentPage == "pais") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Pais</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Departamentos" asp-action="Departamento">
+                        <a asp-controller="Departamentos" asp-action="Departamento" class="@((currentPage == "departamento") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Departamento</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Municipios" asp-action="Municipio">
+                        <a asp-controller="Municipios" asp-action="Municipio" class="@((currentPage == "municipio") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Municipio</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Aldeas" asp-action="Aldea">
+                        <a asp-controller="Aldeas" asp-action="Aldea" class="@((currentPage == "aldea") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Aldea</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="EstadosCiviles" asp-action="EstadoCivil">
+                        <a asp-controller="EstadosCiviles" asp-action="EstadoCivil" class="@((currentPage == "estadocivil") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Estado Civil</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Profesiones" asp-action="Profesion">
+                        <a asp-controller="Profesiones" asp-action="Profesion" class="@((currentPage == "profesion") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Profesión</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Remuneraciones" asp-action="Remuneracion">
+                        <a asp-controller="Remuneraciones" asp-action="Remuneracion" class="@((currentPage == "remuneracion") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Remuneración</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Unidades" asp-action="Unidad">
+                        <a asp-controller="Unidades" asp-action="Unidad" class="@((currentPage == "unidad") ? "active": "")">
                             <i class="bi bi-circle"></i><span>Unidad</span>
                         </a>
                     </li>
@@ -234,11 +240,16 @@
     </footer>*@
 
     <!-- Lib JS File-->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
+
+    <script src="~/lib/data-table/js/datatables.min.js"></script>
+    <script src="~/lib/data-table/js/pdfmake.min.js"></script>
+    <script src="~/lib/data-table/js/vfs_fonts.js"></script>
 
     <!-- Main JS File-->
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/table.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
