@@ -91,16 +91,18 @@ function agregarFila() {
     botonEliminar.addEventListener("click", function () {
         eliminarFila(this);
     });
+
     columnaAcciones.appendChild(botonEliminar);
     nuevaFila.appendChild(columnaAcciones);
 
     var columnaPais = document.createElement("td");
     var select = document.createElement("select");
-    select.name = "Paises";
+    select.name = "PaisId";
     select.classList.add("form-select");
-    select.setAttribute("aria-label", "Default select example");
+    select.setAttribute("asp-items", "@Model.Paises");
 
     var opciones = document.getElementById("listselect").options;
+
     for (var i = 0; i < opciones.length; i++) {
         var opcion = opciones[i];
         var nuevaOpcion = document.createElement("option");
@@ -113,47 +115,9 @@ function agregarFila() {
     nuevaFila.appendChild(columnaPais);
 
     tablaBody.appendChild(nuevaFila);
-
-    validarSelectsUnicos();
 }
 
 function eliminarFila(botonEliminar) {
     var fila = botonEliminar.parentNode.parentNode;
     fila.remove();
-
-    validarSelectsUnicos();
 }
-
-
-//(Document).ready(function () {
-//    var table = ('#dataTable').DataTable({
-//        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-//    });
-
-//    table.buttons().container()
-//        .appendTo('#example_wrapper .col-md-6:eq(0)');
-//});
-
-
-//function validarSelectsUnicos() {
-//    var selects = document.getElementsByTagName("select");
-//    var opcionesSeleccionadas = [];
-//    var errorList = document.getElementById("errorList");
-//    errorList.innerHTML = ""; // Limpiar la lista de errores
-
-//    for (var i = 0; i < selects.length; i++) {
-//        var select = selects[i];
-//        var opcionSeleccionada = select.value;
-
-//        if (opcionesSeleccionadas.includes(opcionSeleccionada)) {
-//            var mensajeError = document.createElement("li");
-//            mensajeError.textContent = "No se pueden seleccionar opciones repetidas.";
-//            errorList.appendChild(mensajeError);
-//            return false; // Devolver false para detener el envío del formulario
-//        }
-
-//        opcionesSeleccionadas.push(opcionSeleccionada);
-//    }
-
-//    return true; // Devolver true para permitir el envío del formulario
-//}

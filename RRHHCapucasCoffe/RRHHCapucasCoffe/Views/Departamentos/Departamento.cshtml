@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<RRHHCapucasCoffe.Models.Departamentos.Departamento>
 
 @{
     ViewData["Title"] = "Departamentos"; 
@@ -26,12 +26,35 @@
             <table class="table dataTable" id="datatable">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th></th>
                         <th>Departamento</th>
                         <th>Departamento Activo</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach (var departamento in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex">
+                                    <a class="btn btn-outline-primary me-1" asp-action="EditarDepartamento" asp-route-departamentoId="@departamento.DepartamentoId" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-outline-danger" asp-action="EliminarDepartamento" asp-route-departamentoId="@departamento.DepartamentoId" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                @departamento.DepartamentoNombre
+                            </td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" disabled checked="@departamento.DepartamentoActivo">
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

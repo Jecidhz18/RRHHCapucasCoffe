@@ -1,6 +1,4 @@
 ﻿using Dapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Departamentos;
@@ -16,7 +14,7 @@ namespace RRHHCapucasCoffe.Services
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task CrearDepartamento(Departamento departamento)
+        public async Task CrearDepartamento(DeptoViewModel departamento)
         {
             using var connection = new SqlConnection(connectionString);
 
@@ -26,19 +24,19 @@ namespace RRHHCapucasCoffe.Services
                 SELECT SCOPE_IDENTITY();", departamento);
 
             departamento.DepartamentoId = departamentoId;
-;
         }
 
-        //public async Task CrearReferencia(IEnumerable<PaisDepto>paises, int departamentoId)
-        //{
-        //    using var connection = new SqlConnection(connectionString);
-          
-        //    var query = "INSERT INTO PaisesDeptos (PaisId, DepartamentoId) VALUES (@PaisId, @DepartamentoId)";
+        //Validacion si existe el departamento y sus referencias
+        public async Task<bool> ExisteDepartamento(string departamentoNombre)
+        {
+            using var connection = new SqlConnection(connectionString);
 
-        //    var parametros = paises.Select(pais => new { PaisId = pais.PaisId, DepartamentoId = departamentoId });
+            var existeDepartamento = await connection.QueryFirstOrDefaultAsync<int>(
+                @"SELECT 1 FROM Departamentos
+                WHERE DepartamentoNombre = @DepartamentoNombre", new {departamentoNombre});
 
-        //    await connection.ExecuteAsync(query, parametros);
-        //}
+            return existeDepartamento == 1;
+        }
 
         public async Task<IEnumerable<Departamento>> ObtenerDepartamento()
         {
@@ -47,25 +45,33 @@ namespace RRHHCapucasCoffe.Services
                                                             FROM Departamentos");
         }
 
-        //public async Task<int> ObtenerUltimoDepartamentoId()
-        //{
-        //    using var connection = new SqlConnection(connectionString);
-        //    var query = "SELECT MAX(DepartamentoId) FROM Departamentos";
+        public async Task<Departamento> ObtenerDepartamentoPorId(int departamentoId)
+        {
+            using var connection = new SqlConnection(connectionString);
 
-        //    var ultimoDepartamentoId = await connection.ExecuteScalarAsync<int?>(query);
+            return await connection.QueryFirstOrDefaultAsync<Departamento>(
+                @"SELECT DepartamentoId, DepartamentoNombre, DepartamentoActivo
+                FROM Departamentos
+                WHERE DepartamentoId = @DepartamentoId", new {departamentoId});
+        }
 
-        //    return ultimoDepartamentoId ?? 0;
-        //}
+        public async Task EditarDepartamento(Departamento departamento)
+        {
+            using var connection = new SqlConnection(connectionString);
 
-        //public async Task CrearReferencia(IEnumerable<PaisDepto> paises, int departamentoId)
-        //{
-        //    using var connection = new SqlConnection(connectionString);
+            await connection.ExecuteAsync(
+                @"UPDATE Departamentos
+                SET DepartamentoNombre = @DepartamentoNombre, DepartamentoActivo = @DepartamentoActivo
+                WHERE DepartamentoId = @DepartamentoId", departamento);
+        }
 
-        //    var query = "INSERT INTO PaisesDeptos (PaisId, DepartamentoId) VALUES (@PaisId, @DepartamentoId)";
+        public async Task EliminarDepartamento(int departamentoId)
+        {
+            using var connection = new SqlConnection(connectionString);
 
-        //    var parametros = paises.Select(pais => new { PaisId = pais.PaisId, DepartamentoId = departamentoId });
-
-        //    await connection.ExecuteAsync(query, parametros);
-        //}
+            await connection.ExecuteAsync(
+                @"DELETE Departamentos
+                WHERE DepartamentoId = @DepartamentoId", new { departamentoId });
+        }
     }
 }

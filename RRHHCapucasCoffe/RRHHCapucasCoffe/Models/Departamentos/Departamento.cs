@@ -14,13 +14,6 @@ namespace RRHHCapucasCoffe.Models.Departamentos
         public string DepartamentoNombre { get; set; }
         [Display(Name = "Activo")]
         public bool DepartamentoActivo { get; set; }
-
-        //public virtual ICollection<PaisesDeptos> PaisesDeptos { get; set; }
-
-        //public Departamento(ICollection<PaisesDeptos> paisesDeptos)
-        //{
-        //    PaisesDeptos = paisesDeptos;
-        //}
     }
 }
 

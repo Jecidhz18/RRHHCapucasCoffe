@@ -13,10 +13,10 @@
     <div class="card-body">
         <h3 class="card-title">Crear Pais</h3>
 
-        <form class="row g-3" asp-action="CrearPais">
+        <form id="miFormulario" class="row g-3" asp-action="CrearPais">
             <div class="col-12">
                 <label asp-for="PaisNombre" class="form-label"></label>
-                <input asp-for="PaisNombre"  type="text" placeholder="" class="form-control">
+                <input asp-for="PaisNombre"  type="text" placeholder="" class="form-control required">
                 <span asp-validation-for="PaisNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
@@ -36,3 +36,25 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial"/>
 }
+<script>
+    $(document).ready(function () {
+        $("#miFormulario").validate({
+            rules: {
+                PaisNombre: {
+                    required: true
+                }
+            }
+        });
+
+        $("#miFormulario").submit(function (event) {
+            if (!$(this).valid()) {
+                // Mostrar los errores de validación si el formulario no es válido
+                $(this).find(".text-danger").each(function () {
+                    $(this).text($(this).data("msgRequired"));
+                });
+
+                return false; // Evitar que se envíe el formulario
+            }
+        });
+    });
+</script>

@@ -35,4 +35,12 @@
     <Folder Include="wwwroot\lib\data-table\js\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Departamentos\EditarDepartamento.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Departamentos\EditarDepartamento.cshtml" />
+  </ItemGroup>
+
 </Project>

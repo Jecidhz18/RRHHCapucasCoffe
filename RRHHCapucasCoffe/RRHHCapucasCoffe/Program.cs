@@ -4,6 +4,7 @@ using RRHHCapucasCoffe.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRepositorioUsuario, RepositorioUsuario>();
 builder.Services.AddTransient<IRepositorioPais, RepositorioPais>();
@@ -15,6 +16,7 @@ builder.Services.AddTransient<IRepositorioUnidad, RepositorioUnidad>();
 builder.Services.AddTransient<IRepositorioProfesion, RepositorioProfesion>(); 
 builder.Services.AddTransient<IRepositorioBanco, RepositorioBanco>();
 builder.Services.AddTransient<IRepositorioCargo, RepositorioCargo>();   
+builder.Services.AddTransient<IRepositorioPaisDepto, RepositorioPaisDepto>();
 
 var app = builder.Build();
 

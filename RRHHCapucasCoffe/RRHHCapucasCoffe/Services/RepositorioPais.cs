@@ -65,5 +65,27 @@ namespace RRHHCapucasCoffe.Services
 
             await connection.ExecuteAsync(@"DELETE Paises WHERE PaisId = @PaisId", new {paisId});
         }
+
+        public async Task<IEnumerable<Pais>> ObtenerPaisActivo()
+        {
+            using var connection = new SqlConnection(connectionString);
+            
+            return await connection.QueryAsync<Pais>(
+                @"SELECT PaisId, PaisNombre, PaisActivo
+                FROM Paises
+                WHERE PaisActivo = '1'");
+        }
+
+        public async Task<IEnumerable<Pais>> ObtenerPaisPorDepto(int departamentoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Pais>(
+                @"SELECT P.PaisId, P.PaisNombre, P.PaisActivo
+                FROM Paises AS P
+                JOIN PaisesDeptos AS PD ON P.PaisId = PD.PaisId
+                JOIN Departamentos AS D ON PD.DepartamentoId = D.DepartamentoId
+                WHERE D.DepartamentoId = @DepartamentoId;", new {departamentoId});
+        }
     }
 }
