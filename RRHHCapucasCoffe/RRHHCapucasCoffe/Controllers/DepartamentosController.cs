@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Departamentos;
 using RRHHCapucasCoffe.Models.Paises;
+using RRHHCapucasCoffe.Validators;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace RRHHCapucasCoffe.Controllers
@@ -42,9 +44,6 @@ namespace RRHHCapucasCoffe.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var paises = await repositorioPais.ObtenerPaisActivo();
-                var modelo = new DeptoViewModel();
-                departamento.Paises = paises.Select(x => new SelectListItem(x.PaisNombre, x.PaisId.ToString()));
                 return View(departamento);
             }
 
@@ -52,18 +51,19 @@ namespace RRHHCapucasCoffe.Controllers
 
             if (existeDepto)
             {
-                ModelState.AddModelError("", $"El departamento {departamento.DepartamentoNombre} ya existe!");
+                ModelState.AddModelError("", $"El departamento {departamento.DepartamentoNombre} ya existe.");
                 var paises = await repositorioPais.ObtenerPaisActivo();
                 var modelo = new DeptoViewModel();
-                departamento.Paises = paises.Select(x => new SelectListItem(x.PaisNombre, x.PaisId.ToString()));
 
+                departamento.Paises = paises.Select(x => new SelectListItem(x.PaisNombre, x.PaisId.ToString()));
                 return View(departamento);
             }
 
             await repositorioDepartamento.CrearDepartamento(departamento);
 
             await repositorioPaisDepto.InsertarPaisDepto(departamento);
-            return RedirectToAction("departamento");
+
+            return RedirectToAction("Departamento");
         }
 
         [HttpGet]

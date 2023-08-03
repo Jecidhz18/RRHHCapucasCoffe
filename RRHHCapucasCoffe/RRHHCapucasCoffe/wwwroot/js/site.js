@@ -80,44 +80,44 @@
     // Ejecutar la función cuando el DOM esté completamente cargado
     document.addEventListener('DOMContentLoaded', keepMenuExpanded);
 })();
-
 function agregarFila() {
-    var tablaBody = document.getElementById("data-table-body");
-    var nuevaFila = document.createElement("tr");
+    // Encuentra la fila que deseas clonar (en este caso, la primera fila de la tabla)
+    const filaOriginal = document.querySelector('#data-table-body tr');
 
-    var columnaAcciones = document.createElement("td");
-    var botonEliminar = document.createElement("button");
-    botonEliminar.classList.add("bi", "bi-trash", "btn", "btn-outline-danger");
-    botonEliminar.addEventListener("click", function () {
-        eliminarFila(this);
-    });
-
-    columnaAcciones.appendChild(botonEliminar);
-    nuevaFila.appendChild(columnaAcciones);
-
-    var columnaPais = document.createElement("td");
-    var select = document.createElement("select");
-    select.name = "PaisId";
-    select.classList.add("form-select");
-    select.setAttribute("asp-items", "@Model.Paises");
-
-    var opciones = document.getElementById("listselect").options;
-
-    for (var i = 0; i < opciones.length; i++) {
-        var opcion = opciones[i];
-        var nuevaOpcion = document.createElement("option");
-        nuevaOpcion.value = opcion.value;
-        nuevaOpcion.textContent = opcion.textContent;
-        select.appendChild(nuevaOpcion);
+    // Verifica si hay una fila previa y si tiene una opción seleccionada
+    const filasPrevias = document.querySelectorAll('#data-table-body tr');
+    if (filasPrevias.length > 0) {
+        const ultimaFilaPrevia = filasPrevias[filasPrevias.length - 1];
+        const selectPrevia = ultimaFilaPrevia.querySelector('#listselect');
+        if (selectPrevia.value === '') {
+            mostrarMensajeError('Por favor, seleccione una opción en la fila anterior antes de agregar una nueva fila.');
+            return;
+        }
     }
 
-    columnaPais.appendChild(select);
-    nuevaFila.appendChild(columnaPais);
+    // Crea una nueva fila a partir de la fila original
+    const nuevaFila = filaOriginal.cloneNode(true);
 
-    tablaBody.appendChild(nuevaFila);
+    // Borra cualquier valor seleccionado en el select de la nueva fila
+    nuevaFila.querySelector('#listselect').value = '';
+
+    // Agrega el botón para eliminar la fila
+    const botonEliminar = document.createElement('button');
+    botonEliminar.textContent = 'Eliminar';
+    botonEliminar.classList.add('btn', 'btn-outline-danger');
+    botonEliminar.onclick = function () {
+        eliminarFila(this);
+    };
+    nuevaFila.querySelector('td:first-child').appendChild(botonEliminar);
+
+    // Agrega la nueva fila al final de la tabla
+    document.querySelector('#data-table-body').appendChild(nuevaFila);
 }
 
-function eliminarFila(botonEliminar) {
-    var fila = botonEliminar.parentNode.parentNode;
-    fila.remove();
+function eliminarFila(boton) {
+    // Encuentra el elemento <tr> padre del botón que se hizo clic (la fila a eliminar)
+    const filaAEliminar = boton.closest('tr');
+
+    // Elimina la fila del DOM
+    filaAEliminar.remove();
 }

@@ -8,8 +8,8 @@ namespace RRHHCapucasCoffe.Models.Paises
         public int PaisId { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Display(Name = "Nombre del Pais")]
-        [PrimeraLetraMayusAtribute]
-        [TodoMayusculaAtribute]
+        [PrimeraLetraMayusAtribute(ErrorMessage = "La primera letra debe ser mayuscula")]
+        [NotAllUppercase]
         [RegularExpression(@"^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]*$", ErrorMessage = "Caracteres no validos")]
         public string PaisNombre { get; set; }
         [Display(Name = "Activo")]

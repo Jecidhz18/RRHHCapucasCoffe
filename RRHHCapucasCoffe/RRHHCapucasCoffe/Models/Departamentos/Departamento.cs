@@ -8,8 +8,6 @@ namespace RRHHCapucasCoffe.Models.Departamentos
         public int DepartamentoId { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Display(Name = "Nombre del Departamento")]
-        [PrimeraLetraMayusAtribute]
-        [TodoMayusculaAtribute]
         [RegularExpression(@"^[A-Z+a-z ]*$", ErrorMessage = "Caracteres no validos")]
         public string DepartamentoNombre { get; set; }
         [Display(Name = "Activo")]

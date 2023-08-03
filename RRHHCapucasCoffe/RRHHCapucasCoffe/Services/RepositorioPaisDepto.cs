@@ -23,7 +23,7 @@ namespace RRHHCapucasCoffe.Services
                 if (paisId != null)
                 {
                     await connection.ExecuteAsync(
-                        @"INSERT INTO PaisesDeptos (PaisId, DepartamentoId)
+                        @"INSERT INTO DpPaisesDeptos (PaisId, DepartamentoId)
                         VALUES (@PaisId, @DepartamentoId)", new { departamentoId = deptoPais.DepartamentoId, paisId });
                 }
             }
@@ -36,7 +36,7 @@ namespace RRHHCapucasCoffe.Services
             foreach (var paisId in deptoPais.PaisId)
             {
                 await connection.ExecuteAsync(
-                    @"DELETE FROM PaisesDeptos
+                    @"DELETE FROM DpPaisesDeptos
                     WHERE PaisId NOT IN @PaisId
                     AND DepartamentoId = @DepartamentoId;", new {deptoPais.PaisId, deptoPais.DepartamentoId});
             }
@@ -49,11 +49,11 @@ namespace RRHHCapucasCoffe.Services
             foreach ( var paisId in deptoPais.PaisId)
             {
                 await connection.ExecuteAsync(
-                    @"INSERT INTO PaisesDeptos (PaisId, DepartamentoId)
+                    @"INSERT INTO PdPaisesDeptos (PaisId, DepartamentoId)
                     SELECT @PaisId, @DepartamentoId
                     WHERE NOT EXISTS (
                     SELECT 1
-                    FROM PaisesDeptos
+                    FROM PdPaisesDeptos
                     WHERE PaisId = @PaisId AND DepartamentoId = @DepartamentoId)",
                     new { PaisId = paisId, DepartamentoId = deptoPais.DepartamentoId });
             }
@@ -66,7 +66,7 @@ namespace RRHHCapucasCoffe.Services
             foreach (var paisId in deptoPais.PaisId)
             {
                 await connection.ExecuteAsync(
-                    @"DELETE FROM PaisesDeptos
+                    @"DELETE FROM DpPaisesDeptos
                     WHERE PaisId IN @PaisId
                     AND DepartamentoId = @DepartamentoId;", new { deptoPais.PaisId, deptoPais.DepartamentoId });
             }

@@ -4,21 +4,21 @@ namespace RRHHCapucasCoffe.Validators
 {
     public class PrimeraLetraMayusAtribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        public override bool IsValid(object value)
         {
             if (value == null || string.IsNullOrEmpty(value.ToString()))
             {
-                return ValidationResult.Success;
+                return true;
             }
 
             var primeraLetra = value.ToString()[0].ToString();
 
             if (primeraLetra != primeraLetra.ToUpper())
             {
-                return new ValidationResult("La primera letra debe ser mayuscula");
+                return false;
             }
 
-            return ValidationResult.Success;
+            return true;
         }
     }
 }

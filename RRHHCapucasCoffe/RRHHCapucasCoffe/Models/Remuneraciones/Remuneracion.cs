@@ -9,7 +9,7 @@ namespace RRHHCapucasCoffe.Models.Remuneraciones
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Display(Name = "Descripción")]
         [PrimeraLetraMayusAtribute]
-        [TodoMayusculaAtribute]
+        [NotAllUppercase]
         [RegularExpression(@"^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]*$", ErrorMessage = "Caracteres no validos")]
         public string RemuneracionDescripcion { get; set; }
         [Display(Name = "Activo")]

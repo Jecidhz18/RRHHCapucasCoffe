@@ -1,35 +1,34 @@
 ﻿@model RRHHCapucasCoffe.Models.Departamentos.DeptoViewModel
-
 @{
     ViewData["Title"] = "Crear Departamento";
 }
 
+<div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <div class="card">
     <div class="card-body">
         <h3 class="card-title">Crear Departamento</h3>
-
-        <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
-            @*<i class="bi bi-exclamation-octagon flex"></i>*@
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
-
-        <form class="row g-3" asp-action="CrearDepartamento">
+        
+        <form class="row g-3" asp-action="CrearDepartamento" id="formData">
             <div class="col-12">
                 <label asp-for="DepartamentoNombre" class="form-label"></label>
-                <input asp-for="DepartamentoNombre" type="text" class="form-control required">
+                <input name="DepartamentoNombre" asp-for="DepartamentoNombre" type="text" class="form-control NotAllUppercase" autocomplete="off">
                 <span asp-validation-for="DepartamentoNombre" class="text-danger"></span>
+                <span id="error-custom-validate" class="text-danger error-custom-validate"></span>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
                     <label asp-for="DepartamentoActivo" class="form-check-label"></label>
-                    <input asp-for="DepartamentoActivo" class="form-check-input" type="checkbox" checked>
+                    <input name="DepartamentoActivo" asp-for="DepartamentoActivo" class="form-check-input" type="checkbox" checked>
                 </div>
             </div>
             <div>
                 <span class="card-subtitle">País al que pertenece el departamento:</span>
                 <div>
-                    <span asp-validation-for="PaisId" class="text-danger"></span>
+                    <span id="error-message" class="text-danger"></span>
+                    <span id="error-custom-validate" class="text-warning"></span>
                 </div>
                 <table id="data-table" class="table">
                     <thead>
@@ -40,11 +39,7 @@
                     </thead>
                     <tbody id="data-table-body">
                         <tr>
-                            @*<td>
-                                <button asp-action="CrearDep" onclick="eliminarFila(this)" class="bi bi-trash btn btn-outline-danger"></button>
-                            </td>*@
                             <td>
-
                             </td>
                             <td>
                                 <select name="PaisId" id="listselect" asp-items="@Model.Paises" class="form-select">  
@@ -63,12 +58,36 @@
                 </table>
             </div>
             <div class="text-center">
+                @*<button type="button" class="btn btn-primary" onclick="enviarDatos()">Confirmar</button>*@
                 <button id="click" type="submit" class="btn btn-primary">Confirmar</button>
                 <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Departamento", "Departamentos")'">Cancelar</button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+        // Función para validar el formulario antes del envío
+        function validarFormulario() {
+            var departamentoNombre = $("#formData input[name='DepartamentoNombre']").val();
+            var paisId = $("#listselect").val();
+
+            // Realiza tus validaciones aquí
+            var isValid = true;
+
+            if (departamentoNombre.trim() === '') {
+                $("#error-custom-validate").text("El nombre del departamento es requerido.");
+                isValid = false;
+            }
+
+            if (paisId === '') {
+                $("#error-message").text("Debe seleccionar un país.");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

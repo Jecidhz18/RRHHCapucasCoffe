@@ -1,4 +1,4 @@
-﻿@model RRHHCapucasCoffe.Models.Municipios.Municipio
+﻿@model RRHHCapucasCoffe.Models.Municipios.MunicipioViewModel
 @{
     ViewData["Title"] = "Crear Municipio";
 }
@@ -7,21 +7,21 @@
     <div class="card-body">
         <h3 class="card-title">Crear Municipio</h3>
 
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+            @*<i class="bi bi-exclamation-octagon flex"></i>*@
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <form class="row g-3" asp-action="CrearMunicipio">
             <div class="col-12">
-                <label asp-for="DivisionPoliticaMunicipioNombre" class="form-label"></label>
-                <input asp-for="DivisionPoliticaMunicipioNombre" type="text" class="form-control">
-                <span asp-validation-for="DivisionPoliticaMunicipioNombre" class="text-danger"></span>
+                <label asp-for="MunicipioNombre" class="form-label"></label>
+                <input asp-for="MunicipioNombre" type="text" class="form-control">
+                <span asp-validation-for="MunicipioNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
-                @*<div class="form-check">
-                    <label class="form-check-label" for="gridCheck1">Activo</label>
-                    <input class="form-check-input" type="checkbox" id="gridCheck1">
-                </div>*@
-
                 <div class="form-check form-switch">
-                <label asp-for="DivisionPoliticaMunicipioActivo" class="form-check-label"></label>
-                <input asp-for="DivisionPoliticaMunicipioActivo" class="form-check-input" type="checkbox">
+                <label asp-for="MunicipioActivo" class="form-check-label"></label>
+                <input asp-for="MunicipioActivo" class="form-check-input" type="checkbox" checked>
                 </div>
             </div>
 
@@ -41,17 +41,24 @@
 
                             </th>
                             <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un pais</option>
+                                <select class="form-select" asp-items="@Model.Paises">
+                                    <option selected>Seleccione una opción</option>
                                 </select>
                             </th>
-                            <th>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Selecciona un departamento</option>
+                            <td>
+                                <select class="form-select" asp-items="@Model.Departamentos">
+                                    <option selected>Seleccione una opción</option>
                                 </select>
-                            </th>
+                            </td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                <a onclick="agregarFila" class="btn btn-outline-primary">Añadir fila</a>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
 

@@ -18,7 +18,7 @@ namespace RRHHCapucasCoffe.Services
             using var connetion = new SqlConnection(connectionString);
 
             var id = await connetion.QuerySingleAsync<int>(
-                @"INSERT INTO Paises (PaisNombre, PaisActivo) 
+                @"INSERT INTO DpPaises (PaisNombre, PaisActivo) 
                 VALUES (@PaisNombre, @PaisActivo) 
                 SELECT SCOPE_IDENTITY();", pais);
 
@@ -30,7 +30,7 @@ namespace RRHHCapucasCoffe.Services
             using var connection = new SqlConnection(connectionString);
 
             var exitePais = await connection.QueryFirstOrDefaultAsync<int>(
-                @"SELECT 1 FROM Paises WHERE PaisNombre = @PaisNombre;", new {paisNombre});
+                @"SELECT 1 FROM DpPaises WHERE PaisNombre = @PaisNombre;", new {paisNombre});
 
             return exitePais == 1;
         }
@@ -39,13 +39,13 @@ namespace RRHHCapucasCoffe.Services
         {
             using var connection = new SqlConnection(connectionString);
             return await connection.QueryAsync<Pais>(@"SELECT PaisId, PaisNombre, PaisActivo
-                                                            FROM Paises");
+                                                            FROM DpPaises");
         }
 
         public async Task ActualizarPais(Pais pais)
         {
             using var connection = new SqlConnection(connectionString);
-            await connection.ExecuteAsync(@"UPDATE Paises 
+            await connection.ExecuteAsync(@"UPDATE DpPaises 
                                             SET PaisNombre = @PaisNombre, PaisActivo = @PaisActivo
                                             WHERE PaisId = @PaisId", pais);
         }
@@ -56,14 +56,14 @@ namespace RRHHCapucasCoffe.Services
 
             return await connection.QueryFirstOrDefaultAsync<Pais>(@"
                             SELECT PaisId, PaisNombre, PaisActivo 
-                            FROM Paises WHERE PaisId = @PaisId", new {paisId});
+                            FROM DpPaises WHERE PaisId = @PaisId", new {paisId});
         }
 
         public async Task EliminarPais(int paisId)
         {
             using var connection = new SqlConnection(connectionString);
 
-            await connection.ExecuteAsync(@"DELETE Paises WHERE PaisId = @PaisId", new {paisId});
+            await connection.ExecuteAsync(@"DELETE DpPaises WHERE PaisId = @PaisId", new {paisId});
         }
 
         public async Task<IEnumerable<Pais>> ObtenerPaisActivo()
@@ -72,7 +72,7 @@ namespace RRHHCapucasCoffe.Services
             
             return await connection.QueryAsync<Pais>(
                 @"SELECT PaisId, PaisNombre, PaisActivo
-                FROM Paises
+                FROM DpPaises
                 WHERE PaisActivo = '1'");
         }
 
@@ -82,9 +82,9 @@ namespace RRHHCapucasCoffe.Services
 
             return await connection.QueryAsync<Pais>(
                 @"SELECT P.PaisId, P.PaisNombre, P.PaisActivo
-                FROM Paises AS P
-                JOIN PaisesDeptos AS PD ON P.PaisId = PD.PaisId
-                JOIN Departamentos AS D ON PD.DepartamentoId = D.DepartamentoId
+                FROM DpPaises AS P
+                JOIN DpPaisesDeptos AS PD ON P.PaisId = PD.PaisId
+                JOIN DpDepartamentos AS D ON PD.DepartamentoId = D.DepartamentoId
                 WHERE D.DepartamentoId = @DepartamentoId;", new {departamentoId});
         }
     }

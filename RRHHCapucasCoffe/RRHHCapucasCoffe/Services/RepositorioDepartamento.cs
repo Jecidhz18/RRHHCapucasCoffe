@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Departamentos;
+using RRHHCapucasCoffe.Models.Paises;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -19,7 +20,7 @@ namespace RRHHCapucasCoffe.Services
             using var connection = new SqlConnection(connectionString);
 
             int departamentoId = await connection.QuerySingleAsync<int>(
-                @"INSERT INTO Departamentos (DepartamentoNombre, DepartamentoActivo)
+                @"INSERT INTO DpDepartamentos (DepartamentoNombre, DepartamentoActivo)
                 VALUES (@DepartamentoNombre, @DepartamentoActivo)
                 SELECT SCOPE_IDENTITY();", departamento);
 
@@ -32,7 +33,7 @@ namespace RRHHCapucasCoffe.Services
             using var connection = new SqlConnection(connectionString);
 
             var existeDepartamento = await connection.QueryFirstOrDefaultAsync<int>(
-                @"SELECT 1 FROM Departamentos
+                @"SELECT 1 FROM DpDepartamentos
                 WHERE DepartamentoNombre = @DepartamentoNombre", new {departamentoNombre});
 
             return existeDepartamento == 1;
@@ -41,8 +42,9 @@ namespace RRHHCapucasCoffe.Services
         public async Task<IEnumerable<Departamento>> ObtenerDepartamento()
         {
             using var connection = new SqlConnection(connectionString);
-            return await connection.QueryAsync<Departamento>(@"SELECT DepartamentoId, DepartamentoNombre, DepartamentoActivo
-                                                            FROM Departamentos");
+            return await connection.QueryAsync<Departamento>(
+                @"SELECT DepartamentoId, DepartamentoNombre, DepartamentoActivo
+                FROM DpDepartamentos");
         }
 
         public async Task<Departamento> ObtenerDepartamentoPorId(int departamentoId)
@@ -51,7 +53,7 @@ namespace RRHHCapucasCoffe.Services
 
             return await connection.QueryFirstOrDefaultAsync<Departamento>(
                 @"SELECT DepartamentoId, DepartamentoNombre, DepartamentoActivo
-                FROM Departamentos
+                FROM DpDepartamentos
                 WHERE DepartamentoId = @DepartamentoId", new {departamentoId});
         }
 
@@ -60,7 +62,7 @@ namespace RRHHCapucasCoffe.Services
             using var connection = new SqlConnection(connectionString);
 
             await connection.ExecuteAsync(
-                @"UPDATE Departamentos
+                @"UPDATE DpDepartamentos
                 SET DepartamentoNombre = @DepartamentoNombre, DepartamentoActivo = @DepartamentoActivo
                 WHERE DepartamentoId = @DepartamentoId", departamento);
         }
@@ -70,8 +72,18 @@ namespace RRHHCapucasCoffe.Services
             using var connection = new SqlConnection(connectionString);
 
             await connection.ExecuteAsync(
-                @"DELETE Departamentos
+                @"DELETE DpDepartamentos
                 WHERE DepartamentoId = @DepartamentoId", new { departamentoId });
+        }
+
+        public async Task<IEnumerable<Departamento>> ObtenerDeptoActivo()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Departamento>(
+                @"SELECT DepartamentoId, DepartamentoNombre, DepartamentoActivo
+                FROM DpDepartamentos
+                WHERE DepartamentoActivo = '1'");
         }
     }
 }
