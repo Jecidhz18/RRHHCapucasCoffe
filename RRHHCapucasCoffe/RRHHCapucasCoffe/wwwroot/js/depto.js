@@ -2,7 +2,6 @@
     const mensajeError = document.getElementById('error-message');
     mensajeError.textContent = mensaje;
     mensajeError.style.display = 'block';
-
 }
 
 const form = document.getElementById('formData');
@@ -12,9 +11,10 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     // Obtiene todos los selects en las filas de la tabla
     const selects = $('#data-table-body select');
+    const selects2 = $('#data-table-body select:not(.no-valid)');
 
     // Verifica si hay opciones sin seleccionar en los selects
-    for (const select of selects) {
+    for (const select of selects2) {
         if (select.value === '') {
             mostrarMensajeError('Por favor, seleccione una opción en todos los campos antes de enviar los datos.');
             return;

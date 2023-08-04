@@ -13,12 +13,12 @@
         </div>
 
 
-        <form class="row g-3" asp-action="EditarDepartamento">
+        <form class="row g-3 was-validated" asp-action="EditarDepartamento" id="formData">
             <input type="hidden" asp-for="DepartamentoId" />
             <div class="col-12">
                 <label asp-for="DepartamentoNombre" class="form-label"></label>
                 <input asp-for="DepartamentoNombre" type="text" class="form-control required">
-                <span asp-validation-for="DepartamentoNombre" class="text-danger"></span>
+                <span asp-validation-for="DepartamentoNombre" class="text-danger invalid-feedback"></span>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
@@ -28,7 +28,7 @@
             </div>
             <div>
                 <span class="card-subtitle">País al que pertenece el departamento:</span>
-
+                <span id="error-message" class="text-danger"></span>
                 <table id="data-table" class="table">
                     <thead>
                         <tr>
@@ -49,13 +49,11 @@
                                 </td>
                             </tr>
                         }
-                        <tr>
-                            @*<td>
-                                <button asp-action="CrearDep" onclick="eliminarFila(this)" class="bi bi-trash btn btn-outline-danger"></button>
-                            </td>*@
-                            <td></td>
+                        <tr class="tr-clone">
                             <td>
-                                <select name="PaisId" id="listselect" asp-items="@Model.Paises" class="form-select" aria-label="Default select example">
+                            </td>
+                            <td>
+                                <select name="PaisId" id="listselect" asp-items="@Model.Paises" class="form-select no-valid">
                                     <option value="">Seleccione una opción</option>
                                 </select>
                             </td>

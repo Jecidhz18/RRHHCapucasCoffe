@@ -20,12 +20,9 @@ namespace RRHHCapucasCoffe.Services
 
             foreach (var paisId in deptoPais.PaisId)
             {
-                if (paisId != null)
-                {
-                    await connection.ExecuteAsync(
+                await connection.ExecuteAsync(
                         @"INSERT INTO DpPaisesDeptos (PaisId, DepartamentoId)
                         VALUES (@PaisId, @DepartamentoId)", new { departamentoId = deptoPais.DepartamentoId, paisId });
-                }
             }
         }
 
@@ -49,11 +46,11 @@ namespace RRHHCapucasCoffe.Services
             foreach ( var paisId in deptoPais.PaisId)
             {
                 await connection.ExecuteAsync(
-                    @"INSERT INTO PdPaisesDeptos (PaisId, DepartamentoId)
+                    @"INSERT INTO DpPaisesDeptos (PaisId, DepartamentoId)
                     SELECT @PaisId, @DepartamentoId
                     WHERE NOT EXISTS (
                     SELECT 1
-                    FROM PdPaisesDeptos
+                    FROM DpPaisesDeptos
                     WHERE PaisId = @PaisId AND DepartamentoId = @DepartamentoId)",
                     new { PaisId = paisId, DepartamentoId = deptoPais.DepartamentoId });
             }

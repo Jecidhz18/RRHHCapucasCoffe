@@ -82,7 +82,7 @@
 })();
 function agregarFila() {
     // Encuentra la fila que deseas clonar (en este caso, la primera fila de la tabla)
-    const filaOriginal = document.querySelector('#data-table-body tr');
+    const filaOriginal = document.querySelector('.tr-clone');
 
     // Verifica si hay una fila previa y si tiene una opción seleccionada
     const filasPrevias = document.querySelectorAll('#data-table-body tr');
@@ -103,12 +103,17 @@ function agregarFila() {
 
     // Agrega el botón para eliminar la fila
     const botonEliminar = document.createElement('button');
-    botonEliminar.textContent = 'Eliminar';
-    botonEliminar.classList.add('btn', 'btn-outline-danger');
+    botonEliminar.classList.add('btn', 'btn-outline-danger', 'bi', 'bi-trash');
     botonEliminar.onclick = function () {
         eliminarFila(this);
     };
     nuevaFila.querySelector('td:first-child').appendChild(botonEliminar);
+
+    //Elimina una clase específica de los elementos select en la nueva fila
+    const selectsEnNuevaFila = nuevaFila.querySelectorAll('select');
+    selectsEnNuevaFila.forEach((select) => {
+        select.classList.remove('no-valid');
+    });
 
     // Agrega la nueva fila al final de la tabla
     document.querySelector('#data-table-body').appendChild(nuevaFila);
