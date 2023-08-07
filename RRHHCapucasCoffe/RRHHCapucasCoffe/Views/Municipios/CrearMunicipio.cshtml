@@ -3,19 +3,18 @@
     ViewData["Title"] = "Crear Municipio";
 }
 
+<div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <div class="card">
     <div class="card-body">
         <h3 class="card-title">Crear Municipio</h3>
 
-        <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
-            @*<i class="bi bi-exclamation-octagon flex"></i>*@
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
         <form class="row g-3" asp-action="CrearMunicipio">
             <div class="col-12">
                 <label asp-for="MunicipioNombre" class="form-label"></label>
-                <input asp-for="MunicipioNombre" type="text" class="form-control">
+                <input asp-for="MunicipioNombre" type="text" class="form-control" autocomplete="off">
                 <span asp-validation-for="MunicipioNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
@@ -24,30 +23,31 @@
                 <input asp-for="MunicipioActivo" class="form-check-input" type="checkbox" checked>
                 </div>
             </div>
-
             <div>
                 <span>País y departamento al que pertenece el municipio:</span>
-                <table class="table">
+                <div>
+                    <span id="error-message" class="text-danger"></span>
+                </div>
+                <table id="data-table"class="table">
                     <thead>
                         <tr>
-                            <th scope="col"></th>
+                            <th scope="col">acciones</th>
                             <th scope="col">Pais</th>
                             <th scope="col">Departamento</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th>
-
-                            </th>
-                            <th>
-                                <select class="form-select" asp-items="@Model.Paises">
-                                    <option selected>Seleccione una opción</option>
-                                </select>
-                            </th>
+                    <tbody id="data-table-body">
+                        <tr class="tr-clone">
                             <td>
-                                <select class="form-select" asp-items="@Model.Departamentos">
-                                    <option selected>Seleccione una opción</option>
+                            </td>
+                            <td>
+                                <select name="PaisId" id="listselect" asp-items="@Model.Paises" class="form-select">
+                                    <option value="">Seleccione una opción</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="DepartamentoId" id="listselect" asp-items="@Model.Departamentos" class="form-select">
+                                    <option value="">Seleccione una opción</option>
                                 </select>
                             </td>
                         </tr>
@@ -55,7 +55,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="3" class="text-center">
-                                <a onclick="agregarFila" class="btn btn-outline-primary">Añadir fila</a>
+                                <a onclick="agregarFila()" class="btn btn-outline-primary">Añadir fila</a>
                             </td>
                         </tr>
                     </tfoot>
