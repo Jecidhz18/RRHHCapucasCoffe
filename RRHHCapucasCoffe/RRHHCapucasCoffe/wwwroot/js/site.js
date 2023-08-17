@@ -65,6 +65,38 @@
     window.addEventListener('load', navbarlinksActive)
     onscroll(document, navbarlinksActive)
 
+    // /**
+    //  * Toggle .header-scrolled class to #header when page is scrolled
+    //  */
+    let selectHeader = select('#header')
+    if (selectHeader) {
+        const headerScrolled = () => {
+            if (window.scrollY > 100) {
+                selectHeader.classList.add('header-scrolled')
+            } else {
+                selectHeader.classList.remove('header-scrolled')
+            }
+        }
+        window.addEventListener('load', headerScrolled)
+        onscroll(document, headerScrolled)
+    }
+
+    /**
+     * Back to top button
+     */
+    let backtotop = select('.back-to-top')
+    if (backtotop) {
+        const toggleBacktotop = () => {
+            if (window.scrollY > 100) {
+                backtotop.classList.add('active')
+            } else {
+                backtotop.classList.remove('active')
+            }
+        }
+        window.addEventListener('load', toggleBacktotop)
+        onscroll(document, toggleBacktotop)
+    }
+
     function keepMenuExpanded() {
         const activeLink = document.querySelector('.nav-content a.active');
         if (activeLink) {
@@ -80,49 +112,3 @@
     // Ejecutar la función cuando el DOM esté completamente cargado
     document.addEventListener('DOMContentLoaded', keepMenuExpanded);
 })();
-function agregarFila() {
-    // Encuentra la fila que deseas clonar (en este caso, la primera fila de la tabla)
-    const filaOriginal = document.querySelector('.tr-clone');
-
-    // Verifica si hay una fila previa y si tiene una opción seleccionada
-    const filasPrevias = document.querySelectorAll('#data-table-body tr');
-    if (filasPrevias.length > 0) {
-        const ultimaFilaPrevia = filasPrevias[filasPrevias.length - 1];
-        const selectPrevia = ultimaFilaPrevia.querySelector('#listselect');
-        if (selectPrevia.value === '') {
-            mostrarMensajeError('Por favor, seleccione una opción en la fila anterior antes de agregar una nueva fila.');
-            return;
-        }
-    }
-
-    // Crea una nueva fila a partir de la fila original
-    const nuevaFila = filaOriginal.cloneNode(true);
-
-    // Borra cualquier valor seleccionado en el select de la nueva fila
-    nuevaFila.querySelector('#listselect').value = '';
-
-    // Agrega el botón para eliminar la fila
-    const botonEliminar = document.createElement('button');
-    botonEliminar.classList.add('btn', 'btn-outline-danger', 'bi', 'bi-trash');
-    botonEliminar.onclick = function () {
-        eliminarFila(this);
-    };
-    nuevaFila.querySelector('td:first-child').appendChild(botonEliminar);
-
-    //Elimina una clase específica de los elementos select en la nueva fila
-    const selectsEnNuevaFila = nuevaFila.querySelectorAll('select');
-    selectsEnNuevaFila.forEach((select) => {
-        select.classList.remove('no-valid');
-    });
-
-    // Agrega la nueva fila al final de la tabla
-    document.querySelector('#data-table-body').appendChild(nuevaFila);
-}
-
-function eliminarFila(boton) {
-    // Encuentra el elemento <tr> padre del botón que se hizo clic (la fila a eliminar)
-    const filaAEliminar = boton.closest('tr');
-
-    // Elimina la fila del DOM
-    filaAEliminar.remove();
-}

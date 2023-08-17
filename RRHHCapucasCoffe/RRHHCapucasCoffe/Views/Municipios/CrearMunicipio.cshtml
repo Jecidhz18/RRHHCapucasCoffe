@@ -1,4 +1,4 @@
-﻿@model RRHHCapucasCoffe.Models.Municipios.MunicipioViewModel
+﻿@model RRHHCapucasCoffe.Models.Municipios.MunicipioCrearViewModel
 @{
     ViewData["Title"] = "Crear Municipio";
 }
@@ -23,48 +23,67 @@
                 <input asp-for="MunicipioActivo" class="form-check-input" type="checkbox" checked>
                 </div>
             </div>
-            <div>
-                <span>País y departamento al que pertenece el municipio:</span>
-                <div>
-                    <span id="error-message" class="text-danger"></span>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            País y departamento al que pertenece el municipio:
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse mt-2" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div>
+                                    <span id="validation-summary" class="text-danger"></span>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select" id="select-pais" asp-items="@Model.Paises">
+                                        <option selected>Seleccione una opción</option>
+                                    </select>
+                                    <div>
+                                        <span id="validation-pais" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select" id="select-depto" asp-items="@Model.Departamentos">
+                                        <option selected>Seleccione una opción</option>
+                                    </select>
+                                    <div>
+                                        <span id="validation-departamento" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <button type="button" onclick="addPaisDepto()" class="d-flex align-items-center btn btn-outline-primary mx-1" title="Agregar">
+                                        <span>
+                                            <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                            <span class="mx-1 d-none d-lg-block">Agregar</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center table-responsive">
+                                <table class="table col-2">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Acciones</th>
+                                            <th scope="col">Pais</th>
+                                            <th scope="col">Departamento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="data-table-body">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
-                <table id="data-table"class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">acciones</th>
-                            <th scope="col">Pais</th>
-                            <th scope="col">Departamento</th>
-                        </tr>
-                    </thead>
-                    <tbody id="data-table-body">
-                        <tr class="tr-clone">
-                            <td>
-                            </td>
-                            <td>
-                                <select name="PaisId" id="listselect" asp-items="@Model.Paises" class="form-select">
-                                    <option value="">Seleccione una opción</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="DepartamentoId" id="listselect" asp-items="@Model.Departamentos" class="form-select">
-                                    <option value="">Seleccione una opción</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3" class="text-center">
-                                <a onclick="agregarFila()" class="btn btn-outline-primary">Añadir fila</a>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
             </div>
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Crear</button>
-                <button type="reset" class="btn btn-secondary">Limpiar</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Municipio", "Municipios")'">Cancelar</button>
             </div>
         </form>
     </div>
@@ -72,4 +91,44 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const urlGetDepto = '@Url.Action("ObtenerDepartamentos")';
+
+        $(function(){
+            $("#select-pais").change(async function () {
+                const valueSelect = $(this).val();
+
+                const result = await fetch(urlGetDepto, {
+                    method: 'POST',
+                    body: JSON.stringify({ PaisId: valueSelect }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const json = await result.json();
+                const options =
+                    json.map(depto => `<option value=${depto.value}>${depto.text}</option>`);
+
+                // Obtener la opción "Seleccione una opción"
+                const selectOption = $("#select-depto option:first");
+
+                // Eliminar las opciones después de la opción "Seleccione una opción"
+                $("#select-depto option").remove(':gt(0)');
+
+                // Agregar las nuevas opciones después de la opción "Seleccione una opción"
+                selectOption.after(options.join(''));
+                //$("#DepartamentoId").html(options);
+            })
+        })
+
+        $('#select-pais, #select-depto').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+        });
+    </script>
 }
+

@@ -76,14 +76,15 @@ namespace RRHHCapucasCoffe.Services
                 WHERE DepartamentoId = @DepartamentoId", new { departamentoId });
         }
 
-        public async Task<IEnumerable<Departamento>> ObtenerDeptoActivo()
+        public async Task<IEnumerable<Departamento>> ObtenerDeptoActivoPorPais(Pais pais)
         {
             using var connection = new SqlConnection(connectionString);
 
             return await connection.QueryAsync<Departamento>(
-                @"SELECT DepartamentoId, DepartamentoNombre, DepartamentoActivo
-                FROM DpDepartamentos
-                WHERE DepartamentoActivo = '1'");
+                @"SELECT d.DepartamentoId, DepartamentoNombre, DepartamentoActivo
+                FROM DpDepartamentos d
+                INNER JOIN DpPaisesDeptos pd ON d.DepartamentoId = pd.DepartamentoId
+                WHERE pd.PaisId = @PaisId AND DepartamentoActivo = '1'", new {pais.PaisId});
         }
     }
 }

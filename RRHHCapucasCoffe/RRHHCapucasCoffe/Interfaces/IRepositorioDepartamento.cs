@@ -1,4 +1,5 @@
 ﻿using RRHHCapucasCoffe.Models.Departamentos;
+using RRHHCapucasCoffe.Models.Paises;
 
 namespace RRHHCapucasCoffe.Interfaces
 {
@@ -10,6 +11,6 @@ namespace RRHHCapucasCoffe.Interfaces
         Task<bool> ExisteDepartamento(string departamentoNombre);
         Task<IEnumerable<Departamento>> ObtenerDepartamento();
         Task<Departamento> ObtenerDepartamentoPorId(int departamentoId);
-        Task<IEnumerable<Departamento>> ObtenerDeptoActivo();
+        Task<IEnumerable<Departamento>> ObtenerDeptoActivoPorPais(Pais paisId);
     }
 }

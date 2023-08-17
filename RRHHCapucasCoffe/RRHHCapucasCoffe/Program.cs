@@ -18,6 +18,7 @@ builder.Services.AddTransient<IRepositorioBanco, RepositorioBanco>();
 builder.Services.AddTransient<IRepositorioCargo, RepositorioCargo>();   
 builder.Services.AddTransient<IRepositorioPaisDepto, RepositorioPaisDepto>();
 builder.Services.AddTransient<IRepositorioMunicipio, RepositorioMunicipio>();
+builder.Services.AddTransient<IRepositorioDeptoMunicipio, RepositorioDeptoMunicipio>();
 
 var app = builder.Build();
 

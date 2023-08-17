@@ -13,12 +13,12 @@
         </div>
 
 
-        <form class="row g-3 was-validated" asp-action="EditarDepartamento" id="formData">
+        <form class="row g-3" asp-action="EditarDepartamento" id="formData">
             <input type="hidden" asp-for="DepartamentoId" />
             <div class="col-12">
                 <label asp-for="DepartamentoNombre" class="form-label"></label>
-                <input asp-for="DepartamentoNombre" type="text" class="form-control required">
-                <span asp-validation-for="DepartamentoNombre" class="text-danger invalid-feedback"></span>
+                <input asp-for="DepartamentoNombre" type="text" class="form-control">
+                <span asp-validation-for="DepartamentoNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
@@ -53,7 +53,7 @@
                             <td>
                             </td>
                             <td>
-                                <select name="PaisId" id="listselect" asp-items="@Model.Paises" class="form-select no-valid">
+                                <select name="PaisId" id="listselect" asp-items="@Model.Paises" class="form-select">
                                     <option value="">Seleccione una opción</option>
                                 </select>
                             </td>
@@ -75,3 +75,7 @@
         </form>
     </div>
 </div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
