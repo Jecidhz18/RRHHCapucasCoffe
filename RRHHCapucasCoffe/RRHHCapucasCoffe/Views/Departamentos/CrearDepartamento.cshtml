@@ -1,4 +1,4 @@
-﻿@model RRHHCapucasCoffe.Models.Departamentos.DeptoViewModel
+﻿@model RRHHCapucasCoffe.Models.Departamentos.DeptoCrearViewModel
 @{
     ViewData["Title"] = "Crear Departamento";
 }
@@ -11,7 +11,7 @@
     <div class="card-body">
         <h3 class="card-title">Crear Departamento</h3>
         
-        <form class="row g-3" asp-action="CrearDepartamento" id="formData">
+        <form class="row g-3" asp-action="CrearDepartamento">
             <div class="col-12">
                 <label asp-for="DepartamentoNombre" class="form-label"></label>
                 <input name="DepartamentoNombre" asp-for="DepartamentoNombre" type="text" class="form-control" autocomplete="off">
@@ -24,71 +24,71 @@
                     <input name="DepartamentoActivo" asp-for="DepartamentoActivo" class="form-check-input" type="checkbox" checked>
                 </div>
             </div>
-            <div>
-                <span class="card-subtitle">País al que pertenece el departamento:</span>
-                <div>
-                    <span id="error-message" class="text-danger"></span>
-                    <span id="error-custom-validate" class="text-warning"></span>
+            <div class="accordion accordion-flush" id="accordionFlush">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Pais al que pertenece el departamento:
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlush">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div>
+                                    <span id="validation-summary" class="text-danger"></span>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select" id="select-pais-dt" asp-items="@Model.Paises">
+                                        <option selected>Seleccione una opción</option>
+                                    </select>
+                                    <div>
+                                        <span id="validation-pais" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <button type="button" onclick="addPaisDt()" class="d-flex align-items-center btn btn-outline-primary mx-1" title="Agregar">
+                                        <span>
+                                            <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                            <span class="mx-1 d-none d-lg-block">Agregar</span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="row justify-content-center table-responsive mt-1">
+                                    <table class="table col-2">
+                                        <thead>
+                                            <tr>
+                                                <th>Acciones</th>
+                                                <th>Pais</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data-table-body-dt">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <table id="data-table" class="table">
-                    <thead>
-                        <tr>
-                            <th>Acciones</th>
-                            <th>Pais</th>
-                        </tr>
-                    </thead>
-                    <tbody id="data-table-body">
-                        <tr>
-                            <td>
-                            </td>
-                            <td>
-                                <select name="PaisId" id="listselect" asp-items="@Model.Paises" class="form-select">  
-                                    <option value="">Seleccione una opción</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="2" class="text-center">
-                                <a onclick="agregarFila()" class="btn btn-outline-primary">Añadir fila</a>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
             </div>
+
             <div class="text-center">
-                @*<button type="button" class="btn btn-primary" onclick="enviarDatos()">Confirmar</button>*@
-                <button id="click" type="submit" class="btn btn-primary">Confirmar</button>
+                <button type="submit" class="btn btn-primary">Confirmar</button>
                 <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Departamento", "Departamentos")'">Cancelar</button>
             </div>
         </form>
     </div>
 </div>
 
-<script>
-        // Función para validar el formulario antes del envío
-        function validarFormulario() {
-            var departamentoNombre = $("#formData input[name='DepartamentoNombre']").val();
-            var paisId = $("#listselect").val();
-
-            // Realiza tus validaciones aquí
-            var isValid = true;
-
-            if (departamentoNombre.trim() === '') {
-                $("#error-custom-validate").text("El nombre del departamento es requerido.");
-                isValid = false;
-            }
-
-            if (paisId === '') {
-                $("#error-message").text("Debe seleccionar un país.");
-                isValid = false;
-            }
-
-            return isValid;
-        }
-</script>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/depto.js" asp-append-version="true"></script>
+
+    <script>
+        $('#select-pais-dt').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+        });
+    </script>
 }
+

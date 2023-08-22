@@ -15,7 +15,7 @@ namespace RRHHCapucasCoffe.Services
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task CrearDepartamento(DeptoViewModel departamento)
+        public async Task CrearDepartamento(DeptoCrearViewModel departamento)
         {
             using var connection = new SqlConnection(connectionString);
 
@@ -34,7 +34,7 @@ namespace RRHHCapucasCoffe.Services
 
             var existeDepartamento = await connection.QueryFirstOrDefaultAsync<int>(
                 @"SELECT 1 FROM DpDepartamentos
-                WHERE DepartamentoNombre = @DepartamentoNombre", new {departamentoNombre});
+                WHERE DepartamentoNombre = @DepartamentoNombre", new { departamentoNombre });
 
             return existeDepartamento == 1;
         }
@@ -54,7 +54,7 @@ namespace RRHHCapucasCoffe.Services
             return await connection.QueryFirstOrDefaultAsync<Departamento>(
                 @"SELECT DepartamentoId, DepartamentoNombre, DepartamentoActivo
                 FROM DpDepartamentos
-                WHERE DepartamentoId = @DepartamentoId", new {departamentoId});
+                WHERE DepartamentoId = @DepartamentoId", new { departamentoId });
         }
 
         public async Task EditarDepartamento(Departamento departamento)
@@ -84,7 +84,7 @@ namespace RRHHCapucasCoffe.Services
                 @"SELECT d.DepartamentoId, DepartamentoNombre, DepartamentoActivo
                 FROM DpDepartamentos d
                 INNER JOIN DpPaisesDeptos pd ON d.DepartamentoId = pd.DepartamentoId
-                WHERE pd.PaisId = @PaisId AND DepartamentoActivo = '1'", new {pais.PaisId});
+                WHERE pd.PaisId = @PaisId AND DepartamentoActivo = '1'", new { pais.PaisId });
         }
     }
 }

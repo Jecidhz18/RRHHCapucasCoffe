@@ -4,9 +4,8 @@ namespace RRHHCapucasCoffe.Interfaces
 {
     public interface IRepositorioPaisDepto
     {
-        Task EliminarPaisDepto(DeptoViewModel deptoPais);
-        Task EliminarPaisDeptoPorDepto(DeptoViewModel deptoPais);
-        Task InsertarPaisDepto(DeptoViewModel deptoPais);
-        Task InsertarPaisDeptoPorDepto(DeptoViewModel deptoPais);
+        Task EliminarPaisDeptoPorDepto(DeptoEditarViewModel deptoPais);
+        Task InsertarPaisDepto(DeptoCrearViewModel deptoPais);
+        Task InsertarPaisDeptoPorDepto(DeptoEditarViewModel deptoPais);
     }
 }

@@ -1,14 +1,32 @@
-﻿@model RRHHCapucasCoffe.Models.Departamentos.DeptoViewModel
+﻿@model RRHHCapucasCoffe.Models.Departamentos.DeptoEditarViewModel
 
 @{
     ViewData["Title"] = "Editar Departamento";
 }
 
-<div class="card">
+<div class="modal fade" id="basicModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Basic Modal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="card">
     <div class="card-body">
         <h3 class="card-title">Editar Departamento: @Model.DepartamentoNombre</h3>
         <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
-            @*<i class="bi bi-exclamation-octagon flex"></i>*@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
@@ -63,3 +81,4 @@
         </form>
     </div>
 </div>
+*@

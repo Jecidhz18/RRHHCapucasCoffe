@@ -1,24 +1,10 @@
-﻿function errorSummary(mensaje) {
-    const mensajeError = document.getElementById('validation-summary');
-    mensajeError.textContent = mensaje;
-}
-function errorPais(mensaje) {
-    const mensajeError = document.getElementById('validation-pais');
-    mensajeError.textContent = mensaje;
-}
-
-function errorDepartamento(mensaje) {
-    const mensajeError = document.getElementById('validation-departamento');
-    mensajeError.textContent = mensaje;
-}
-
-const selectPais = document.getElementById("select-pais");
-const selectDepto = document.getElementById("select-depto");
-const dataTableBody = document.getElementById("data-table-body");
+﻿
 
 // Función para agregar una fila a la tabla
 function addPaisDepto() {
-    const selects = $('#data-table-body td');
+    const selectPais = document.getElementById("select-pais");
+    const selectDepto = document.getElementById("select-depto");
+    const dataTableBody = document.getElementById("data-table-body");
     var foundDuplicate = false;
 
     if (selectPais.selectedIndex == '') {

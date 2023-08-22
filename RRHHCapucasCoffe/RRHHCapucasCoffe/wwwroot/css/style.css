@@ -15,7 +15,7 @@ body {
     font-family: "Open Sans", sans-serif;
     background: #f6f9ff;
     color: #444444;
-    zoom: 0.82; /* Cambia el valor según lo desees */
+    zoom: 0.82;
 }
 
 a {
@@ -1260,5 +1260,12 @@ End SlideBar-btn*/
 }
 
 /*--------------------------------------------------------------
-# DataTable
+# Modal
 --------------------------------------------------------------*/
+.fade{
+    zoom: 1.3;
+}
+
+.modal{
+    zoom: normal;
+}

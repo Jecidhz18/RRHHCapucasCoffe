@@ -14,7 +14,7 @@ namespace RRHHCapucasCoffe.Services
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task InsertarPaisDepto(DeptoViewModel deptoPais)
+        public async Task InsertarPaisDepto(DeptoCrearViewModel deptoPais)
         {
             using var connection = new SqlConnection(connectionString);
 
@@ -26,7 +26,7 @@ namespace RRHHCapucasCoffe.Services
             }
         }
 
-        public async Task EliminarPaisDeptoPorDepto(DeptoViewModel deptoPais)
+        public async Task EliminarPaisDeptoPorDepto(DeptoEditarViewModel deptoPais)
         {
             using var connection = new SqlConnection(connectionString);
 
@@ -35,15 +35,15 @@ namespace RRHHCapucasCoffe.Services
                 await connection.ExecuteAsync(
                     @"DELETE FROM DpPaisesDeptos
                     WHERE PaisId NOT IN @PaisId
-                    AND DepartamentoId = @DepartamentoId;", new {deptoPais.PaisId, deptoPais.DepartamentoId});
+                    AND DepartamentoId = @DepartamentoId;", new { deptoPais.PaisId, deptoPais.DepartamentoId });
             }
         }
 
-        public async Task InsertarPaisDeptoPorDepto(DeptoViewModel deptoPais)
+        public async Task InsertarPaisDeptoPorDepto(DeptoEditarViewModel deptoPais)
         {
             using var connection = new SqlConnection(connectionString);
 
-            foreach ( var paisId in deptoPais.PaisId)
+            foreach (var paisId in deptoPais.PaisId)
             {
                 await connection.ExecuteAsync(
                     @"INSERT INTO DpPaisesDeptos (PaisId, DepartamentoId)
@@ -56,17 +56,17 @@ namespace RRHHCapucasCoffe.Services
             }
         }
 
-        public async Task EliminarPaisDepto(DeptoViewModel deptoPais)
-        {
-            using var connection = new SqlConnection(connectionString);
+        //public async Task EliminarPaisDepto(DeptoViewModel deptoPais)
+        //{
+        //    using var connection = new SqlConnection(connectionString);
 
-            foreach (var paisId in deptoPais.PaisId)
-            {
-                await connection.ExecuteAsync(
-                    @"DELETE FROM DpPaisesDeptos
-                    WHERE PaisId IN @PaisId
-                    AND DepartamentoId = @DepartamentoId;", new { deptoPais.PaisId, deptoPais.DepartamentoId });
-            }
-        }
+        //    foreach (var paisId in deptoPais.PaisId)
+        //    {
+        //        await connection.ExecuteAsync(
+        //            @"DELETE FROM DpPaisesDeptos
+        //            WHERE PaisId IN @PaisId
+        //            AND DepartamentoId = @DepartamentoId;", new { deptoPais.PaisId, deptoPais.DepartamentoId });
+        //    }
+        //}
     }
 }

@@ -59,7 +59,6 @@ namespace RRHHCapucasCoffe.Controllers
             {
                 return RedirectToAction("NoEncontrado","Home");
             }
-
             return View(unidad);
         }
         [HttpPost]
@@ -69,13 +68,14 @@ namespace RRHHCapucasCoffe.Controllers
 
             if (existeBanco is null)
             {
-                RedirectToAction("NoEncontrado","Home");
+                return NotFound();
             }
 
             banco.BancoUsuarioModifico = await repositorioUsuario.ObtenerUsuario();
             banco.BancoFechaModifico = DateTime.Now;
 
             await repositorioBanco.EditarBanco(banco);
+            TempData.Remove("BancoId");
 
             return RedirectToAction("Banco");
         }

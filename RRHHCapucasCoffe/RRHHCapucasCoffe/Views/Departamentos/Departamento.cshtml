@@ -40,7 +40,7 @@
                                     <a class="btn btn-outline-primary me-1" asp-action="EditarDepartamento" asp-route-departamentoId="@departamento.DepartamentoId" title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a class="btn btn-outline-danger" asp-action="EliminarDepartamento" asp-route-departamentoId="@departamento.DepartamentoId" title="Eliminar">
+                                    <a class="btn btn-outline-danger" title="Eliminar" data-bs-toggle="modal" data-bs-target="#basicModal">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
@@ -58,6 +58,7 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
+
+@*<partial name="_EliminarDepartamento" />*@

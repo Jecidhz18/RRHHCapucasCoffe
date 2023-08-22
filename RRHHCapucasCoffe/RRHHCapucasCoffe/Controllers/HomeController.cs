@@ -28,6 +28,19 @@ namespace RRHHCapucasCoffe.Controllers
             return View();
         }
 
+        //[responsecache(duration = 0, location = responsecachelocation.none, nostore = true)]
+        //public iactionresult error(int statuscode)
+        //{
+        //    if (statuscode == 404)
+        //    {
+        //        return view("noencontrado");
+        //    }
+        //    else
+        //    {
+        //        return view(new errorviewmodel { requestid = activity.current?.id ?? httpcontext.traceidentifier });
+        //    }
+        //}
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

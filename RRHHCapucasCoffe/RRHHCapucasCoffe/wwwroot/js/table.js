@@ -4,7 +4,7 @@
             "url": '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json',
         },
         lengthMenu: [
-            5, 10, 30, 50, 100
+            10, 30, 50, 100
         ],
         columnDefs: [
             {
@@ -32,7 +32,10 @@
                 extend: 'pdf',
                 text: '<i class="bi bi-file-earmark-pdf d-block d-lg-none"></i><span class= "mx-1 d-none d-lg-block">PDF</span>',
                 className: 'd-flex align-items-center btn btn-outline-primary mx-1',
-                titleAttr: 'PDF'
+                titleAttr: 'PDF',
+                exportOptions: {
+                    columns: ':not(.no-export)' // Agrega la clase 'no-export' a las columnas que no deseas exportar
+                }
             },
             {
                 extend: 'print',
@@ -46,6 +49,7 @@
                 text: 'Columnas Visibles',
             }
         ]
+
     });
 
     // Obtener el contenedor de botones

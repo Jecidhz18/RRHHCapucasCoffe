@@ -24,9 +24,9 @@
             <table class="table dataTable" id="datatable">
                 <thead>
                     <tr>
-                        <th>Acciones</th>
+                        <th class="no-export">Acciones</th>
                         <th>Banco</th>
-                        <th>Activo</th>
+                        <th class="no-export">Activo</th>
                         <th>Usuario Grabo</th>
                         <th>Fecha Grabo</th>
                         <th>Usuario Modifico</th>
@@ -37,7 +37,7 @@
                     @foreach (var banco in Model)
                     {
                         <tr>
-                            <td>
+                            <td class="no-export">
                                 <div class="d-flex">
                                     <a class="btn btn-outline-primary me-1" asp-action="EditarBanco" asp-route-bancoId="@banco.BancoId" title="Editar">
                                         <i class="bi bi-pencil"></i>
@@ -50,7 +50,7 @@
                             <td>
                                 @banco.BancoNombre
                             </td>
-                            <td>
+                            <td class="no-export">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" disabled checked="@banco.BancoActivo">
                                 </div>

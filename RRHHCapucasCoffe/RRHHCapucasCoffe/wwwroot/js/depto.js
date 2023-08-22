@@ -1,34 +1,86 @@
-﻿function mostrarMensajeError(mensaje) {
-    const mensajeError = document.getElementById('error-message');
-    mensajeError.textContent = mensaje;
-    mensajeError.style.display = 'block';
-}
+﻿function addPaisDt() {
+    const selectPaisDt = document.getElementById("select-pais-dt");
+    const dataTableBodyDt = document.getElementById("data-table-body-dt");
+    //Variables necesarias para validar no duplicados
+    var foundDuplicateDt = false;
 
-const form = document.getElementById('formData');
-const selects = form.querySelectorAll('select');
-
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    // Obtiene todos los selects en las filas de la tabla
-    const selects = $('#data-table-body select');
-    const selects2 = $('#data-table-body select:not(.no-valid)');
-
-    // Verifica si hay opciones sin seleccionar en los selects
-    for (const select of selects2) {
-        if (select.value === '') {
-            mostrarMensajeError('Por favor, seleccione una opción en todos los campos antes de enviar los datos.');
-            return;
-        }
-    }
-
-    // Verifica si hay opciones duplicadas en los selects
-    const selectValues = selects.toArray().map(select => select.value);
-    const uniqueValues = new Set(selectValues);
-    if (selectValues.length !== uniqueValues.size) {
-        mostrarMensajeError('Hay opciones duplicadas en los campos. Por favor, seleccione opciones diferentes.');
+    if (selectPaisDt.selectedIndex == '') {
+        errorPais('Seleccione una opción válida.');
+        errorSummary('');
         return;
     }
+    errorPais('');
 
-    // El formulario está bien, así que podemos enviarlo.
-    form.submit();
-});
+    //Funcion para evitar que se ingresen valores duplicados a la tabla
+    $('#data-table-body-dt tr').each(function () {
+        var paisIdValueDt = $(this).find('input[name="PaisId"]').val();
+
+        if (paisIdValueDt == selectPaisDt.value) {
+            errorSummary("Ya existe el país");
+            foundDuplicateDt = true;
+            return false;
+        }
+    })
+
+    if (foundDuplicateDt) {
+        return;
+    }
+    errorSummary('');
+
+    const nuevaFilaDt = document.createElement("tr");
+    const celdaAccionesDt = document.createElement("td");
+    const celdaPaisDt = document.createElement("td");
+    const botonEliminarDt = document.createElement("button");
+    const selectPaisHiddenDt = document.createElement("input");
+
+    botonEliminarDt.classList.add("btn", "btn-outline-danger", "btn-sm", "bi", "bi-trash");
+
+    botonEliminarDt.addEventListener("click", function () {
+        dataTableBodyDt.removeChild(nuevaFilaDt);
+    });
+
+    // input para almacenar el Id respectivos
+    selectPaisHiddenDt.type = "hidden";
+    selectPaisHiddenDt.name = "PaisId";
+    selectPaisHiddenDt.value = selectPaisDt.value;
+
+    celdaAccionesDt.appendChild(botonEliminarDt);
+    celdaPaisDt.textContent = selectPaisDt.options[selectPaisDt.selectedIndex].text;
+
+    nuevaFilaDt.appendChild(celdaAccionesDt);
+    nuevaFilaDt.appendChild(celdaPaisDt);
+    nuevaFilaDt.appendChild(selectPaisHiddenDt);
+
+    dataTableBodyDt.appendChild(nuevaFilaDt);
+}
+
+function eliminarFilaExistentesDt(botonEliminar) {
+    var fila = botonEliminar.closest('tr'); // Obtener la fila padre del botón
+    // Eliminar la fila de la tabla
+    fila.remove();
+}
+//$("form").submit(async function (event) {
+//    event.preventDefault(); // Prevenir el envío predeterminado
+
+//    const url = '/Departamentos/CrearDepartamento';
+///*    const formData = new FormData$(this); *//*// Obtener datos del formulario*/*/
+
+//    const formData = {
+//        DepartamentoNombre: $('#DepartamentoNombre').val(),
+//        DepartamentoActivo: $('#DepartamentoActivo').val()
+//    }
+
+//    const respuesta = await fetch(url, {
+//        method: 'POST',
+//        body: formData,
+//        headers: {
+//            'Content-Type': 'application/json'
+//        }
+//    });
+
+//    if (respuesta.ok) {
+//        console.log("Exitoso");
+//    } else {
+//        console.log("fallido");
+//    }
+//});

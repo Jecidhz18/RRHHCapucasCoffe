@@ -4,7 +4,6 @@ using RRHHCapucasCoffe.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRepositorioUsuario, RepositorioUsuario>();
 builder.Services.AddTransient<IRepositorioPais, RepositorioPais>();
@@ -20,6 +19,8 @@ builder.Services.AddTransient<IRepositorioPaisDepto, RepositorioPaisDepto>();
 builder.Services.AddTransient<IRepositorioMunicipio, RepositorioMunicipio>();
 builder.Services.AddTransient<IRepositorioDeptoMunicipio, RepositorioDeptoMunicipio>();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +30,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+//app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

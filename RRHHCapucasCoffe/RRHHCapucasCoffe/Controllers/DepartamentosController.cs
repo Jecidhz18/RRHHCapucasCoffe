@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Departamentos;
@@ -14,13 +15,15 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IRepositorioPais repositorioPais;
         private readonly IRepositorioDepartamento repositorioDepartamento;
         private readonly IRepositorioPaisDepto repositorioPaisDepto;
+        private readonly IMapper mapper;
 
         public DepartamentosController(IRepositorioPais repositorioPais,
-            IRepositorioDepartamento repositorioDepartamento, IRepositorioPaisDepto repositorioPaisDepto)
+            IRepositorioDepartamento repositorioDepartamento, IRepositorioPaisDepto repositorioPaisDepto, IMapper mapper)
         {
             this.repositorioPais = repositorioPais;
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioPaisDepto = repositorioPaisDepto;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> Departamento()
@@ -32,18 +35,32 @@ namespace RRHHCapucasCoffe.Controllers
         [HttpGet]
         public async Task<IActionResult> CrearDepartamento()
         {
-            var paises = await repositorioPais.ObtenerPaisActivo();
-            var modelo = new DeptoViewModel();
-
-            modelo.Paises = paises.Select(x => new SelectListItem(x.PaisNombre, x.PaisId.ToString()));
+            var modelo = new DeptoCrearViewModel();
+            modelo.Paises = await ObtenerPaises();
             return View(modelo);
         }
 
+        //Metodo privado para obtener paises
+        private async Task<IEnumerable<SelectListItem>> ObtenerPaises()
+        {
+            var paises = await repositorioPais.ObtenerPaisActivo();
+
+            return paises.Select(x => new SelectListItem(x.PaisNombre, x.PaisId.ToString()));
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CrearDepartamento(DeptoViewModel departamento)
+        public async Task<IActionResult> CrearDepartamento(DeptoCrearViewModel departamento)
         {
             if (!ModelState.IsValid)
             {
+                departamento.Paises = await ObtenerPaises();
+                return View(departamento);
+            }
+
+            if (departamento.PaisId == null)
+            {
+                ModelState.AddModelError("", $"Por favor, seleccione una opción en todos los campos antes de enviar los datos.");
+                departamento.Paises = await ObtenerPaises();
                 return View(departamento);
             }
 
@@ -52,15 +69,11 @@ namespace RRHHCapucasCoffe.Controllers
             if (existeDepto)
             {
                 ModelState.AddModelError("", $"El departamento {departamento.DepartamentoNombre} ya existe.");
-                var paises = await repositorioPais.ObtenerPaisActivo();
-                var modelo = new DeptoViewModel();
-
-                departamento.Paises = paises.Select(x => new SelectListItem(x.PaisNombre, x.PaisId.ToString()));
+                departamento.Paises = await ObtenerPaises();
                 return View(departamento);
             }
 
             await repositorioDepartamento.CrearDepartamento(departamento);
-
             await repositorioPaisDepto.InsertarPaisDepto(departamento);
 
             return RedirectToAction("Departamento");
@@ -70,17 +83,9 @@ namespace RRHHCapucasCoffe.Controllers
         public async Task<IActionResult> EditarDepartamento(int departamentoId)
         {
             var departamento = await repositorioDepartamento.ObtenerDepartamentoPorId(departamentoId);
-            var paisesDepto = await repositorioPais.ObtenerPaisPorDepto(departamentoId);
-            var paises = await repositorioPais.ObtenerPaisActivo();
-
-            var modelo = new DeptoViewModel();
-
-            modelo.DepartamentoId = departamento.DepartamentoId;
-            modelo.DepartamentoNombre = departamento.DepartamentoNombre;
-            modelo.DepartamentoActivo = departamento.DepartamentoActivo;
-
-            modelo.Paises = paises.Select(x => new SelectListItem(x.PaisNombre, x.PaisId.ToString()));
-            modelo.Pais = paisesDepto;
+            var modelo = mapper.Map<DeptoEditarViewModel>(departamento);
+            modelo.Pais = await repositorioPais.ObtenerPaisPorDepto(departamentoId);
+            modelo.Paises = await ObtenerPaises();
 
             if (modelo is null)
             {
@@ -91,61 +96,77 @@ namespace RRHHCapucasCoffe.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditarDepartamento(DeptoViewModel deptoPais)
+        public async Task<IActionResult> EditarDepartamento(DeptoEditarViewModel deptoPaises)
         {
-            var existeDepto = await repositorioDepartamento.ObtenerDepartamentoPorId(deptoPais.DepartamentoId);
+            var existeDepto = await repositorioDepartamento.ObtenerDepartamentoPorId(deptoPaises.DepartamentoId);
 
-            if (existeDepto is null)
+            var modelo = mapper.Map<DeptoEditarViewModel>(deptoPaises);
+            modelo.Paises = deptoPaises.Paises;
+            modelo.Pais = deptoPaises.Pais;
+            modelo.PaisId = deptoPaises.PaisId;
+
+            if (!ModelState.IsValid)
             {
-                //if (deptoPais.PaisId is )
-                //{
-
-                //}
-                RedirectToAction("NoEncontrado", "Home");
+                modelo.Pais = await repositorioPais.ObtenerPaisPorDepto(modelo.DepartamentoId);
+                modelo.Paises = await ObtenerPaises();
+                return View(modelo);
             }
 
-            await repositorioDepartamento.EditarDepartamento(deptoPais);
-            await repositorioPaisDepto.EliminarPaisDeptoPorDepto(deptoPais);
-            await repositorioPaisDepto.InsertarPaisDeptoPorDepto(deptoPais);
-
-            return RedirectToAction("Departamento");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> EliminarDepartamento(int departamentoId)
-        {
-            var departamento = await repositorioDepartamento.ObtenerDepartamentoPorId(departamentoId);
-            var paisesDepto = await repositorioPais.ObtenerPaisPorDepto(departamentoId);
-
-            var modelo = new DeptoViewModel();
-
-            modelo.DepartamentoId = departamento.DepartamentoId;
-            modelo.DepartamentoNombre = departamento.DepartamentoNombre;
-            modelo.DepartamentoActivo = departamento.DepartamentoActivo;
-
-            modelo.Pais = paisesDepto;
-
-            if (modelo is null)
+            if (modelo.PaisId == null)
             {
-                return RedirectToAction("NoEcontrado", "Home");
+                ModelState.AddModelError("", $"Por favor, seleccione una opción en todos los campos antes de enviar los datos.");
+                modelo.Pais = await repositorioPais.ObtenerPaisPorDepto(modelo.DepartamentoId);
+                modelo.Paises = await ObtenerPaises();
+                return View(modelo);
             }
-
-            return View(modelo);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EliminarDepartamentoSelect(DeptoViewModel deptoPais)
-        {
-            var existeDepto = await repositorioDepartamento.ObtenerDepartamentoPorId(deptoPais.DepartamentoId);
 
             if (existeDepto is null)
             {
                 RedirectToAction("NoEncontrado", "Home");
             }
-            await repositorioPaisDepto.EliminarPaisDepto(deptoPais);
-            await repositorioDepartamento.EliminarDepartamento(deptoPais.DepartamentoId);
+
+            await repositorioDepartamento.EditarDepartamento(modelo);
+            await repositorioPaisDepto.EliminarPaisDeptoPorDepto(modelo);
+            await repositorioPaisDepto.InsertarPaisDeptoPorDepto(modelo);
 
             return RedirectToAction("Departamento");
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> EliminarDepartamento(int departamentoId)
+        //{
+        //    var departamento = await repositorioDepartamento.ObtenerDepartamentoPorId(departamentoId);
+        //    var paisesDepto = await repositorioPais.ObtenerPaisPorDepto(departamentoId);
+
+        //    var modelo = new DeptoViewModel();
+
+        //    modelo.DepartamentoId = departamento.DepartamentoId;
+        //    modelo.DepartamentoNombre = departamento.DepartamentoNombre;
+        //    modelo.DepartamentoActivo = departamento.DepartamentoActivo;
+
+        //    modelo.Pais = paisesDepto;
+
+        //    if (modelo is null)
+        //    {
+        //        return RedirectToAction("NoEcontrado", "Home");
+        //    }
+
+        //    return View(modelo);
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> EliminarDepartamentoSelect(DeptoViewModel deptoPais)
+        //{
+        //    var existeDepto = await repositorioDepartamento.ObtenerDepartamentoPorId(deptoPais.DepartamentoId);
+
+        //    if (existeDepto is null)
+        //    {
+        //        RedirectToAction("NoEncontrado", "Home");
+        //    }
+        //    await repositorioPaisDepto.EliminarPaisDepto(deptoPais);
+        //    await repositorioDepartamento.EliminarDepartamento(deptoPais.DepartamentoId);
+
+        //    return RedirectToAction("Departamento");
+        //}
     }
 }

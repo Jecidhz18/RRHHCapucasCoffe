@@ -3,7 +3,7 @@ using RRHHCapucasCoffe.Models.Paises;
 
 namespace RRHHCapucasCoffe.Models.Departamentos
 {
-    public class DeptoViewModel : Departamento
+    public class DeptoEditarViewModel : Departamento
     {
         public IEnumerable<SelectListItem> Paises { get; set; }
         public int[] PaisId { get; set; }
