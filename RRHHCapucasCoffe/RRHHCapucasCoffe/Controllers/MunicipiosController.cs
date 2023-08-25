@@ -93,5 +93,12 @@ namespace RRHHCapucasCoffe.Controllers
 
             return RedirectToAction("Municipio");
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> EditarMunicipio(int municipioId)
+        //{
+        //    var municipio = await repositorioMunicipio.ObtenerMunicipioPorId(municipioId);
+        //    var paisDepto = await 
+        //}
     }
 }

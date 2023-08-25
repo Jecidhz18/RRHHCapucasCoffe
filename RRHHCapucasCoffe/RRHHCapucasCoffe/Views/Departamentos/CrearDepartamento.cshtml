@@ -11,12 +11,12 @@
     <div class="card-body">
         <h3 class="card-title">Crear Departamento</h3>
         
-        <form class="row g-3" asp-action="CrearDepartamento">
+        <form class="row g-3" asp-action="CrearDepartamento" onsubmit="return validarFormularioDt()">
             <div class="col-12">
                 <label asp-for="DepartamentoNombre" class="form-label"></label>
                 <input name="DepartamentoNombre" asp-for="DepartamentoNombre" type="text" class="form-control" autocomplete="off">
                 <span asp-validation-for="DepartamentoNombre" class="text-danger"></span>
-                <span id="error-custom-validate" class="text-danger error-custom-validate"></span>
+                <span id="validation-input-departamento" class="text-danger"></span>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
@@ -27,7 +27,7 @@
             <div class="accordion accordion-flush" id="accordionFlush">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                             Pais al que pertenece el departamento:
                         </button>
                     </h2>
@@ -54,16 +54,24 @@
                                     </button>
                                 </div>
                                 <div class="row justify-content-center table-responsive mt-1">
-                                    <table class="table col-2">
+                                    <table class="table col-12 mb-1">
                                         <thead>
                                             <tr>
-                                                <th>Acciones</th>
+                                                <th></th>
                                                 <th>Pais</th>
                                             </tr>
                                         </thead>
                                         <tbody id="data-table-body-dt">
                                         </tbody>
                                     </table>
+                                    <div class="row my-0">
+                                        <div class="col-3">
+
+                                        </div>
+                                        <div class="col-9">
+                                            <span id="validation-pais-table" class="text-danger"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

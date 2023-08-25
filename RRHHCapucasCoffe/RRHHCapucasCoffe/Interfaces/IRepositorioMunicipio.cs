@@ -6,5 +6,6 @@ namespace RRHHCapucasCoffe.Interfaces
     {
         Task CrearMunicipio(Municipio municipio);
         Task<bool> ExisteMunicipio(string municipioNombre);
+        Task<Municipio> ObtenerMunicipioPorId(int municipioId);
     }
 }

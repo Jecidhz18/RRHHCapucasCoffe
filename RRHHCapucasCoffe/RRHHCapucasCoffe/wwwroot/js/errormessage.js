@@ -11,3 +11,13 @@ function errorDepartamento(mensaje) {
     const mensajeError = document.getElementById('validation-departamento');
     mensajeError.textContent = mensaje;
 }
+
+function errorDepartamentoInput(mensaje) {
+    const mensajeError = document.getElementById('validation-input-departamento');
+    mensajeError.textContent = mensaje;
+}
+
+function errorPaisTable(mensaje) {
+    const mensajeError = document.getElementById('validation-pais-table');
+    mensajeError.textContent = mensaje;
+}

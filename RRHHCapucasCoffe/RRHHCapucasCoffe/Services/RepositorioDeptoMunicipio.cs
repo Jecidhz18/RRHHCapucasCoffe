@@ -19,11 +19,12 @@ namespace RRHHCapucasCoffe.Services
         {
             using var connection = new SqlConnection(connectionString);
 
-            foreach (var departamentoId in deptoMunicipio.DepartamentoId)
+            for (int i = 0; i < deptoMunicipio.PaisId.Count(); i++)
             {
                 await connection.ExecuteAsync(
-                    @"INSERT INTO DpDeptosMpios (DepartamentoId, MunicipioId)
-                    VALUES (@DepartamentoId, @MunicipioId)", new {municipioId = deptoMunicipio.MunicipioId, departamentoId});
+                    @"INSERT INTO DpDeptosMpios (PaisId, DepartamentoId, MunicipioId)
+                    VALUES (@PaisId, @DepartamentoId, @MunicipioId)",
+                    new { PaisId = deptoMunicipio.PaisId[i],DepartamentoId  = deptoMunicipio.DepartamentoId[i], deptoMunicipio.MunicipioId });
             }
         }
 

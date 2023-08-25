@@ -1,4 +1,11 @@
-﻿function addPaisDt() {
+﻿//accordion
+var accordionButton = document.getElementById("accordion-button");
+var accordionBody = document.getElementById("flush-collapseOne");
+
+//Input DepartamentoNombre
+var departamentoNombreInput = document.getElementsByName("DepartamentoNombre")[0];
+
+function addPaisDt() {
     const selectPaisDt = document.getElementById("select-pais-dt");
     const dataTableBodyDt = document.getElementById("data-table-body-dt");
     //Variables necesarias para validar no duplicados
@@ -16,7 +23,7 @@
         var paisIdValueDt = $(this).find('input[name="PaisId"]').val();
 
         if (paisIdValueDt == selectPaisDt.value) {
-            errorSummary("Ya existe el país");
+            errorPais("Ya existe el país");
             foundDuplicateDt = true;
             return false;
         }
@@ -26,6 +33,7 @@
         return;
     }
     errorSummary('');
+    errorPaisTable("");
 
     const nuevaFilaDt = document.createElement("tr");
     const celdaAccionesDt = document.createElement("td");
@@ -59,28 +67,42 @@ function eliminarFilaExistentesDt(botonEliminar) {
     // Eliminar la fila de la tabla
     fila.remove();
 }
-//$("form").submit(async function (event) {
-//    event.preventDefault(); // Prevenir el envío predeterminado
 
-//    const url = '/Departamentos/CrearDepartamento';
-///*    const formData = new FormData$(this); *//*// Obtener datos del formulario*/*/
+function validarFormularioDt() {
+    var paisIdInputs = document.getElementsByName("PaisId");
+    var errorsDepto = true;
 
-//    const formData = {
-//        DepartamentoNombre: $('#DepartamentoNombre').val(),
-//        DepartamentoActivo: $('#DepartamentoActivo').val()
-//    }
+    errorPaisTable("");
+    errorDepartamentoInput("");
+    errorPais("");
 
-//    const respuesta = await fetch(url, {
-//        method: 'POST',
-//        body: formData,
-//        headers: {
-//            'Content-Type': 'application/json'
-//        }
-//    });
+    if (paisIdInputs.length == 0) {
+        errorPaisTable("El campo País es requerido.");
+        accordionButton.classList.remove("collapsed")
+        accordionButton.setAttribute("aria-expanded", "true");
+        accordionBody.classList.add("show");
+        errorsDepto = false;
+    }
 
-//    if (respuesta.ok) {
-//        console.log("Exitoso");
-//    } else {
-//        console.log("fallido");
-//    }
-//});
+    if (departamentoNombreInput.value == departamentoNombreInput.value.toUpperCase() && departamentoNombreInput.value !== "") {
+        errorDepartamentoInput("No todas las letras pueden ser mayusculas.");
+        errorsDepto = false;
+    }
+
+    if (departamentoNombreInput.value[0] !== departamentoNombreInput.value[0].toUpperCase() && departamentoNombreInput.value !== "") {
+        errorDepartamentoInput("La primera letra debe ser mayuscula.")
+        errorsDepto = false;
+    }
+
+    if (!errorsDepto) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+departamentoNombreInput.addEventListener("input", function () {
+    if (departamentoNombreInput.value === "") {
+        errorDepartamentoInput("");
+    }
+});

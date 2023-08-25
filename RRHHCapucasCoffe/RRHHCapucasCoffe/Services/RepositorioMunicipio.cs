@@ -36,5 +36,15 @@ namespace RRHHCapucasCoffe.Services
 
             return existeMunicipio == 1;
         }
+
+        public async Task<Municipio> ObtenerMunicipioPorId(int municipioId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryFirstOrDefaultAsync<Municipio>(
+                @"Select MunicipioId, MunicipioNombre, MunicipioActivo
+                From DpMunicipios
+                WHERE MunicipioId = @MunicipioId", new { municipioId });
+        }
     }
 }
