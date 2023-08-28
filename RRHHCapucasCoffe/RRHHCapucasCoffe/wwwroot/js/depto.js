@@ -5,6 +5,8 @@ var accordionBody = document.getElementById("flush-collapseOne");
 //Input DepartamentoNombre
 var departamentoNombreInput = document.getElementsByName("DepartamentoNombre")[0];
 
+var deptoValidationRow = document.getElementById("validation-row");
+
 function addPaisDt() {
     const selectPaisDt = document.getElementById("select-pais-dt");
     const dataTableBodyDt = document.getElementById("data-table-body-dt");
@@ -34,6 +36,7 @@ function addPaisDt() {
     }
     errorSummary('');
     errorPaisTable("");
+    deptoValidationRow.classList.add("visually-hidden")
 
     const nuevaFilaDt = document.createElement("tr");
     const celdaAccionesDt = document.createElement("td");
@@ -81,6 +84,7 @@ function validarFormularioDt() {
         accordionButton.classList.remove("collapsed")
         accordionButton.setAttribute("aria-expanded", "true");
         accordionBody.classList.add("show");
+        deptoValidationRow.classList.remove("visually-hidden")
         errorsDepto = false;
     }
 

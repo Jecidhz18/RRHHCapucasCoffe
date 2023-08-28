@@ -1,4 +1,10 @@
-﻿
+﻿var accordionButtonMpio = document.getElementById("accordion-button-mpio");
+var accordionBody = document.getElementById("flush-collapseOne");
+
+//Input MunicipioNombre
+var municipioNombreInput = document.getElementsByName("MunicipioNombre")[0];
+
+var municipioValidationRow = document.getElementById("validation-row");
 
 // Función para agregar una fila a la tabla
 function addPaisDepto() {
@@ -21,6 +27,8 @@ function addPaisDepto() {
     }
     errorPais('');
     errorDepartamento('');
+    errorDepartamentoTable('');
+    errorPaisTable('');
 
     //Funcion para evitar que se ingresen valores duplicados a la tabla
     $('#data-table-body tr').each(function () {
@@ -28,7 +36,7 @@ function addPaisDepto() {
         var deptoIdValue = $(this).find('input[name="DepartamentoId"]').val();
 
         if (paisIdValue == selectPais.value && deptoIdValue == selectDepto.value) {
-            errorSummary("Ya existe el país y el departamento.");
+            errorDepartamento("Ya existe el departamento.");
             foundDuplicate = true;
             return false;
         }
@@ -38,6 +46,7 @@ function addPaisDepto() {
         return;
     }
     errorSummary('');
+    municipioValidationRow.classList.add("visually-hidden")
 
     const nuevaFila = document.createElement("tr");
     const celdaAcciones = document.createElement("td");
@@ -74,4 +83,51 @@ function addPaisDepto() {
     dataTableBody.appendChild(nuevaFila);
 }
 
+function validateFormMpio() {
+    var paisIdImputsMpio = document.getElementsByName("PaisId");
+    var deptoIdImputsMpio = document.getElementsByName("DepartamentoId");
+    var errorMunicipio = true;
 
+    errorPaisTable("");
+    errorPais("");
+
+    if (paisIdImputsMpio.length == 0) {
+        errorPaisTable("El campo País es requerido.")
+        accordionButtonMpio.classList.remove("collapsed");
+        accordionButtonMpio.setAttribute("aria-expanded", "true");
+        accordionBody.classList.add("show");
+        municipioValidationRow.classList.remove("visually-hidden")
+        errorMunicipio = false;
+    }
+
+    if (deptoIdImputsMpio.length == 0) {
+        errorDepartamentoTable("El campo Departamento es requerido");
+        accordionButtonMpio.classList.remove("collapsed");
+        accordionButtonMpio.setAttribute("aria-expanded", "true");
+        accordionBody.classList.add("show");
+        municipioValidationRow.classList.remove("visually-hidden")
+        errorMunicipio = false;
+    }
+
+    if (municipioNombreInput.value[0] !== municipioNombreInput.value[0].toUpperCase() && municipioNombreInput.value !== "") {
+        errorMunicipioNombre("La primera letra debe ser mayuscula.");
+        errorMunicipio = false;
+    }
+
+    if (municipioNombreInput.value == municipioNombreInput.value.toUpperCase() && municipioNombreInput.value !== "") {
+        errorMunicipioNombre("No todas las letras pueden ser mayusculas");
+        errorMunicipio = false;
+    }
+
+    if (!errorMunicipio) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+municipioNombreInput.addEventListener("input", function () {
+    if (municipioNombreInput.value === "") {
+        errorMunicipioNombre("");
+    }
+});

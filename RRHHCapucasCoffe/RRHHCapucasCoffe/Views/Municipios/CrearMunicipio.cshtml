@@ -11,11 +11,12 @@
     <div class="card-body">
         <h3 class="card-title">Crear Municipio</h3>
 
-        <form class="row g-3" asp-action="CrearMunicipio">
+        <form class="row g-3" asp-action="CrearMunicipio" onsubmit="return validateFormMpio()">
             <div class="col-12">
                 <label asp-for="MunicipioNombre" class="form-label"></label>
                 <input asp-for="MunicipioNombre" type="text" class="form-control" autocomplete="off">
                 <span asp-validation-for="MunicipioNombre" class="text-danger"></span>
+                <span id="validation-municipioNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
@@ -26,7 +27,7 @@
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <button id="accordion-button-mpio" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                             País y departamento al que pertenece el municipio:
                         </button>
                     </h2>
@@ -61,21 +62,25 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="row justify-content-center table-responsive">
-                                <table class="table col-2">
+                            <div class="table-responsive">
+                                <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Acciones</th>
-                                            <th scope="col">Pais</th>
-                                            <th scope="col">Departamento</th>
+                                            <th></th>
+                                            <th>Pais</th>
+                                            <th>Departamento</th>
                                         </tr>
                                     </thead>
                                     <tbody id="data-table-body">
-
+                                        <tr id="validation-row" class="">
+                                            <td></td>
+                                            <td><span id="validation-pais-table" class="text-danger"></span></td>
+                                            <td><span id="validation-depto-table" class="text-danger"></span></td>
+                                        </tr>
                                     </tbody>
                                 </table>
+                                
                             </div>
-                            
                         </div>
                     </div>
                 </div>
