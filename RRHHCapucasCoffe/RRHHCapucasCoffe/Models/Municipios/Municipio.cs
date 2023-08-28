@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RRHHCapucasCoffe.Validators;
+using System.ComponentModel.DataAnnotations;
 
 namespace RRHHCapucasCoffe.Models.Municipios
 {
@@ -7,6 +8,9 @@ namespace RRHHCapucasCoffe.Models.Municipios
         public int MunicipioId { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Display(Name = "Nombre del Municipio")]
+        [RegularExpression(@"^[A-Z+a-z ]*$", ErrorMessage = "Caracteres no validos")]
+        [NotAllUppercase]
+        [PrimeraLetraMayusAtribute]
         public string MunicipioNombre { get; set; }
         [Display(Name = "Activo")]
         public bool MunicipioActivo { get; set; }

@@ -37,6 +37,15 @@ namespace RRHHCapucasCoffe.Services
             return existeMunicipio == 1;
         }
 
+        public async Task<IEnumerable<Municipio>> ObtenerMunicipio()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Municipio>(
+                @"SELECT MunicipioId, MunicipioNombre, MunicipioActivo
+                FROM DpMunicipios");
+        }
+
         public async Task<Municipio> ObtenerMunicipioPorId(int municipioId)
         {
             using var connection = new SqlConnection(connectionString);
@@ -45,6 +54,16 @@ namespace RRHHCapucasCoffe.Services
                 @"Select MunicipioId, MunicipioNombre, MunicipioActivo
                 From DpMunicipios
                 WHERE MunicipioId = @MunicipioId", new { municipioId });
+        }
+
+        public async Task EditarMunicipio(MunicipioEditarViewModel municipio)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"UPDATE DpMunicipios
+                SET MunicipioNombre = @MunicipioNombre, MunicipioActivo = @MunicipioActivo
+                WHERE MunicipioId = @MunicipioId", municipio);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RRHHCapucasCoffe.Models.Departamentos;
+using RRHHCapucasCoffe.Models.Municipios;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -7,7 +8,11 @@ namespace RRHHCapucasCoffe.Services
     {
         public AutoMapperProfiles()
         {
+            //Departamento
             CreateMap<Departamento, DeptoEditarViewModel>();
+            //Municipio
+            CreateMap<Municipio, MunicipioEditarViewModel>();
+            CreateMap<PaisDeptoViewModel, MunicipioEditarViewModel>();
         }
     }
 }

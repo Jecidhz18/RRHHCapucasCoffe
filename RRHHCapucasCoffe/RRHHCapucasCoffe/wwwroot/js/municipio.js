@@ -83,6 +83,12 @@ function addPaisDepto() {
     dataTableBody.appendChild(nuevaFila);
 }
 
+function eliminarFilaExistenteMpio(botonEliminar) {
+    var fila = botonEliminar.closest('tr'); // Obtener la fila padre del botón
+    // Eliminar la fila de la tabla
+    fila.remove();
+}
+
 function validateFormMpio() {
     var paisIdImputsMpio = document.getElementsByName("PaisId");
     var deptoIdImputsMpio = document.getElementsByName("DepartamentoId");

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<RRHHCapucasCoffe.Models.Municipios.Municipio>
+
+@{
     ViewData["Title"] = "Municipio";
 }
 
@@ -25,12 +27,33 @@
             <table class="table dataTable" id="datatable">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th></th>
                         <th>Municipio</th>
                         <th>Municipio Activo</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach (var municipio in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex">
+                                    <a class="btn btn-outline-primary me-1" asp-action="EditarMunicipio" asp-route-municipioId="@municipio.MunicipioId" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-outline-danger me-1" asp-action="EliminarMunicipio" asp-route-municipioId="@municipio.MunicipioId" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>@municipio.MunicipioNombre</td>
+                            <td>
+                                <div class="form-checkbi-bag-check form-switch">
+                                    <input class="form-check-input" type="checkbox" disabled checked="@municipio.MunicipioActivo">
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
