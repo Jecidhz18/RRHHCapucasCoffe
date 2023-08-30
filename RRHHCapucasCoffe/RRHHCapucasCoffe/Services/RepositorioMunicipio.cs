@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Interfaces;
+using RRHHCapucasCoffe.Models.Departamentos;
 using RRHHCapucasCoffe.Models.Municipios;
+using RRHHCapucasCoffe.Models.TablasUniones;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -64,6 +66,18 @@ namespace RRHHCapucasCoffe.Services
                 @"UPDATE DpMunicipios
                 SET MunicipioNombre = @MunicipioNombre, MunicipioActivo = @MunicipioActivo
                 WHERE MunicipioId = @MunicipioId", municipio);
+        }
+
+        public async Task<IEnumerable<Municipio>> ObtenerMunicipioActivoPorDepto(PaisDepto paisDepto)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Municipio>(
+                @"SELECT m.MunicipioId, m.MunicipioNombre, m.MunicipioActivo
+                FROM DpMunicipios m
+                INNER JOIN DpDeptosMpios dm ON m.MunicipioId = dm.MunicipioId
+                WHERE dm.PaisId = @PaisId AND  dm.DepartamentoId = @DepartamentoId AND m.MunicipioActivo = '1'",
+                new { paisDepto.PaisId, paisDepto.DepartamentoId });
         }
     }
 }

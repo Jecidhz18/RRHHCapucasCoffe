@@ -8,7 +8,7 @@ namespace RRHHCapucasCoffe.Models.Municipios
         public int MunicipioId { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Display(Name = "Nombre del Municipio")]
-        [RegularExpression(@"^[A-Z+a-z ]*$", ErrorMessage = "Caracteres no validos")]
+        //[RegularExpression(@"^[A-Z+a-z ]*$", ErrorMessage = "Caracteres no validos")]
         [NotAllUppercase]
         [PrimeraLetraMayusAtribute]
         public string MunicipioNombre { get; set; }

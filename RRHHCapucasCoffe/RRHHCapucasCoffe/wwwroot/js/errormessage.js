@@ -2,6 +2,7 @@
     const mensajeError = document.getElementById('validation-summary');
     mensajeError.textContent = mensaje;
 }
+//Funciones para mostrar errores en los select para llenar la tablas de division politica
 function errorPais(mensaje) {
     const mensajeError = document.getElementById('validation-pais');
     mensajeError.textContent = mensaje;
@@ -12,6 +13,12 @@ function errorDepartamento(mensaje) {
     mensajeError.textContent = mensaje;
 }
 
+function errorMunicipio(mensaje) {
+    const mensajeError = document.getElementById('validation-municipio');
+    mensajeError.textContent = mensaje;
+}
+
+//Departamento
 function errorDepartamentoInput(mensaje) {
     const mensajeError = document.getElementById('validation-input-departamento');
     mensajeError.textContent = mensaje;
@@ -28,5 +35,15 @@ function errorDepartamentoTable(mensaje){
 
 function errorMunicipioNombre(mensaje) {
     const mensajeError = document.getElementById("validation-municipioNombre");
+    mensajeError.textContent = mensaje;
+}
+
+//Aldea
+function errorAldeaNombre(mensaje) {
+    const mensajeError = document.getElementById("validation-aldeaNombre");
+    mensajeError.textContent = mensaje;
+}
+function errorMunicipioTable(mensaje) {
+    const mensajeError = document.getElementById("validation-mpio-table")
     mensajeError.textContent = mensaje;
 }

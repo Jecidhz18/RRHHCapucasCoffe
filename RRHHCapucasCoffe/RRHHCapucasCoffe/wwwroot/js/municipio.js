@@ -95,7 +95,8 @@ function validateFormMpio() {
     var errorMunicipio = true;
 
     errorPaisTable("");
-    errorPais("");
+    errorDepartamentoTable("");
+    errorMunicipioNombre("");
 
     if (paisIdImputsMpio.length == 0) {
         errorPaisTable("El campo País es requerido.")

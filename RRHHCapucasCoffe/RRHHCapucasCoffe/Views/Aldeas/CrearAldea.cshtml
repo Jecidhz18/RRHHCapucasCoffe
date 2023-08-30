@@ -1,37 +1,178 @@
-﻿@model RRHHCapucasCoffe.Models.Aldeas.Aldea
+﻿@model RRHHCapucasCoffe.Models.Aldeas.AldeaCrearViewModel
 
 @{
     ViewData["Title"] = "Crear Aldeas";
 }
 
+<div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <div class="card">
     <div class="card-body">
         <h3 class="card-title">Crear Aldea</h3>
 
-        <form class="row g-3" asp-action="CrearAldea">
+        <form class="row g-3" asp-action="CrearAldea" onsubmit="return validateFormAldea()">
             <div class="col-12">
-                <label asp-for="DivisionPoliticaAldeaNombre" class="form-label"></label>
-                <input asp-for="DivisionPoliticaAldeaNombre" type="text" class="form-control">
-                <span asp-validation-for="DivisionPoliticaAldeaNombre" class="text-danger"></span>
+                <label asp-for="AldeaNombre" class="form-label"></label>
+                <input asp-for="AldeaNombre" type="text" class="form-control" autocomplete="off">
+                <span asp-validation-for="AldeaNombre" class="text-danger"></span>
+                <span id="validation-aldeaNombre" class="text-danger"></span>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
-                    <label asp-for="DivisionPoliticaAldeaActivo" class="form-check-label"></label>
-                    <input asp-for="DivisionPoliticaAldeaActivo" class="form-check-input" type="checkbox">
+                    <label asp-for="AldeaActivo" class="form-check-label"></label>
+                    <input asp-for="AldeaActivo" class="form-check-input" type="checkbox" checked>
                 </div>
             </div>
-            <div>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button id="accordion-button-aldea" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            País, departamento y municipio al que pertenece la aldea:
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse mt-2" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div>
+                                    <span id="validation-summary" class="text-danger"></span>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select" id="select-pais" asp-items="@Model.Paises">
+                                        <option selected>Seleccione una opción</option>
+                                    </select>
+                                    <div>
+                                        <span id="validation-pais" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select" id="select-depto" asp-items="@Model.Departamentos">
+                                        <option selected>Seleccione una opción</option>
+                                    </select>
+                                    <div>
+                                        <span id="validation-departamento" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select" id="select-mpio" asp-items="@Model.Municipios">
+                                        <option selected>Seleccione una opción</option>
+                                    </select>
+                                    <div>
+                                        <span id="validation-municipio" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <button type="button" onclick="addPaisDeptoMpio()" class="d-flex align-items-center btn btn-outline-primary mx-1" title="Agregar">
+                                        <span>
+                                            <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                            <span class="mx-1 d-none d-lg-block">Agregar</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Pais</th>
+                                            <th>Departamento</th>
+                                            <th>Municipio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="data-table-body">
+                                        <tr id="validation-row" class="visually-hidden">
+                                            <td></td>
+                                            <td><span id="validation-pais-table" class="text-danger"></span></td>
+                                            <td><span id="validation-depto-table" class="text-danger"></span></td>
+                                            <td><span id="validation-mpio-table" class="text-danger"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="text-center">
-                <button type="submit" class="btn btn-primary">Crear</button>
-                <button type="reset" class="btn btn-secondary">Limpiar</button>
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Aldea", "Aldeas")'">Cancelar</button>
             </div>
         </form>
     </div>
 </div>
 
-
-@section Scripts {
+@section Scripts{
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/aldea.js" asp-append-version="true"></script>
+
+    <script>
+        const urlGetDepto = '@Url.Action("ObtenerDepartamentos")';
+        const urlGetMpio = '@Url.Action("ObtenerMunicipios")'
+
+        $(function () {
+            $("#select-pais").change(async function () {
+                const valueSelect = $(this).val();
+
+                const result = await fetch(urlGetDepto, {
+                    method: 'POST',
+                    body: JSON.stringify({ PaisId: valueSelect }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const json = await result.json();
+                const options =
+                    json.map(depto => `<option value=${depto.value}>${depto.text}</option>`);
+
+                // Obtener la opción "Seleccione una opción"
+                const selectOption = $("#select-depto option:first");
+
+                // Eliminar las opciones después de la opción "Seleccione una opción"
+                $("#select-depto option").remove(':gt(0)');
+
+                // Agregar las nuevas opciones después de la opción "Seleccione una opción"
+                selectOption.after(options.join(''));
+                //$("#DepartamentoId").html(options);
+            })
+        })
+
+        $(function () {
+            $("#select-depto").change(async function () {
+                const valueSelectPais = document.getElementById('select-pais').value;
+                const valueSelectDepto = $(this).val();
+
+                const result = await fetch(urlGetMpio, {
+                    method: 'POST',
+                    body: JSON.stringify({ PaisId: valueSelectPais,DepartamentoId: valueSelectDepto }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const json = await result.json();
+                const options =
+                    json.map(mpio => `<option value=${mpio.value}>${mpio.text}</option>`);
+
+                // Obtener la opción "Seleccione una opción"
+                const selectOption = $("#select-mpio option:first");
+                // Eliminar las opciones después de la opción "Seleccione una opción"
+                $("#select-mpio option").remove(':gt(0)');
+                // Agregar las nuevas opciones después de la opción "Seleccione una opción"
+                selectOption.after(options.join(''));
+                //$("#DepartamentoId").html(options);
+            })
+        })
+
+
+        $('#select-pais, #select-depto').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+        });
+    </script>
 }

@@ -10,7 +10,7 @@ namespace RRHHCapucasCoffe.Models.Paises
         [Display(Name = "Nombre del Pais")]
         [PrimeraLetraMayusAtribute(ErrorMessage = "La primera letra debe ser mayuscula")]
         [NotAllUppercase]
-        [RegularExpression(@"^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]*$", ErrorMessage = "Caracteres no validos")]
+        //[RegularExpression(@"^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]*$", ErrorMessage = "Caracteres no validos")]
         public string PaisNombre { get; set; }
         [Display(Name = "Activo")]
         public bool PaisActivo { get; set; }

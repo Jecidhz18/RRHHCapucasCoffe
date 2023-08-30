@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Departamentos;
+using RRHHCapucasCoffe.Models.Paises;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -18,11 +19,12 @@ namespace RRHHCapucasCoffe.Services
         {
             using var connection = new SqlConnection(connectionString);
 
-            foreach (var paisId in deptoPais.PaisId)
+            for (int i = 0; i < deptoPais.PaisId.Count(); i++)
             {
                 await connection.ExecuteAsync(
-                        @"INSERT INTO DpPaisesDeptos (PaisId, DepartamentoId)
-                        VALUES (@PaisId, @DepartamentoId)", new { departamentoId = deptoPais.DepartamentoId, paisId });
+                    @"INSERT INTO DpPaisesDeptos (PaisId, DepartamentoId)
+                    VALUES (@PaisId, @DepartamentoId)",
+                    new { PaisId = deptoPais.PaisId[i], deptoPais.DepartamentoId });
             }
         }
 
@@ -30,29 +32,21 @@ namespace RRHHCapucasCoffe.Services
         {
             using var connection = new SqlConnection(connectionString);
 
-            foreach (var paisId in deptoPais.PaisId)
-            {
-                await connection.ExecuteAsync(
-                    @"DELETE FROM DpPaisesDeptos
-                    WHERE PaisId NOT IN @PaisId
-                    AND DepartamentoId = @DepartamentoId;", new { deptoPais.PaisId, deptoPais.DepartamentoId });
-            }
+            await connection.ExecuteAsync(
+                @"DELETE FROM DpPaisesDeptos
+                WHERE DepartamentoId = @DepartamentoId", new {deptoPais.DepartamentoId});
         }
 
         public async Task InsertarPaisDeptoPorDepto(DeptoEditarViewModel deptoPais)
         {
             using var connection = new SqlConnection(connectionString);
 
-            foreach (var paisId in deptoPais.PaisId)
+            for (int i = 0; i < deptoPais.PaisId.Count(); i++)
             {
                 await connection.ExecuteAsync(
                     @"INSERT INTO DpPaisesDeptos (PaisId, DepartamentoId)
-                    SELECT @PaisId, @DepartamentoId
-                    WHERE NOT EXISTS (
-                    SELECT 1
-                    FROM DpPaisesDeptos
-                    WHERE PaisId = @PaisId AND DepartamentoId = @DepartamentoId)",
-                    new { PaisId = paisId, DepartamentoId = deptoPais.DepartamentoId });
+                    VALUES (@PaisId, @DepartamentoId)",
+                    new {PaisId = deptoPais.PaisId[i], deptoPais.DepartamentoId});
             }
         }
 

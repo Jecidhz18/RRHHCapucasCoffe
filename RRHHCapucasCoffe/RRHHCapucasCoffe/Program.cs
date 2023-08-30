@@ -18,6 +18,8 @@ builder.Services.AddTransient<IRepositorioCargo, RepositorioCargo>();
 builder.Services.AddTransient<IRepositorioPaisDepto, RepositorioPaisDepto>();
 builder.Services.AddTransient<IRepositorioMunicipio, RepositorioMunicipio>();
 builder.Services.AddTransient<IRepositorioDeptoMunicipio, RepositorioDeptoMunicipio>();
+builder.Services.AddTransient<IRepositorioAldea, RepositorioAldea>();
+builder.Services.AddTransient<IRepositorioMpioAldea, RepositorioMpioAldea>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
