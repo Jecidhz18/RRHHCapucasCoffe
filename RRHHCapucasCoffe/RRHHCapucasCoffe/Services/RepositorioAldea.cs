@@ -45,5 +45,26 @@ namespace RRHHCapucasCoffe.Services
                 @"SELECT AldeaId, AldeaNombre, AldeaActivo
                 FROM DpAldeas");
         }
+
+        public async Task<Aldea> ObtenerAldeaPorId(int aldeaId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryFirstOrDefaultAsync<Aldea>(
+                @"SELECT AldeaId, AldeaNombre, AldeaActivo
+                FROM DpAldeas
+                WHERE AldeaId = @AldeaId", new { aldeaId });
+        }
+
+        public async Task EditarAldea(AldeaEditarViewModel aldea)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.QueryAsync(@"UPDATE DpAldeas
+                SET AldeaNombre = @AldeaNombre, AldeaActivo = @AldeaActivo
+                WHERE AldeaId = @AldeaId", aldea);
+        }
+
+
     }
 }

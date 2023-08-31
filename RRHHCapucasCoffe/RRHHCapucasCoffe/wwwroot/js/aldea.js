@@ -44,9 +44,9 @@ function addPaisDeptoMpio() {
     $('#data-table-body tr').each(function () {
         var paisIdValue = $(this).find('input[name="PaisId"]').val();
         var deptoIdValue = $(this).find('input[name="DepartamentoId"]').val();
-        var mpioIdValue = $(this).find('input[name="DepartamentoId"]').val();
+        var mpioIdValue = $(this).find('input[name="MunicipioId"]').val();
 
-        if (paisIdValue == selectPais.value && deptoIdValue == selectDepto.value && paisIdValue == selectMpio.value) {
+        if (paisIdValue == selectPais.value && deptoIdValue == selectDepto.value && mpioIdValue == selectMpio.value) {
             errorMunicipio("Ya existe el Municipio.");
             foundDuplicate = true;
             return false;
@@ -156,6 +156,12 @@ function validateFormAldea() {
     } else {
         return true;
     }
+}
+
+function eliminarFilaExistenteAldea(botonEliminar) {
+    var fila = botonEliminar.closest('tr'); // Obtener la fila padre del botón
+    // Eliminar la fila de la tabla
+    fila.remove();
 }
 
 aldeaNombreInput.addEventListener("input", function () {

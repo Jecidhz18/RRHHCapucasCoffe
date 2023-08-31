@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Aldeas;
@@ -14,15 +15,17 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IRepositorioMunicipio repositorioMunicipio;
         private readonly IRepositorioAldea repositorioAldea;
         private readonly IRepositorioMpioAldea repositorioMpioAldea;
+        private readonly IMapper mapper;
 
         public AldeasController(IRepositorioPais repositorioPais, IRepositorioDepartamento repositorioDepartamento, IRepositorioMunicipio repositorioMunicipio,
-            IRepositorioAldea repositorioAldea, IRepositorioMpioAldea repositorioMpioAldea) 
+            IRepositorioAldea repositorioAldea, IRepositorioMpioAldea repositorioMpioAldea, IMapper mapper) 
         {
             this.repositorioPais = repositorioPais;
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioMunicipio = repositorioMunicipio;
             this.repositorioAldea = repositorioAldea;
             this.repositorioMpioAldea = repositorioMpioAldea;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> Aldea()
@@ -67,6 +70,62 @@ namespace RRHHCapucasCoffe.Controllers
 
             return RedirectToAction("Aldea");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditarAldea(int aldeaId)
+        {
+            var existeAldea = await repositorioAldea.ObtenerAldeaPorId(aldeaId);
+
+            if (existeAldea is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+
+            var paisDeptoMpio = await repositorioMpioAldea.ObtenerPaisDeptoMpioPorAldea(aldeaId);
+
+            var modelo = new AldeaEditarViewModel();
+            mapper.Map(existeAldea, modelo);
+            modelo.PaisDeptoMpio = mapper.Map<IEnumerable<PaisDeptoMpioViewModel>>(paisDeptoMpio);
+
+            modelo.Paises = await ObtenerPaises();
+
+            return View(modelo);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditarAldea(AldeaEditarViewModel modelo)
+        {
+            var existeAldea = await repositorioMunicipio.ObtenerMunicipioPorId(modelo.AldeaId);
+
+            if (!ModelState.IsValid)
+            {
+                var paisDeptoMpio = await repositorioMpioAldea.ObtenerPaisDeptoMpioPorAldea(modelo.AldeaId);
+                modelo.PaisDeptoMpio = mapper.Map<IEnumerable<PaisDeptoMpioViewModel>>(paisDeptoMpio);
+                modelo.Paises = await ObtenerPaises();
+                return View(modelo);
+            }
+
+            if (existeAldea is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+
+            if (modelo.PaisId == null || modelo.DepartamentoId == null || modelo.MunicipioId == null)
+            {
+                modelo.Paises = await ObtenerPaises();
+                var paisDeptoMpio = await repositorioMpioAldea.ObtenerPaisDeptoMpioPorAldea(modelo.AldeaId);
+                modelo.PaisDeptoMpio = mapper.Map<IEnumerable<PaisDeptoMpioViewModel>>(paisDeptoMpio);
+                ModelState.AddModelError("", $"Por favor, seleccione una opción en todos los campos antes de enviar los datos.");
+                return View(modelo);
+            }
+
+            await repositorioAldea.EditarAldea(modelo);
+            await repositorioMpioAldea.EliminarPaisDeptoMpioPorAldea(modelo);
+            await repositorioMpioAldea.InsertarPaisDeptoMpioAldea(modelo);
+
+            return RedirectToAction("Aldea");
+        }
+
         //Metodo AJAX para obtener departamentos
         [HttpPost]
         public async Task<IActionResult> ObtenerDepartamentos([FromBody] Pais pais)

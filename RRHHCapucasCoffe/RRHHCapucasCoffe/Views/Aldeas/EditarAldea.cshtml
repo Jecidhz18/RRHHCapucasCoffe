@@ -1,7 +1,7 @@
-﻿@model RRHHCapucasCoffe.Models.Aldeas.AldeaCrearViewModel
+﻿@model RRHHCapucasCoffe.Models.Aldeas.AldeaEditarViewModel
 
 @{
-    ViewData["Title"] = "Crear Aldea";
+    ViewData["Title"] = "Editar Aldea";
 }
 
 <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
@@ -12,7 +12,8 @@
     <div class="card-body">
         <h3 class="card-title">Crear Aldea</h3>
 
-        <form class="row g-3" asp-action="CrearAldea" onsubmit="return validateFormAldea()">
+        <form class="row g-3" asp-action="EditarAldea" onsubmit="return validateFormAldea()">
+            <input type="hidden" asp-for="AldeaId"/>
             <div class="col-12">
                 <label asp-for="AldeaNombre" class="form-label"></label>
                 <input asp-for="AldeaNombre" type="text" class="form-control" autocomplete="off">
@@ -82,6 +83,26 @@
                                         </tr>
                                     </thead>
                                     <tbody id="data-table-body">
+                                        @foreach (var item in Model.PaisDeptoMpio)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <button onclick="eliminarFilaExistenteAldea(this)" class="btn btn-outline-danger btn-sm bi bi-trash"></button>
+                                                </td>
+                                                <td>
+                                                    @item.PaisNombre
+                                                    <input type="hidden" name="PaisId" value="@item.PaisId"/>
+                                                </td>
+                                                <td>
+                                                    @item.DepartamentoNombre
+                                                    <input type="hidden" name="DepartamentoId" value="@item.DepartamentoId"/>
+                                                </td>
+                                                <td>
+                                                    @item.MunicipioNombre
+                                                    <input type="hidden" name="MunicipioId" value="@item.MunicipioId"/>
+                                                </td>
+                                            </tr>
+                                        }
                                         <tr id="validation-row" class="visually-hidden">
                                             <td></td>
                                             <td><span id="validation-pais-table" class="text-danger"></span></td>
@@ -148,7 +169,7 @@
 
                 const result = await fetch(urlGetMpio, {
                     method: 'POST',
-                    body: JSON.stringify({ PaisId: valueSelectPais,DepartamentoId: valueSelectDepto }),
+                    body: JSON.stringify({ PaisId: valueSelectPais, DepartamentoId: valueSelectDepto }),
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -176,3 +197,4 @@
         });
     </script>
 }
+

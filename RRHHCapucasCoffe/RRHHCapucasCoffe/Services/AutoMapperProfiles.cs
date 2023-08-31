@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RRHHCapucasCoffe.Models.Aldeas;
 using RRHHCapucasCoffe.Models.Departamentos;
 using RRHHCapucasCoffe.Models.Municipios;
 
@@ -13,6 +14,9 @@ namespace RRHHCapucasCoffe.Services
             //Municipio
             CreateMap<Municipio, MunicipioEditarViewModel>();
             CreateMap<PaisDeptoViewModel, MunicipioEditarViewModel>();
+            //Aldea
+            CreateMap<Aldea, AldeaEditarViewModel>();
+            CreateMap<PaisDeptoMpioViewModel, AldeaEditarViewModel>();
         }
     }
 }
