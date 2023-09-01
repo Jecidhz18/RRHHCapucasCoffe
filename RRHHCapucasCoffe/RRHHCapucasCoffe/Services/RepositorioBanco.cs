@@ -19,8 +19,8 @@ namespace RRHHCapucasCoffe.Services
             using var connection = new SqlConnection(connectionString);
 
             var bancoId = await connection.QuerySingleAsync<int>(
-                @"INSERT INTO Bancos (BancoNombre, BancoActivo, BancoUsuarioGrabo, BancoFechaGrabo, BancoUsuarioModifico, BancoFechaModifico)
-                VALUES (@BancoNombre, @BancoActivo, @BancoUsuarioGrabo, @BancoFechaGrabo, @BancoUsuarioModifico, @BancoFechaModifico)
+                @"INSERT INTO Bancos (BancoNombre, BancoActivo, BancoUsuarioGrabo, BancoFechaGrabo)
+                VALUES (@BancoNombre, @BancoActivo, @BancoUsuarioGrabo, @BancoFechaGrabo)
                 SELECT SCOPE_IDENTITY();", banco);
 
             banco.BancoId = bancoId;
@@ -37,17 +37,17 @@ namespace RRHHCapucasCoffe.Services
             return existeBanco == 1;
         }
 
-        public async Task<IEnumerable<Banco>> ObtenerBanco()
+        public async Task<IEnumerable<BancoViewModel>> ObtenerBanco()
         {
             using var connection = new SqlConnection(connectionString);
 
-            return await connection.QueryAsync<Banco>(
-                @"SELECT Bancos.BancoId, Bancos.BancoNombre, Bancos.BancoActivo,
-		        UG.UsuarioCuenta AS BUsuarioGrabo, Bancos.BancoFechaGrabo, 
-		        UM.UsuarioCuenta AS BUsuarioModifico, Bancos.BancoFechaModifico
-                FROM Bancos
-                INNER JOIN Usuarios UG ON UG.UsuarioId = Bancos.BancoUsuarioGrabo
-                INNER JOIN Usuarios UM ON UM.UsuarioId = Bancos.BancoUsuarioModifico");
+            return await connection.QueryAsync<BancoViewModel>(
+                @"SELECT b.BancoId, b.BancoNombre, b.BancoActivo, 
+                         b.BancoUsuarioGrabo, ug.UsuarioCuenta AS BUsuarioGrabo, b.BancoFechaGrabo,
+	                     b.BancoUsuarioModifico, um.UsuarioCuenta AS BUsuarioModifico, b.BancoFechaModifico
+                FROM Bancos b
+                INNER JOIN Usuarios ug ON ug.UsuarioId = b.BancoUsuarioGrabo
+                LEFT JOIN Usuarios um ON um.UsuarioId = b.BancoUsuarioModifico;");
         }
 
         public async Task<Banco> ObtenerBancoPorId(int bancoId)

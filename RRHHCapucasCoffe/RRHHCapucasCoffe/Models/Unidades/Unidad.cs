@@ -15,11 +15,11 @@ namespace RRHHCapucasCoffe.Models.Unidades
         [Display(Name = "Activo")]
         public bool UnidadActiva { get; set; }
         [Display(Name = "Usuario Grabo")]
-        public string UnidadUsuarioGrabo { get; set; } 
+        public Guid UnidadUsuarioGrabo { get; set; } 
         [Display(Name = "Fecha Grabo")]
         public DateTime UnidadFechaGrabo { get; set; }
         [Display(Name = "Usuario Actualizo")]
-        public string UnidadUsuarioModifico { get; set; }
+        public Guid UnidadUsuarioModifico { get; set; }
         [Display(Name = "Fecha Actualizo")]
         public DateTime UnidadFechaModifico { get; set; }
     }

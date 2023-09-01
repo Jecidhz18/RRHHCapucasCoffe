@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Unidades;
+using RRHHCapucasCoffe.Models.Usuarios;
 
 namespace RRHHCapucasCoffe.Controllers
 {
@@ -41,10 +42,10 @@ namespace RRHHCapucasCoffe.Controllers
                 return View(unidad);
             }
 
+            var usuario = await repositorioUsuario.ObtenerUsuario();
+
             unidad.UnidadFechaGrabo = DateTime.Now;
-            unidad.UnidadUsuarioGrabo = await repositorioUsuario.ObtenerUsuario();
-            unidad.UnidadFechaModifico = DateTime.Now;
-            unidad.UnidadUsuarioModifico = await repositorioUsuario.ObtenerUsuario();
+            unidad.UnidadUsuarioGrabo = usuario.UsuarioId;
             await repositorioUnidad.CrearUnidad(unidad);
 
             return RedirectToAction("Unidad");
@@ -65,14 +66,17 @@ namespace RRHHCapucasCoffe.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarUnidad(Unidad unidad)
         {
-            unidad.UnidadFechaModifico = DateTime.Now;
-            unidad.UnidadUsuarioModifico = await repositorioUsuario.ObtenerUsuario();
             var existeUnidad = await repositorioUnidad.ObtenerUnidadPorId(unidad.UnidadId);
 
             if (existeUnidad is null)
             {
                 return RedirectToAction("NoEncontro", "Home");
             }
+
+            var usuario = await repositorioUsuario.ObtenerUsuario();
+
+            unidad.UnidadUsuarioModifico = usuario.UsuarioId;
+            unidad.UnidadFechaModifico = DateTime.Now;
 
             await repositorioUnidad.EditarUnidad(unidad);
             return RedirectToAction("Unidad");

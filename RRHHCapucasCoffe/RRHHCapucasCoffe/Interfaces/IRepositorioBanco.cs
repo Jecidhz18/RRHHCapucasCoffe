@@ -8,7 +8,7 @@ namespace RRHHCapucasCoffe.Interfaces
         Task EditarBanco(Banco banco);
         Task EliminarBanco(int bancoId);
         Task<bool> ExisteBanco(string bancoNombre);
-        Task<IEnumerable<Banco>> ObtenerBanco();
+        Task<IEnumerable<BancoViewModel>> ObtenerBanco();
         Task<Banco> ObtenerBancoPorId(int bancoId);
     }
 }

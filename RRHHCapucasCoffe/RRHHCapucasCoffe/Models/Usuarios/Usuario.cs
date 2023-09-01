@@ -2,7 +2,7 @@
 {
     public class Usuario
     {
-        public string UsuarioId { get; set; }
+        public Guid UsuarioId { get; set; }
         public string UsuarioCuenta { get; set; }
     }
 }

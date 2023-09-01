@@ -42,8 +42,10 @@ namespace RRHHCapucasCoffe.Controllers
                 return View(profesion);
             }
 
+            var usuario = await repositorioUsuario.ObtenerUsuario();
+
             profesion.ProfesionFechaGrabo = DateTime.Now;
-            profesion.ProfesionUsuarioGrabo = await repositorioUsuario.ObtenerUsuario();
+            profesion.ProfesionUsuarioGrabo = usuario.UsuarioId;
 
             await repositorioProfesion.CrearProfesion(profesion);
 

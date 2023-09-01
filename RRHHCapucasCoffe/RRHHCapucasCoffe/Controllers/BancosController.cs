@@ -40,11 +40,11 @@ namespace RRHHCapucasCoffe.Controllers
                 ModelState.AddModelError("", $"El banco {banco.BancoNombre} ya existe!");
                 return View(banco); 
             }
+            
+            var usuario = await repositorioUsuario.ObtenerUsuario();
 
-            banco.BancoUsuarioGrabo = await repositorioUsuario.ObtenerUsuario();
+            banco.BancoUsuarioGrabo = usuario.UsuarioId;
             banco.BancoFechaGrabo = DateTime.Now;
-            banco.BancoUsuarioModifico = await repositorioUsuario.ObtenerUsuario();
-            banco.BancoFechaModifico = DateTime.Now;
 
             await repositorioBanco.CrearBanco(banco);
             return RedirectToAction("Banco");
@@ -71,7 +71,9 @@ namespace RRHHCapucasCoffe.Controllers
                 return NotFound();
             }
 
-            banco.BancoUsuarioModifico = await repositorioUsuario.ObtenerUsuario();
+            var usuario = await repositorioUsuario.ObtenerUsuario();
+
+            banco.BancoUsuarioModifico = usuario.UsuarioId;
             banco.BancoFechaModifico = DateTime.Now;
 
             await repositorioBanco.EditarBanco(banco);
@@ -80,33 +82,33 @@ namespace RRHHCapucasCoffe.Controllers
             return RedirectToAction("Banco");
         }
 
-        [HttpGet]
+        //[HttpGet]
 
-        public async Task<IActionResult> EliminarBanco(int bancoId)
-        {
-            var banco = await repositorioBanco.ObtenerBancoPorId(bancoId);
+        //public async Task<IActionResult> EliminarBanco(int bancoId)
+        //{
+        //    var banco = await repositorioBanco.ObtenerBancoPorId(bancoId);
 
-            if (banco is null)
-            {
-                return RedirectToAction("NoEncontrado", "Home");
-            }
+        //    if (banco is null)
+        //    {
+        //        return RedirectToAction("NoEncontrado", "Home");
+        //    }
 
-            return View(banco);
-        }
+        //    return View(banco);
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> EliminarBancoSelect(int bancoId)
-        {
-            var banco = await repositorioBanco.ObtenerBancoPorId(bancoId);
+        //[HttpPost]
+        //public async Task<IActionResult> EliminarBancoSelect(int bancoId)
+        //{
+        //    var banco = await repositorioBanco.ObtenerBancoPorId(bancoId);
 
-            if (banco is null)
-            {
-                return RedirectToAction("NoEncontrado","Home");
-            }
+        //    if (banco is null)
+        //    {
+        //        return RedirectToAction("NoEncontrado","Home");
+        //    }
 
-            await repositorioBanco.EliminarBanco(bancoId);
+        //    await repositorioBanco.EliminarBanco(bancoId);
 
-            return RedirectToAction("Banco");
-        }
+        //    return RedirectToAction("Banco");
+        //}
     }
 }

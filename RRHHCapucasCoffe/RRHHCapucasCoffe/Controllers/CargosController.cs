@@ -41,7 +41,9 @@ namespace RRHHCapucasCoffe.Controllers
                 return View(cargo);
             }
 
-            cargo.CargoUsuarioGrabo = await repositorioUsuario.ObtenerUsuario();
+            var usuario = await repositorioUsuario.ObtenerUsuario();
+
+            cargo.CargoUsuarioGrabo = usuario.UsuarioId;
             cargo.CargoFechaGrabo = DateTime.Now;
 
             await repositorioCargo.CrearCargo(cargo);

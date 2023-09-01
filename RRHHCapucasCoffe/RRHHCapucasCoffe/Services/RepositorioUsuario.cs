@@ -14,11 +14,14 @@ namespace RRHHCapucasCoffe.Services
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<int> ObtenerUsuario()
+        public async Task<Usuario> ObtenerUsuario()
         {
             using var connection = new SqlConnection(connectionString);
 
-            return await connection.QueryFirstOrDefaultAsync<int>(@"SELECT UsuarioId FROM Usuarios WHERE UsuarioId = '2'");
+            return await connection.QueryFirstOrDefaultAsync<Usuario>(
+                @"SELECT UsuarioId, UsuarioCuenta 
+                FROM Usuarios 
+                WHERE UsuarioId = 'ABB27757-6CAD-4EED-88C3-11CBACCAFCF9'");
         }
     }
 }

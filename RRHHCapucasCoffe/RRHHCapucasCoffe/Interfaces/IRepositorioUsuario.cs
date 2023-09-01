@@ -4,6 +4,6 @@ namespace RRHHCapucasCoffe.Interfaces
 {
     public interface IRepositorioUsuario
     {
-        Task<int> ObtenerUsuario();
+        Task<Usuario> ObtenerUsuario();
     }
 }
