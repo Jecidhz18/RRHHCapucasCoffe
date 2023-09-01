@@ -10,11 +10,9 @@ namespace RRHHCapucasCoffe.Models.Bancos
         [NotAllUppercase]
         public string BancoNombre { get; set; }
         public bool BancoActivo { get; set; }
-        public int BancoUsuarioGrabo { get; set; }
+        public string BancoUsuarioGrabo { get; set; }
         public DateTime BancoFechaGrabo { get; set; }
-        public int BancoUsuarioModifico { get; set; }
+        public string BancoUsuarioModifico { get; set; }
         public DateTime BancoFechaModifico { get; set; }
-        public string BUsuarioGrabo { get; set; }
-        public string BUsuarioModifico { get; set; }
     }
 }
