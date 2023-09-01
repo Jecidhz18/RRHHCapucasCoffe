@@ -19,8 +19,8 @@ namespace RRHHCapucasCoffe.Models.Unidades
         [Display(Name = "Fecha Grabo")]
         public DateTime UnidadFechaGrabo { get; set; }
         [Display(Name = "Usuario Actualizo")]
-        public Guid UnidadUsuarioModifico { get; set; }
+        public Guid? UnidadUsuarioModifico { get; set; }
         [Display(Name = "Fecha Actualizo")]
-        public DateTime UnidadFechaModifico { get; set; }
+        public DateTime? UnidadFechaModifico { get; set; }
     }
 }

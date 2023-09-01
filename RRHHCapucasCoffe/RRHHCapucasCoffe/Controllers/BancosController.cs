@@ -37,7 +37,7 @@ namespace RRHHCapucasCoffe.Controllers
             
             if ( existeBanco )
             {
-                ModelState.AddModelError("", $"El banco {banco.BancoNombre} ya existe!");
+                ModelState.AddModelError("", $"El banco {banco.BancoNombre} ya existe.");
                 return View(banco); 
             }
             

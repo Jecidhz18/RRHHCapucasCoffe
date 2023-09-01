@@ -19,8 +19,8 @@ namespace RRHHCapucasCoffe.Services
             using var connection = new SqlConnection(connectionString);
 
             await connection.QueryFirstOrDefaultAsync(
-                @"INSERT INTO Unidades (UnidadDescripcion, UnidadActiva, UnidadUsuarioGrabo, UnidadFechaGrabo, UnidadUsuarioModifico, UnidadFechaModifico)
-                VALUES (@UnidadDescripcion, @UnidadActiva, @UnidadUsuarioGrabo, @UnidadFechaGrabo, @UnidadUsuarioModifico, @UnidadFechaModifico)", unidad);
+                @"INSERT INTO Unidades (UnidadDescripcion, UnidadActiva, UnidadUsuarioGrabo, UnidadFechaGrabo)
+                VALUES (@UnidadDescripcion, @UnidadActiva, @UnidadUsuarioGrabo, @UnidadFechaGrabo)", unidad);
         }
 
         public async Task<bool> ExisteUnidad(string unidadDescripcion)
@@ -34,17 +34,17 @@ namespace RRHHCapucasCoffe.Services
             return existeUnidad == 1;
         }
 
-        public async Task<IEnumerable<Unidad>> ObtenerUnidad()
+        public async Task<IEnumerable<UnidadViewModel>> ObtenerUnidad()
         {
             using var connection = new SqlConnection(connectionString);
 
-            return await connection.QueryAsync<Unidad>(
-                @"SELECT Unidades.UnidadId, Unidades.UnidadDescripcion, Unidades.UnidadActiva,
-                    UG.UsuarioCuenta AS UsuarioGrabo, Unidades.UnidadFechaGrabo,
-                    UM.UsuarioCuenta AS UsuarioModifico, Unidades.UnidadFechaModifico
-                FROM Unidades
-                INNER JOIN Usuarios UG ON UG.UsuarioId = Unidades.UnidadUsuarioGrabo
-                INNER JOIN Usuarios UM ON UM.UsuarioId = Unidades.UnidadUsuarioModifico");
+            return await connection.QueryAsync<UnidadViewModel>(
+                @"SELECT u.UnidadId, u.UnidadDescripcion, u.UnidadActiva,
+                         u.UnidadUsuarioGrabo, ug.UsuarioCuenta AS UUsuarioGrabo, u.UnidadFechaGrabo,
+                         u.UnidadUsuarioModifico, um.UsuarioCuenta AS UUsuarioModifico, u.UnidadFechaModifico
+                FROM Unidades u
+                INNER JOIN Usuarios ug ON ug.UsuarioId = u.UnidadUsuarioGrabo
+                LEFT JOIN Usuarios um ON um.UsuarioId = u.UnidadUsuarioModifico");
         }
 
         public async Task<Unidad> ObtenerUnidadPorId(int unidadId)

@@ -38,15 +38,15 @@ namespace RRHHCapucasCoffe.Services
             return existeProfesion == 1;
         }
 
-        public async Task<IEnumerable<Profesion>> ObtenerProfesion()
+        public async Task<IEnumerable<ProfesionViewModel>> ObtenerProfesion()
         {
             using var connection = new SqlConnection(connectrionString);
 
-            return await connection.QueryAsync<Profesion>(
-                @"SELECT Profesiones.ProfesionId, Profesiones.ProfesionNombre, Profesiones.ProfesionActivo, 
-                    UG.UsuarioCuenta AS PUsuarioGrabo, Profesiones.ProfesionFechaGrabo
-                FROM Profesiones
-                INNER JOIN Usuarios UG ON UG.UsuarioId = Profesiones.ProfesionUsuarioGrabo");
+            return await connection.QueryAsync<ProfesionViewModel>(
+                @"SELECT p.ProfesionId, p.ProfesionNombre, p.ProfesionActivo, 
+                         ug.UsuarioCuenta AS PUsuarioGrabo, p.ProfesionFechaGrabo
+                FROM Profesiones p
+                INNER JOIN Usuarios ug ON ug.UsuarioId = p.ProfesionUsuarioGrabo");
         }
 
         public async Task<Profesion> ObtenerProfesionPorId(int profesionId)

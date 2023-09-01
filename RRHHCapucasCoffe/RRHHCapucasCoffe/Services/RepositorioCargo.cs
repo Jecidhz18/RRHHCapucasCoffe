@@ -34,15 +34,15 @@ namespace RRHHCapucasCoffe.Services
             return existeCargo == 1;
         }
 
-        public async Task<IEnumerable<Cargo>> ObtenerCargo()
+        public async Task<IEnumerable<CargoViewModel>> ObtenerCargo()
         {
             using var connection = new SqlConnection(connectionString);
 
-            return await connection.QueryAsync<Cargo>(
-                @"SELECT Cargos.CargoId, Cargos.CargoNombre, Cargos.CargoActivo,
-                UG.UsuarioCuenta AS CUsuarioGrabo, Cargos.CargoFechaGrabo
-                FROM Cargos
-                INNER JOIN Usuarios UG ON UG.UsuarioId = CargoUsuarioGrabo");
+            return await connection.QueryAsync<CargoViewModel>(
+                @"SELECT c.CargoId, c.CargoNombre, c.CargoActivo,
+	                     c.CargoUsuarioGrabo, ug.UsuarioCuenta AS CUsuarioGrabo, c.CargoFechaGrabo
+                FROM Cargos c
+                INNER JOIN Usuarios ug ON ug.UsuarioId = c.CargoUsuarioGrabo");
         } 
 
         public async Task<Cargo> ObtenerCargoPorId(int cargoId)

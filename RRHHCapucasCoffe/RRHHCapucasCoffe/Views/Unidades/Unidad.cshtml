@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RRHHCapucasCoffe.Models.Unidades.Unidad>
+﻿@model IEnumerable<RRHHCapucasCoffe.Models.Unidades.UnidadViewModel>
 @{
     ViewData["Title"] = "Unidad";
 }
@@ -30,8 +30,8 @@
                         <th>Activo</th>
                         <th>Usuario Grabo</th>
                         <th>Fecha Grabo</th>
-                        <th>Usuario Editó</th>
-                        <th>Fecha Editó</th>
+                        <th>Usuario Modifico</th>
+                        <th>Fecha Modifico</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,13 +55,13 @@
                                 </div>
                             </td>
                             <td>
-                                @*@unidad.UsuarioGrabo*@
+                                @unidad.UUsuarioGrabo
                             </td>
                             <td>
                                 @unidad.UnidadFechaGrabo
                             </td>
                             <td>
-                                @*@unidad.UsuarioModifico*@
+                                @unidad.UUsuarioModifico
                             </td>
                             <td>
                                 @unidad.UnidadFechaModifico

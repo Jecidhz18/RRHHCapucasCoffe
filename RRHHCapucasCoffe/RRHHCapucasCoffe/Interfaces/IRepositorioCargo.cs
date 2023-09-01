@@ -8,7 +8,7 @@ namespace RRHHCapucasCoffe.Interfaces
         Task EditarCargo(Cargo cargo);
         Task EliminarCargo(int cargoId);
         Task<bool> ExisteCargo(string cargoNombre);
-        Task<IEnumerable<Cargo>> ObtenerCargo();
+        Task<IEnumerable<CargoViewModel>> ObtenerCargo();
         Task<Cargo> ObtenerCargoPorId(int cargoId);
     }
 }
