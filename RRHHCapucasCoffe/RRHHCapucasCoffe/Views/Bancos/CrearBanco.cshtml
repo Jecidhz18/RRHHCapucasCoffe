@@ -14,7 +14,7 @@
 
         <form class="row g-3" asp-action="CrearBanco">
             <div class="col-12">
-                <label for="validationCustom01" asp-for="BancoNombre" class="form-label"></label>
+                <label asp-for="BancoNombre" class="form-label"></label>
                 <input asp-for="BancoNombre" type="text" placeholder="" class="form-control">
                 <span asp-validation-for="BancoNombre" class="text-danger" id="validationCustom01"></span>
             </div>
