@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Models.Municipios;
 
 namespace RRHHCapucasCoffe.Models.Aldeas

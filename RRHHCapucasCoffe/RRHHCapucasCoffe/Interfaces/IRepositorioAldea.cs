@@ -1,4 +1,5 @@
-﻿using RRHHCapucasCoffe.Models.Aldeas;
+﻿using RRHHCapucasCoffe.Entities;
+using RRHHCapucasCoffe.Models.Aldeas;
 
 namespace RRHHCapucasCoffe.Interfaces
 {

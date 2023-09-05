@@ -1,4 +1,4 @@
-﻿using RRHHCapucasCoffe.Models.DeducionesCobros;
+﻿using RRHHCapucasCoffe.Entities;
 
 namespace RRHHCapucasCoffe.Models.Deducciones
 {

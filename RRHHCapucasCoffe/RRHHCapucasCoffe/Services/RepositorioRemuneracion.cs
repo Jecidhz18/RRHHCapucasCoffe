@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
-using RRHHCapucasCoffe.Models.Remuneraciones;
 
 namespace RRHHCapucasCoffe.Services
 {

@@ -32,7 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
+    <Folder Include="Models\ColegiosProfesionales\" />
+    <Folder Include="Models\DeducionesCobros\" />
+    <Folder Include="Models\EstadosCiviles\" />
+    <Folder Include="Models\Paises\" />
+    <Folder Include="Models\Remuneraciones\" />
     <Folder Include="wwwroot\lib\data-table\css\" />
     <Folder Include="wwwroot\lib\data-table\js\" />
   </ItemGroup>

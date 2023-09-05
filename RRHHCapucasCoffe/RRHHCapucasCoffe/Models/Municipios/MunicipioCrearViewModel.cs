@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using RRHHCapucasCoffe.Models.Departamentos;
-using RRHHCapucasCoffe.Models.Paises;
-using System.ComponentModel.DataAnnotations;
+using RRHHCapucasCoffe.Entities;
 
 namespace RRHHCapucasCoffe.Models.Municipios
 {

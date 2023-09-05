@@ -1,4 +1,6 @@
-﻿namespace RRHHCapucasCoffe.Models.Deducciones
+﻿using RRHHCapucasCoffe.Entities;
+
+namespace RRHHCapucasCoffe.Models.Deducciones
 {
     public class DeduccionViewModel : Deduccion
     {

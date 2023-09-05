@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models.Aldeas
+namespace RRHHCapucasCoffe.Entities
 {
     public class Aldea
     {

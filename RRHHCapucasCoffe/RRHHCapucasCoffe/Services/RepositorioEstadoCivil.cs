@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
-using RRHHCapucasCoffe.Models.EstadosCiviles;
 
 namespace RRHHCapucasCoffe.Services
 {

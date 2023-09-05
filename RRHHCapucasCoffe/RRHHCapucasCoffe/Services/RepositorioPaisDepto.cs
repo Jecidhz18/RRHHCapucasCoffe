@@ -2,7 +2,6 @@
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Departamentos;
-using RRHHCapucasCoffe.Models.Paises;
 
 namespace RRHHCapucasCoffe.Services
 {

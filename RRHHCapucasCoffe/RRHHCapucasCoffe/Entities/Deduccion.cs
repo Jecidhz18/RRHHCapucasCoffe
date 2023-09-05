@@ -2,7 +2,7 @@
 using RRHHCapucasCoffe.Validators;
 using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models.Deducciones
+namespace RRHHCapucasCoffe.Entities
 {
     public class Deduccion
     {

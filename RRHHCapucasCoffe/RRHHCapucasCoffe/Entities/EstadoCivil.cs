@@ -1,18 +1,18 @@
 ﻿using RRHHCapucasCoffe.Validators;
 using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models.Remuneraciones
+namespace RRHHCapucasCoffe.Entities
 {
-    public class Remuneracion
+    public class EstadoCivil
     {
-        public int RemuneracionId { get; set; }
+        public int EstadoCivilId { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
-        [Display(Name = "Descripción")]
+        [Display(Name = "Estado Civil")]
         [PrimeraLetraMayusAtribute]
         [NotAllUppercase]
         [RegularExpression(@"^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]*$", ErrorMessage = "Caracteres no validos")]
-        public string RemuneracionDescripcion { get; set; }
+        public string EstadoCivilNombre { get; set; }
         [Display(Name = "Activo")]
-        public bool RemuneracionActiva { get; set; }
+        public bool EstadoCivilActivo { get; set; }
     }
 }

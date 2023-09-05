@@ -1,4 +1,6 @@
-﻿namespace RRHHCapucasCoffe.Models.Cargos
+﻿using RRHHCapucasCoffe.Entities;
+
+namespace RRHHCapucasCoffe.Models.Cargos
 {
     public class CargoViewModel : Cargo
     {

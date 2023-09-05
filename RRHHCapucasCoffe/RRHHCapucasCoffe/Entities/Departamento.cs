@@ -1,7 +1,7 @@
 ﻿using RRHHCapucasCoffe.Validators;
 using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models.Departamentos
+namespace RRHHCapucasCoffe.Entities
 {
     public class Departamento
     {

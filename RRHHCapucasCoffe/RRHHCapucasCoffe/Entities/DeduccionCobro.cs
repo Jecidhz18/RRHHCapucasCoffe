@@ -1,4 +1,4 @@
-﻿namespace RRHHCapucasCoffe.Models.DeducionesCobros
+﻿namespace RRHHCapucasCoffe.Entities
 {
     public class DeduccionCobro
     {

@@ -1,4 +1,5 @@
-﻿using RRHHCapucasCoffe.Models.Cargos;
+﻿using RRHHCapucasCoffe.Entities;
+using RRHHCapucasCoffe.Models.Cargos;
 
 namespace RRHHCapucasCoffe.Interfaces
 {

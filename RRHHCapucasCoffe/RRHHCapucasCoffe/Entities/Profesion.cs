@@ -1,4 +1,4 @@
-﻿namespace RRHHCapucasCoffe.Models.Profesiones
+﻿namespace RRHHCapucasCoffe.Entities
 {
     public class Profesion
     {

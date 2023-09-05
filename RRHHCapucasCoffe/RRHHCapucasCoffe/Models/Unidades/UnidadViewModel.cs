@@ -1,4 +1,6 @@
-﻿namespace RRHHCapucasCoffe.Models.Unidades
+﻿using RRHHCapucasCoffe.Entities;
+
+namespace RRHHCapucasCoffe.Models.Unidades
 {
     public class UnidadViewModel : Unidad
     {

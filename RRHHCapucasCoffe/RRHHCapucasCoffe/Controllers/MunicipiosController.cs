@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Departamentos;
 using RRHHCapucasCoffe.Models.Municipios;
-using RRHHCapucasCoffe.Models.Paises;
 using RRHHCapucasCoffe.Models.TablasUniones;
 using RRHHCapucasCoffe.Services;
 using System.Net.Http.Json;

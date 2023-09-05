@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Aldeas;
-using RRHHCapucasCoffe.Models.Paises;
 using RRHHCapucasCoffe.Models.TablasUniones;
 
 namespace RRHHCapucasCoffe.Controllers

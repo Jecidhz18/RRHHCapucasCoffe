@@ -1,4 +1,4 @@
-﻿using RRHHCapucasCoffe.Models.Paises;
+﻿using RRHHCapucasCoffe.Entities;
 
 namespace RRHHCapucasCoffe.Interfaces
 {

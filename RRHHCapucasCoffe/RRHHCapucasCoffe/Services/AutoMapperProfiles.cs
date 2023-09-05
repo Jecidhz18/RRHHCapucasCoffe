@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Models.Aldeas;
 using RRHHCapucasCoffe.Models.Departamentos;
 using RRHHCapucasCoffe.Models.Municipios;

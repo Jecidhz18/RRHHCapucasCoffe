@@ -1,4 +1,5 @@
-﻿using RRHHCapucasCoffe.Models.Profesiones;
+﻿using RRHHCapucasCoffe.Entities;
+using RRHHCapucasCoffe.Models.Profesiones;
 
 namespace RRHHCapucasCoffe.Interfaces
 {

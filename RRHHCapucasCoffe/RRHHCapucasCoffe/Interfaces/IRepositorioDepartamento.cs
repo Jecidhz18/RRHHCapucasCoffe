@@ -1,5 +1,5 @@
-﻿using RRHHCapucasCoffe.Models.Departamentos;
-using RRHHCapucasCoffe.Models.Paises;
+﻿using RRHHCapucasCoffe.Entities;
+using RRHHCapucasCoffe.Models.Departamentos;
 
 namespace RRHHCapucasCoffe.Interfaces
 {

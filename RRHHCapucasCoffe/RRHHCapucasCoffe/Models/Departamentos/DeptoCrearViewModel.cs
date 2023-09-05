@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using RRHHCapucasCoffe.Entities;
 
 namespace RRHHCapucasCoffe.Models.Departamentos
 {

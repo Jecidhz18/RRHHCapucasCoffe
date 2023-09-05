@@ -1,4 +1,5 @@
-﻿using RRHHCapucasCoffe.Models.Bancos;
+﻿using RRHHCapucasCoffe.Entities;
+using RRHHCapucasCoffe.Models.Bancos;
 
 namespace RRHHCapucasCoffe.Interfaces
 {

@@ -1,4 +1,4 @@
-﻿using RRHHCapucasCoffe.Models.Remuneraciones;
+﻿using RRHHCapucasCoffe.Entities;
 
 namespace RRHHCapucasCoffe.Interfaces
 {

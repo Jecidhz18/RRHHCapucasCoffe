@@ -1,4 +1,5 @@
-﻿using RRHHCapucasCoffe.Models.Departamentos;
+﻿using RRHHCapucasCoffe.Entities;
+using RRHHCapucasCoffe.Models.Departamentos;
 using RRHHCapucasCoffe.Models.Municipios;
 using RRHHCapucasCoffe.Models.TablasUniones;
 

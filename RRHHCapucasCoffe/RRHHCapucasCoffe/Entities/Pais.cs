@@ -1,7 +1,7 @@
 ﻿using RRHHCapucasCoffe.Validators;
 using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models.Paises
+namespace RRHHCapucasCoffe.Entities
 {
     public class Pais
     {

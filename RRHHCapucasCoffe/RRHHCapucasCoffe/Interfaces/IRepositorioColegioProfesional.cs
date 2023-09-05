@@ -1,4 +1,4 @@
-﻿using RRHHCapucasCoffe.Models.ColegiosProfesionales;
+﻿using RRHHCapucasCoffe.Entities;
 
 namespace RRHHCapucasCoffe.Interfaces
 {

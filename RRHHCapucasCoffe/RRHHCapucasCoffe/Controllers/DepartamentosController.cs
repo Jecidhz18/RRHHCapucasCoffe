@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Departamentos;
-using RRHHCapucasCoffe.Models.Paises;
-using RRHHCapucasCoffe.Validators;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 
 namespace RRHHCapucasCoffe.Controllers
 {

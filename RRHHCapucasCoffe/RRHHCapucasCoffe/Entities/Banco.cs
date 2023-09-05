@@ -1,7 +1,7 @@
 ﻿using RRHHCapucasCoffe.Validators;
 using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models.Bancos
+namespace RRHHCapucasCoffe.Entities
 {
     public class Banco
     {

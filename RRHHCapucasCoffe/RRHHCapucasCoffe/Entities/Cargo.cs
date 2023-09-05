@@ -1,4 +1,4 @@
-﻿namespace RRHHCapucasCoffe.Models.Cargos
+﻿namespace RRHHCapucasCoffe.Entities
 {
     public class Cargo
     {

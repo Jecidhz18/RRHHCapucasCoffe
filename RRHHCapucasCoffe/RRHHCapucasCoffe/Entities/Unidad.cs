@@ -1,7 +1,7 @@
 ﻿using RRHHCapucasCoffe.Validators;
 using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models.Unidades
+namespace RRHHCapucasCoffe.Entities
 {
     public class Unidad
     {
@@ -15,7 +15,7 @@ namespace RRHHCapucasCoffe.Models.Unidades
         [Display(Name = "Activo")]
         public bool UnidadActiva { get; set; }
         [Display(Name = "Usuario Grabo")]
-        public Guid UnidadUsuarioGrabo { get; set; } 
+        public Guid UnidadUsuarioGrabo { get; set; }
         [Display(Name = "Fecha Grabo")]
         public DateTime UnidadFechaGrabo { get; set; }
         [Display(Name = "Usuario Actualizo")]

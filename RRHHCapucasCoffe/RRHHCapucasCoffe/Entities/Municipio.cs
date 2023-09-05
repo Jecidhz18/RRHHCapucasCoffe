@@ -1,7 +1,7 @@
 ﻿using RRHHCapucasCoffe.Validators;
 using System.ComponentModel.DataAnnotations;
 
-namespace RRHHCapucasCoffe.Models.Municipios
+namespace RRHHCapucasCoffe.Entities
 {
     public class Municipio
     {

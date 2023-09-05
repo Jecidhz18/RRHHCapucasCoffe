@@ -1,4 +1,5 @@
-﻿using RRHHCapucasCoffe.Models.Unidades;
+﻿using RRHHCapucasCoffe.Entities;
+using RRHHCapucasCoffe.Models.Unidades;
 
 namespace RRHHCapucasCoffe.Interfaces
 {
