@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Agencias";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mx-3 mt-2 py-0">Agencias</h5>
+        <div class="d-flex" id="container-buttons">
+            <div class="p-1 flex-fill">
+                <div class="d-flex d-flex justify-content-end dt-buttons">
+                    <button type="submit" class="d-flex align-items-center btn btn-outline-primary mx-1" onclick="location.href='@Url.Action("CrearAgencia", "Agencias")'" title="Agregar">
+                        <span>
+                            <i class="bi bi-file-plus d-block d-lg-none"></i>
+                            <span class="mx-1 d-none d-lg-block">Agregar</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body mt-3">
+        <div class="table-responsive">
+            <table class="table dataTable" id="datatable">
+                <thead>
+                    <tr>
+                        <th class="no-export"></th>
+                        <th>Agencia</th>
+                        <th class="no-export">Activo</th>
+                        <th>Usuario Grabo</th>
+                        <th>Fecha Grabo</th>
+                        <th>Usuario Modifico</th>
+                        <th>Fecha Modifico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var banco in Model)
+                    {
+                        <tr>
+                            <td class="no-export">
+                                <div class="d-flex">
+                                    <a class="btn btn-outline-primary me-1" asp-action="EditarBanco" asp-route-bancoId="@banco.BancoId" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-outline-danger" asp-action="EliminarBanco" asp-route-bancoId="@banco.BancoId" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                @banco.BancoNombre
+                            </td>
+                            <td class="no-export">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" disabled checked="@banco.BancoActivo">
+                                </div>
+                            </td>
+                            <td>
+                                @banco.BUsuarioGrabo
+                            </td>
+                            <td>
+                                @banco.BancoFechaGrabo
+                            </td>
+                            <td>
+                                @banco.BUsuarioModifico
+                            </td>
+                            <td>
+                                @banco.BancoFechaModifico
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/table.js" asp-append-version="true"></script>
+}
