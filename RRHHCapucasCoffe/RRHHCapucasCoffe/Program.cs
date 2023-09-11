@@ -21,6 +21,8 @@ builder.Services.AddTransient<IRepositorioDeptoMunicipio, RepositorioDeptoMunici
 builder.Services.AddTransient<IRepositorioAldea, RepositorioAldea>();
 builder.Services.AddTransient<IRepositorioMpioAldea, RepositorioMpioAldea>();
 builder.Services.AddTransient<IRepositorioDeduccion, RepositorioDeduccion>();
+builder.Services.AddTransient<IRepositorioAgencia, RepositorioAgencia>();
+builder.Services.AddTransient<IRepositorioAgenciaUnidad, RepositorioAgenciaUnidad>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

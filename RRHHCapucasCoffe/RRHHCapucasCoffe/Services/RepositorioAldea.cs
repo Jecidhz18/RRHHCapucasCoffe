@@ -61,7 +61,7 @@ namespace RRHHCapucasCoffe.Services
         {
             using var connection = new SqlConnection(connectionString);
 
-            await connection.QueryAsync(@"UPDATE DpAldeas
+            await connection.ExecuteAsync(@"UPDATE DpAldeas
                 SET AldeaNombre = @AldeaNombre, AldeaActivo = @AldeaActivo
                 WHERE AldeaId = @AldeaId", aldea);
         }

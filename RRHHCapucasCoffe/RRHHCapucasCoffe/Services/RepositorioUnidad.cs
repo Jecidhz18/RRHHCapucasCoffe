@@ -76,5 +76,15 @@ namespace RRHHCapucasCoffe.Services
                 @"DELETE Unidades
                 WHERE UnidadId = @UnidadId", new {unidadId});
         }
+
+        public async Task<IEnumerable<Unidad>> ObtenerUnidadActiva()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Unidad>(
+                @"SELECT UnidadId, UnidadDescripcion, UnidadActiva
+                FROM Unidades
+                WHERE UnidadActiva = '1'");
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace RRHHCapucasCoffe.Interfaces
         Task EliminarUnidad(int unidadId);
         Task<bool> ExisteUnidad(string unidadNombre);
         Task<IEnumerable<UnidadViewModel>> ObtenerUnidad();
+        Task<IEnumerable<Unidad>> ObtenerUnidadActiva();
         Task<Unidad> ObtenerUnidadPorId(int unidadId);
     }
 }

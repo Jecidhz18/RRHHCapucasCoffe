@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<RRHHCapucasCoffe.Models.Agencias.AgenciaViewModel>
+
+@{
     ViewData["Title"] = "Agencias";
 }
 
@@ -28,43 +30,35 @@
                         <th class="no-export">Activo</th>
                         <th>Usuario Grabo</th>
                         <th>Fecha Grabo</th>
-                        <th>Usuario Modifico</th>
-                        <th>Fecha Modifico</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var banco in Model)
+                    @foreach (var agencia in Model)
                     {
                         <tr>
                             <td class="no-export">
                                 <div class="d-flex">
-                                    <a class="btn btn-outline-primary me-1" asp-action="EditarBanco" asp-route-bancoId="@banco.BancoId" title="Editar">
+                                    <a class="btn btn-outline-primary me-1" asp-action="EditarAgencia" asp-route-agenciaId="@agencia.AgenciaId" title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a class="btn btn-outline-danger" asp-action="EliminarBanco" asp-route-bancoId="@banco.BancoId" title="Eliminar">
+                                    <a class="btn btn-outline-danger" asp-action="EliminarBanco" asp-route-bancoId="@agencia.AgenciaId" title="Eliminar">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
                             </td>
                             <td>
-                                @banco.BancoNombre
+                                @agencia.AgenciaNombre
                             </td>
                             <td class="no-export">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" disabled checked="@banco.BancoActivo">
+                                    <input class="form-check-input" type="checkbox" disabled checked="@agencia.AgenciaActiva">
                                 </div>
                             </td>
                             <td>
-                                @banco.BUsuarioGrabo
+                                @agencia.AUsuarioGrabo
                             </td>
                             <td>
-                                @banco.BancoFechaGrabo
-                            </td>
-                            <td>
-                                @banco.BUsuarioModifico
-                            </td>
-                            <td>
-                                @banco.BancoFechaModifico
+                                @agencia.AgenciaFechaGrabo.ToString("dd/MM/yyyy")
                             </td>
                         </tr>
                     }

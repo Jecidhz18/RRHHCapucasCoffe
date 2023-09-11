@@ -8,7 +8,7 @@
         ],
         columnDefs: [
             {
-                orderable: false, targets: [0, 2]
+                orderable: false, targets: [0]
             }
         ]
     });
@@ -21,12 +21,18 @@
                 text: '<i class="bi bi-file-earmark-break d-block d-lg-none"></i><span class= "mx-1 d-none d-lg-block">Copiar</span>',
                 className: 'd-flex align-items-center btn btn-outline-primary mx-1',
                 titleAttr: 'Copiar',
+                exportOptions: {
+                    columns: ':not(.no-export)' // Agrega la clase 'no-export' a las columnas que no deseas exportar
+                }
             },
             {
                 extend: 'excel',
                 text: '<i class="bi bi-file-excel d-block d-lg-none"></i><span class= "mx-1 d-none d-lg-block">Excel</span>',
                 className: 'd-flex align-items-center btn btn-outline-primary mx-1',
                 titleAttr: 'Excel',
+                exportOptions: {
+                    columns: ':not(.no-export)' // Agrega la clase 'no-export' a las columnas que no deseas exportar
+                }
             },
             {
                 extend: 'pdf',
@@ -41,7 +47,10 @@
                 extend: 'print',
                 text: '<i class="bi bi-printer d-block d-lg-none"></i><span class= "mx-1 d-none d-lg-block">Imprimir</span>',
                 className: 'd-flex align-items-center btn btn-outline-primary mx-1',
-                titleAttr: 'Imprimir'
+                titleAttr: 'Imprimir',
+                exportOptions: {
+                    columns: ':not(.no-export)' // Agrega la clase 'no-export' a las columnas que no deseas exportar
+                }
             },
             {
                 extend: 'colvis',

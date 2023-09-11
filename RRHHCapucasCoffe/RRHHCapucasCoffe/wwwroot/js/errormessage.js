@@ -47,3 +47,18 @@ function errorMunicipioTable(mensaje) {
     const mensajeError = document.getElementById("validation-mpio-table")
     mensajeError.textContent = mensaje;
 }
+//Agencia
+function errorUnidadSelect(mensaje) {
+    const mensajeError = document.getElementById("validation-unidad-select");
+    mensajeError.textContent = mensaje;
+}
+
+function errorUnidadTable(mensaje) {
+    const mensajeError = document.getElementById("validation-unidad-table");
+    mensajeError.textContent = mensaje;
+}
+
+function errorAgenciaNombre(mensaje) {
+    const mensajeError = document.getElementById("validation-agenciaNombre");
+    mensajeError.textContent = mensaje;
+}
