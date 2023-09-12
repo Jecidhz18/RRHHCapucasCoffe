@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Empleados";
+}
+
+<div class="card">
+
+    <div class="card-header">
+        <h5 class="card-title mx-3 mt-2 py-0">Empleados</h5>
+        <div class="d-flex" id="container-buttons">
+            <div class="p-1 flex-fill">
+                <div class="d-flex d-flex justify-content-end dt-buttons">
+                    <button type="submit" class="d-flex align-items-center btn btn-outline-primary mx-1" onclick="location.href='@Url.Action("CrearEmpleado", "Empleados")'" title="Agregar">
+                        <span>
+                            <i class="bi bi-file-plus d-block d-lg-none"></i>
+                            <span class="mx-1 d-none d-lg-block">Agregar</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body mt-3">
+
+        <div class="table-responsive">
+            <table class="table dataTable" id="datatable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Identidad</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Celular</th>
+                        <th>Activo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*@foreach (var aldea in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex">
+                                    <a class="btn btn-outline-primary me-1" asp-action="EditarAldea" asp-route-aldeaId="@aldea.AldeaId" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-outline-danger me-1" asp-action="EliminarAldea" asp-route-aldeaId="@aldea.AldeaId" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>@aldea.AldeaNombre</td>
+                            <td>
+                                <div class="form-checkbi-bag-check form-switch">
+                                    <input class="form-check-input" type="checkbox" disabled checked="@aldea.AldeaActivo">
+                                </div>
+                            </td>
+                        </tr>
+                    }*@
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/table.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,227 @@
+﻿@using RRHHCapucasCoffe.Enums;
+@model RRHHCapucasCoffe.Models.Empleados.EmpleadoCrearViewModel
+
+@{
+    ViewData["Title"] = "Crear Empleado";
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Crear Empleado</h3>
+        <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="general-info-tab" data-bs-toggle="tab" data-bs-target="#bordered-general-info" type="button" role="tab" aria-controls="general-info" aria-selected="true">Información General</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+            </li>
+        </ul>
+        <form asp-action="CrearEmpleado">
+            <div class="tab-content pt-2" id="borderedTabContent">
+                <div class="tab-pane fade show active" id="bordered-general-info" role="tabpanel" aria-labelledby="general-info-tab">
+                    <div class="row g-3">
+                        <div class="col-9">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label asp-for="EmpleadoIdentificacion" class="form-label"></label>
+                                    <input asp-for="EmpleadoIdentificacion" type="text" class="form-control" autocomplete="off">
+                                    <span asp-validation-for="EmpleadoIdentificacion" class="text-danger"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="EmpleadoNombre" class="form-label"></label>
+                                    <input asp-for="EmpleadoNombre" type="text" class="form-control" autocomplete="off">
+                                    <span asp-validation-for="EmpleadoNombre" class="text-danger"></span>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="EmpleadoPrimerApellido" class="form-label"></label>
+                                    <input asp-for="EmpleadoPrimerApellido" type="text" class="form-control" autocomplete="off">
+                                    <span asp-validation-for="EmpleadoPrimerApellido" class="text-danger"></span>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="EmpleadoSegundoApellido" class="form-label"></label>
+                                    <input asp-for="EmpleadoSegundoApellido" type="text" class="form-control" autocomplete="off">
+                                    <span asp-validation-for="EmpleadoSegundoApellido" class="text-danger"></span>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check form-switch">
+                                        <label asp-for="EmpleadoActivo" class="form-check-label"></label>
+                                        <input asp-for="EmpleadoActivo" class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label asp-for="EmpleadoFotografia" class="form-label"></label>
+                                    <textarea class="form-control"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <input asp-for="EmpleadoFotografia" type="file" class="form-control mt-1" autocomplete="off">
+                                    <span asp-validation-for="EmpleadoFotografia" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EmpleadoSexo" class="form-label"></label>
+                            <select asp-for="EmpleadoSexo" class="form-select" asp-items="Html.GetEnumSelectList<Sexos>()">
+                                <option selected>Seleccione una opción</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EmpleadoFechaNacimiento" class="form-label"></label>
+                            <input asp-for="EmpleadoFechaNacimiento" type="date" class="form-control" />
+                            <span asp-validation-for="EmpleadoFechaNacimiento" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="EmpleadoDirNacimientoId" class="form-label"></label>
+                            <div class="row">
+                                <div class="col-3">
+                                    <select class="form-select" id="select-pais">
+                                        <option selected>Seleccione un Pais</option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <select class="form-select" id="select-depto">
+                                        <option selected>Seleccione un Departamento</option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <select class="form-select" id="select-mpio">
+                                        <option selected>Seleccione un Municipio</option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <select class="form-select" id="select-aldea">
+                                        <option selected>Seleccione una Aldea</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EmpleadoEdad" class="form-label"></label>
+                            <input asp-for="EmpleadoEdad" class="form-control" />
+                            <span asp-validation-for="EmpleadoEdad" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EstadoCivilId" class="form-label"></label>
+                            <select class="form-select" id="select-mpio">
+                                <option selected>Seleccione un Municipio</option>
+                            </select>
+                            <span asp-validation-for="EstadoCivilId" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EmpleadoTelefono" class="form-label"></label>
+                            <input asp-for="EmpleadoTelefono" type="tel" class="form-control" placeholder=""/>
+                            <span asp-validation-for="EmpleadoTelefono" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EmpleadoCelular" class="form-label"></label>
+                            <input asp-for="EmpleadoCelular" type="tel" class="form-control" placeholder=""/>
+                            <span asp-validation-for="EmpleadoCelular" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="EmpleadoDireccionId" class="form-label"></label>
+                            <div class="row">
+                                <div class="col-3">
+                                    <select class="form-select" id="select-pais">
+                                        <option selected>Seleccione un Pais</option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <select class="form-select" id="select-depto">
+                                        <option selected>Seleccione un Departamento</option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <select class="form-select" id="select-mpio">
+                                        <option selected>Seleccione un Municipio</option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <select class="form-select" id="select-aldea">
+                                        <option selected>Seleccione una Aldea</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="EmpleadoDireccion" class="form-label"></label>
+                            <textarea asp-for="EmpleadoDireccion" class="form-control"></textarea>
+                            <span asp-validation-for="EmpleadoDireccion" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EmpleadoEmail" class="form-label"></label>
+                            <input asp-for="EmpleadoEmail" type="tel" class="form-control" placeholder="" />
+                            <span asp-validation-for="EmpleadoEmail" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="ProfesionId" class="form-label"></label>
+                            <select asp-for="ProfesionId" class="form-select" asp-items="Html.GetEnumSelectList<Sexos>()">
+                                <option selected>Seleccione una opción</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EmpleadoFechaIngreso" class="form-label"></label>
+                            <input asp-for="EmpleadoFechaIngreso" type="date" class="form-control" />
+                            <span asp-validation-for="EmpleadoFechaIngreso" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EmpleadoFechaContrato" class="form-label"></label>
+                            <input asp-for="EmpleadoFechaContrato" type="date" class="form-control" />
+                            <span asp-validation-for="EmpleadoFechaContrato" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            
+                        </div>
+
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" placeholder="Input 1">
+                                    <input type="text" class="form-control" placeholder="Input 2">
+                                    <input type="text" class="form-control" placeholder="Input 3">
+                                </div>
+                                <div class="col-md-3">
+                                    <textarea type="text" class="form-control" placeholder="Input 4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
+                    Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+                </div>
+                <div class="tab-pane fade" id="bordered-contact" role="tabpanel" aria-labelledby="contact-tab">
+                    Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                </div>
+            </div>
+        </form>
+
+
+
+
+
+
+        @*<form class="row g-3" asp-action="CrearEmpleado" onsubmit="return validateFormAldea()">
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Aldea", "Aldeas")'">Cancelar</button>
+            </div>
+        </form>  *@
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
