@@ -25,7 +25,7 @@ namespace RRHHCapucasCoffe.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CrearDeduccion(DeduccionCrearViewModel deduccion) 
+        public IActionResult CrearDeduccion(DeduccionCrearViewModel deduccion) 
         {
             return RedirectToAction("Deduccion");
         }

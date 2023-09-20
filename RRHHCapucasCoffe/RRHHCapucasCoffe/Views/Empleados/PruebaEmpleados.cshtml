@@ -1,0 +1,98 @@
+﻿@model RRHHCapucasCoffe.Models.Empleados.EmpleadoCrearViewModel
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet" />
+
+<div class="col-md-3">
+    <div class="row g-2">
+        <div class="col-12">
+            <label asp-for="EmpleadoFotografia" class="form-label"></label>
+            <div class="border border-secondary-subtle img-thumbnail">
+                <img id="imagen-previa" class="img-fluid" src="~/img/ImgUpload.png" />
+            </div>
+        </div>
+        <div class="col-12 d-flex align-items-center">
+            <button class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#largeModal">Subir</button>
+            <button class="btn btn-outline-secondary w-100">Editar</button>
+            <button class="btn btn-outline-secondary w-100">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="largeModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Foto de Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="border border-secondary-subtle" style="height: 75vh;">
+                            <img class="img-fluid" id="image" src="" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <input id="img-input" type="file" class="form-control" accept="image/*" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button id="crop-button" type="button" class="btn btn-primary">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var image = document.getElementById('image');
+            var cropper;
+            var imgInput = document.getElementById('img-input');
+            var modal = new bootstrap.Modal(document.getElementById('largeModal'));
+
+            // Cuando se selecciona una imagen desde el input de archivo
+            imgInput.addEventListener('change', function () {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    image.src = e.target.result;
+                    modal.show(); // Muestra el modal después de cargar la imagen
+                    initializeCropper();
+                };
+
+                reader.readAsDataURL(file);
+            });
+
+            // Función para inicializar Cropper.js
+            function initializeCropper() {
+                cropper = new Cropper(image, {
+                    aspectRatio: 1, // Cambia esto según tus necesidades
+                    viewMode: 3, // Opciones de visualización para ajustar la imagen
+                    zoomable: true, // Permite el zoom en la imagen grande
+                });
+            }
+
+            // Cuando se hace clic en el botón de recorte
+            $('#crop-button').click(function () {
+                var canvas = cropper.getCroppedCanvas();
+                var previewImage = document.getElementById('imagen-previa');
+                previewImage.src = canvas.toDataURL(); // Actualiza la imagen previa
+                modal.hide(); // Cierra el modal
+            });
+
+            // Limpia Cropper.js cuando se cierra el modal
+            modal.addEventListener('hidden.bs.modal', function () {
+                cropper.destroy();
+            });
+        });
+
+    </script>
+}

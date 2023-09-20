@@ -703,7 +703,7 @@ End SlideBar-btn*/
   font-size: 15px;
   font-weight: 600;
   color: #4154f1;
-  transition: 0.3;
+  transition: 0.3s;
   background: #f6f9ff;
   padding: 10px 15px;
   border-radius: 4px;
@@ -1262,11 +1262,7 @@ End SlideBar-btn*/
 /*--------------------------------------------------------------
 # Modal
 --------------------------------------------------------------*/
-.modal .fade {
-    /* Tus estilos aquí */
-    zoom: 1.3; /* Ejemplo de propiedad */
-}
-
-.modal{
-    zoom: normal;
+.fade{
+    width: 100%;
+    height: 100%;
 }
