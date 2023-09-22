@@ -22,6 +22,11 @@ namespace RRHHCapucasCoffe.Services
                 @"SELECT UsuarioId, UsuarioCuenta 
                 FROM Usuarios 
                 WHERE UsuarioId = 'ABB27757-6CAD-4EED-88C3-11CBACCAFCF9'");
+
+            //return await connection.QueryFirstOrDefaultAsync<Usuario>(
+            //    @"SELECT UsuarioId, UsuarioCuenta 
+            //    FROM Usuarios 
+            //    WHERE UsuarioId = '033043d2-769c-42a4-9886-7ca009968372'");
         }
     }
 }

@@ -11,5 +11,6 @@ namespace RRHHCapucasCoffe.Interfaces
         Task<bool> ExisteBanco(string bancoNombre);
         Task<IEnumerable<BancoViewModel>> ObtenerBanco();
         Task<Banco> ObtenerBancoPorId(int bancoId);
+        Task<IEnumerable<Banco>> ObtenerBancosActivos();
     }
 }

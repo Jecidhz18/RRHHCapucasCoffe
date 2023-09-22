@@ -16,10 +16,11 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IRepositorioAldea repositorioAldea;
         private readonly IRepositorioEstadoCivil repositorioEstadoCivil;
         private readonly IRepositorioProfesion repositorioProfesion;
+        private readonly IRepositorioBanco repositorioBanco;
 
         public EmpleadosController(IRepositorioDepartamento repositorioDepartamento, IRepositorioPais repositorioPais,
             IRepositorioMunicipio repositorioMunicipio, IRepositorioAldea repositorioAldea, IRepositorioEstadoCivil repositorioEstadoCivil,
-            IRepositorioProfesion repositorioProfesion)
+            IRepositorioProfesion repositorioProfesion, IRepositorioBanco repositorioBanco)
         {
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioPais = repositorioPais;
@@ -27,6 +28,7 @@ namespace RRHHCapucasCoffe.Controllers
             this.repositorioAldea = repositorioAldea;
             this.repositorioEstadoCivil = repositorioEstadoCivil;
             this.repositorioProfesion = repositorioProfesion;
+            this.repositorioBanco = repositorioBanco;
         }
 
         public ActionResult Empleado()
@@ -40,6 +42,7 @@ namespace RRHHCapucasCoffe.Controllers
             modelo.Paises = await ObtenerPaises();
             modelo.EstadosCiviles = await ObtenerEstadosCiviles();
             modelo.Profesiones = await ObtenerProfesiones();
+            modelo.Bancos = await ObtenerBancos();
             return View(modelo);
         }
 
@@ -140,6 +143,13 @@ namespace RRHHCapucasCoffe.Controllers
             var profesiones = await repositorioProfesion.ObtenerProfesionesActivas();
 
             return profesiones.Select(x => new SelectListItem(x.ProfesionNombre, x.ProfesionId.ToString()));
+        }
+        //Metodo privado para obtener bancos
+        public async Task<IEnumerable<SelectListItem>> ObtenerBancos()
+        {
+            var bancos = await repositorioBanco.ObtenerBancosActivos();
+
+            return bancos.Select(x => new SelectListItem(x.BancoNombre, x.BancoId.ToString()));
         }
     }
 }

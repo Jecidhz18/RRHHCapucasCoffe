@@ -269,7 +269,7 @@
                                     <div class="row g-3" id="">
                                         <div class="col-6">
                                             <div class="input-group">
-                                                <select class="form-select" id="select-pais">
+                                                <select class="form-select" id="select-banco" asp-items="@Model.Bancos">
                                                     <option selected>Seleccione una opción</option>
                                                 </select>
                                                 <button class="bi bi-search btn btn-outline-secondary" type="button"></button>
@@ -401,25 +401,39 @@
                     <div class="accordion accordion-flush" id="accordion-cargo">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-heading-cargo">
-                                <button id="accordion-button-area" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-area" aria-expanded="false" aria-controls="flush-collapse-area">
+                                <button id="accordion-button-cargo" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-cargo" aria-expanded="false" aria-controls="flush-collapse-cargo">
                                     Cargo:
                                 </button>
                             </h2>
-                            <div id="flush-collapse-area" class="accordion-collapse collapse" aria-labelledby="flush-heading-area" data-bs-parent="#accordion-area">
+                            <div id="flush-collapse-cargo" class="accordion-collapse collapse" aria-labelledby="flush-heading-cargo" data-bs-parent="#accordion-cargo">
                                 <div class="accordion-body">
                                     <div class="row g-3" id="">
-                                        <div class="col">
-                                            <select class="form-select" id="select-pais">
-                                                <option selected>Seleccione una agencia</option>
-                                            </select>
+                                        <div class="col-3">
+                                            <label class="form-label">Cargo</label>
+                                            <div class="input-group">
+                                                <select class="form-select" id="select-pais">
+                                                    <option selected>Seleccione una opción</option>
+                                                </select>
+                                                <button class="bi bi-search btn btn-outline-secondary" type="button"></button>
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            <select class="form-select" id="select-pais">
-                                                <option selected>Seleccione una area</option>
-                                            </select>
+                                        <div class="col-2">
+                                            <label class="form-label">Fecha Inicio</label>
+                                            <input type="date" class="form-control" />
                                         </div>
-                                        <div class="col d-flex align-items-end">
-                                            <button class="bi bi-search btn btn-outline-secondary me-2" type="button"></button>
+                                        <div class="col-2">
+                                            <label class="form-label">Fecha Final</label>
+                                            <input type="date" class="form-control" />
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="form-label">Salario</label>
+                                            <input type="number" class="form-control" />
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="form-label">Observación</label>
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                        <div class="col-1 d-flex align-items-end">
                                             <button id="btn-agregar" type="button" onclick="addCobro()" class="btn btn-outline-primary" title="Agregar">
                                                 <i class="bi bi-file-plus d-block d-lg-none"></i>
                                                 <span class="d-none d-lg-block">Agregar</span>
@@ -432,8 +446,11 @@
                                                 <thead>
                                                     <tr>
                                                         <th></th>
-                                                        <th>Agencia</th>
-                                                        <th>Area</th>
+                                                        <th>Cargo</th>
+                                                        <th>Fecha Inicio</th>
+                                                        <th>Fecha Final</th>
+                                                        <th>Salario</th>
+                                                        <th>Observación</th>
                                                         <th>Activo</th>
                                                     </tr>
                                                 </thead>

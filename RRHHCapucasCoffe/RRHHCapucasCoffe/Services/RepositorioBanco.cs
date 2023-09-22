@@ -80,5 +80,14 @@ namespace RRHHCapucasCoffe.Services
                 @"DELETE Bancos
                 WHERE BancoId = @BancoId", new {bancoId});
         }
+
+        public async Task<IEnumerable<Banco>> ObtenerBancosActivos()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Banco>(
+                @"SELECT * FROM Bancos
+                WHERE BancoActivo = '1'");
+        }
     }
 }

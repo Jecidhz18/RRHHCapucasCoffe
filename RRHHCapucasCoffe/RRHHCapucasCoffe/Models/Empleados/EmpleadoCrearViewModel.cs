@@ -9,5 +9,6 @@ namespace RRHHCapucasCoffe.Models.Empleados
         public IEnumerable<SelectListItem> Paises { get; set; }
         public IEnumerable<SelectListItem> EstadosCiviles { get; set; }
         public IEnumerable<SelectListItem> Profesiones { get; set; }
+        public IEnumerable<SelectListItem> Bancos { get; set; }
     }
 }
