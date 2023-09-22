@@ -9,6 +9,7 @@ namespace RRHHCapucasCoffe.Interfaces
         Task EliminarEstadoCivil(int estadoCivilId);
         Task<bool> ExisteEstadoCivil(string estadoCivil);
         Task<IEnumerable<EstadoCivil>> ObtenerEstadoCivil();
+        Task<IEnumerable<EstadoCivil>> ObtenerEstadoCivilActivo();
         Task<EstadoCivil> ObtenerEstadoCivilPorId(int estadoCivilId);
     }
 }

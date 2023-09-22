@@ -39,7 +39,7 @@
                                         <div class="col-md-9">
                                             <div class="row g-2">
                                                 <div class="col-12">
-                                                    <label asp-for="EmpleadoIdentificacion" class="form-label"></label>
+                                                    <label asp-for="EmpleadoIdentificacion" class="form-label">Identificación</label>
                                                     <input asp-for="EmpleadoIdentificacion" type="text" class="form-control" autocomplete="off">
                                                     <span asp-validation-for="EmpleadoIdentificacion" class="text-danger"></span>
                                                 </div>
@@ -78,7 +78,7 @@
                                                     <div class="border border-secondary-subtle img-thumbnail">
                                                         <img id="imagen-previa" class="img-fluid" src="~/img/ImgUpload.png" />
                                                     </div>
-                                                    <input type="hidden" id="imagen-recortada" name="imagenRecortada" />
+                                                    <input type="hidden" asp-for="EmpleadoFotografia" id="imagen-recortada"/>
                                                 </div>
                                                 <div class="col-12 d-flex align-items-center">
                                                     <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#modal-cropper-empleado">Subir</button>
@@ -93,22 +93,22 @@
                                                     <label asp-for="EmpleadoDirNacimientoId" class="form-label"></label>
                                                     <div class="row">
                                                         <div class="col-3">
-                                                            <select class="form-select" id="select-pais">
+                                                            <select class="form-select select2" id="select-pais-nac" asp-items="@Model.Paises">
                                                                 <option selected>Seleccione un Pais</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-3">
-                                                            <select class="form-select" id="select-depto">
+                                                        <div class="form-group col-3">
+                                                            <select class="form-select select2" id="select-depto-nac">
                                                                 <option selected>Seleccione un Departamento</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-3">
-                                                            <select class="form-select" id="select-mpio">
+                                                        <div class="form-group col-3">
+                                                            <select class="form-select select2" id="select-mpio-nac">
                                                                 <option selected>Seleccione un Municipio</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-3">
-                                                            <select class="form-select" id="select-aldea">
+                                                        <div class="form-group col-3">
+                                                            <select class="form-select select2" id="select-aldea-nac">
                                                                 <option selected>Seleccione una Aldea</option>
                                                             </select>
                                                         </div>
@@ -121,8 +121,8 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <label asp-for="EstadoCivilId" class="form-label"></label>
-                                                    <select class="form-select" id="select-mpio">
-                                                        <option selected>Seleccione un Municipio</option>
+                                                    <select class="form-select" id="" asp-items="@Model.EstadosCiviles">
+                                                        <option selected>Seleccione una opción</option>
                                                     </select>
                                                     <span asp-validation-for="EstadoCivilId" class="text-danger"></span>
                                                 </div>
@@ -140,22 +140,22 @@
                                                     <label asp-for="EmpleadoDireccionId" class="form-label"></label>
                                                     <div class="row">
                                                         <div class="col-3">
-                                                            <select class="form-select" id="select-pais">
+                                                            <select class="form-select select2" id="select-pais-dir" asp-items="@Model.Paises">
                                                                 <option selected>Seleccione un Pais</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-3">
-                                                            <select class="form-select" id="select-depto">
+                                                            <select class="form-select" id="select-depto-dir">
                                                                 <option selected>Seleccione un Departamento</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-3">
-                                                            <select class="form-select" id="select-mpio">
+                                                            <select class="form-select" id="select-mpio-dir">
                                                                 <option selected>Seleccione un Municipio</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-3">
-                                                            <select class="form-select" id="select-aldea">
+                                                            <select class="form-select" id="select-aldea-dir">
                                                                 <option selected>Seleccione una Aldea</option>
                                                             </select>
                                                         </div>
@@ -173,7 +173,7 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <label asp-for="ProfesionId" class="form-label"></label>
-                                                    <select asp-for="ProfesionId" class="form-select" asp-items="Html.GetEnumSelectList<Sexos>()">
+                                                    <select asp-for="ProfesionId" class="form-select" asp-items="@Model.Profesiones">
                                                         <option selected>Seleccione una opción</option>
                                                     </select>
                                                 </div>
@@ -234,7 +234,9 @@
                                             </div>
                                             <div class="col-12">
                                                 <label asp-for="Familiar.ParentescoId" class="form-label"></label>
-                                                <input asp-for="Familiar.ParentescoId" type="text" class="form-control" autocomplete="off">
+                                                <select asp-for="Familiar.ParentescoId" class="form-select" asp-items="Html.GetEnumSelectList<Parentescos>()">
+                                                    <option selected>Seleccione una opción</option>
+                                                </select>
                                                 <span asp-validation-for="Familiar.ParentescoId" class="text-danger"></span>
                                             </div>
                                             <div class="col-6">
@@ -348,7 +350,106 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="bordered-working-info" role="tabpanel" aria-labelledby="working-info-tab">
-                    Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                    <div class="accordion accordion-flush" id="accordion-area">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading-area">
+                                <button id="accordion-button-area" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-area" aria-expanded="false" aria-controls="flush-collapse-area">
+                                    Area:
+                                </button>
+                            </h2>
+                            <div id="flush-collapse-area" class="accordion-collapse collapse" aria-labelledby="flush-heading-area" data-bs-parent="#accordion-area">
+                                <div class="accordion-body">
+                                    <div class="row g-3" id="">
+                                        <div class="col">
+                                            <select class="form-select" id="select-pais">
+                                                <option selected>Seleccione una agencia</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-select" id="select-pais">
+                                                <option selected>Seleccione una area</option>
+                                            </select>
+                                        </div>
+                                        <div class="col d-flex align-items-end">
+                                            <button class="bi bi-search btn btn-outline-secondary me-2" type="button"></button>
+                                            <button id="btn-agregar" type="button" onclick="addCobro()" class="btn btn-outline-primary" title="Agregar">
+                                                <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                                <span class="d-none d-lg-block">Agregar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Agencia</th>
+                                                        <th>Area</th>
+                                                        <th>Activo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="data-table-body">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion accordion-flush" id="accordion-cargo">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading-cargo">
+                                <button id="accordion-button-area" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-area" aria-expanded="false" aria-controls="flush-collapse-area">
+                                    Cargo:
+                                </button>
+                            </h2>
+                            <div id="flush-collapse-area" class="accordion-collapse collapse" aria-labelledby="flush-heading-area" data-bs-parent="#accordion-area">
+                                <div class="accordion-body">
+                                    <div class="row g-3" id="">
+                                        <div class="col">
+                                            <select class="form-select" id="select-pais">
+                                                <option selected>Seleccione una agencia</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-select" id="select-pais">
+                                                <option selected>Seleccione una area</option>
+                                            </select>
+                                        </div>
+                                        <div class="col d-flex align-items-end">
+                                            <button class="bi bi-search btn btn-outline-secondary me-2" type="button"></button>
+                                            <button id="btn-agregar" type="button" onclick="addCobro()" class="btn btn-outline-primary" title="Agregar">
+                                                <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                                <span class="d-none d-lg-block">Agregar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Agencia</th>
+                                                        <th>Area</th>
+                                                        <th>Activo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="data-table-body">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Empleado", "Empleados")'">Cancelar</button>
                 </div>
             </div>
         </form>
@@ -358,4 +459,14 @@
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/empleado.js" asp-append-version="true"></script>
+
+    <script>
+        const urlGetDepto = '@Url.Action("ObtenerDepartamentos")';
+        const urlGetMpio = '@Url.Action("ObtenerMunicipios")';
+        const urlGetAldea = '@Url.Action("ObtenerAldeas")';
+
+        $(function(){
+            inicializarFormCrearEmpleado(urlGetDepto, urlGetMpio, urlGetAldea);
+        });
+    </script>
 }

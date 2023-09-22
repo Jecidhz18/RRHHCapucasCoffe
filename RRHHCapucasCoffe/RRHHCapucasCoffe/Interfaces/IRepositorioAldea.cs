@@ -1,5 +1,6 @@
 ﻿using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Models.Aldeas;
+using RRHHCapucasCoffe.Models.TablasUniones;
 
 namespace RRHHCapucasCoffe.Interfaces
 {
@@ -10,5 +11,6 @@ namespace RRHHCapucasCoffe.Interfaces
         Task<bool> ExisteAldea(string aldeaNombre);
         Task<Aldea> ObtenerAldeaPorId(int aldeaId);
         Task<IEnumerable<Aldea>> ObtenerAldeas();
+        Task<IEnumerable<Aldea>> ObtenerAldeasActivoPorMpio(PaisDeptoMpio paisDeptoMpio);
     }
 }

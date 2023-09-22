@@ -78,5 +78,15 @@ namespace RRHHCapucasCoffe.Services
                 @"DELETE Profesiones
                 WHERE ProfesionId = @ProfesionId", new {profesionId});
         }
+
+        public async Task<IEnumerable<Profesion>> ObtenerProfesionesActivas()
+        {
+            using var connection = new SqlConnection(connectrionString);
+
+            return await connection.QueryAsync<Profesion>(
+                @"SELECT ProfesionId, ProfesionNombre, ProfesionActivo
+                FROM Profesiones
+                WHERE ProfesionActivo = '1'");
+        }
     }
 }

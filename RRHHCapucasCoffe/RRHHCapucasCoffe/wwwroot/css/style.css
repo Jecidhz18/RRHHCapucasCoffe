@@ -4,18 +4,18 @@
 
 :root {
     scroll-behavior: smooth;
+    zoom: 0.82;
 }
 
 ul{
     margin-bottom: 0px;
-    /*list-style: none;*/
+    list-style: none;
 }
 
 body {
     font-family: "Open Sans", sans-serif;
     background: #f6f9ff;
     color: #444444;
-    zoom: 0.82;
 }
 
 a {
@@ -60,7 +60,7 @@ h6 {
 }
 
 .pagetitle h1 {
-  font-size: 24px;
+  font-size: 16px;
   margin-bottom: 0;
   font-weight: 600;
   color: #012970;
@@ -1262,7 +1262,7 @@ End SlideBar-btn*/
 /*--------------------------------------------------------------
 # Modal
 --------------------------------------------------------------*/
-.fade{
+.fade {  /*zoom*/
     width: 100%;
     height: 100%;
 }

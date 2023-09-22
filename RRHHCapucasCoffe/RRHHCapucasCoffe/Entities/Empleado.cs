@@ -16,7 +16,7 @@ namespace RRHHCapucasCoffe.Entities
         public int EmpleadoSexo { get; set; }
         [Display(Name = "Lugar de Nacimiento")]
         public int EmpleadoDirNacimientoId { get; set; }
-        public DateTime EmpleadoFechaNacimiento { get; set; }
+        public DateTime EmpleadoFechaNacimiento { get; set; } = new DateTime(1969, 1, 1);
         public int EmpleadoEdad { get; set; }
         public int EstadoCivilId { get; set; }
         public string EmpleadoTelefono { get; set; }
@@ -26,8 +26,8 @@ namespace RRHHCapucasCoffe.Entities
         public string EmpleadoEmail { get; set; }
         public int FamiliarId { get; set; }
         public int ProfesionId { get; set; }
-        public DateTime EmpleadoFechaIngreso { get; set; }
-        public DateTime EmpleadoFechaContrato { get; set; }
+        public DateTime EmpleadoFechaIngreso { get; set; } = DateTime.Now;
+        public DateTime EmpleadoFechaContrato { get; set; } = DateTime.Now;
         public bool EmpleadoActivo { get; set; }
         public Guid EmpleadoUsuarioGrabo { get; set; }
         public DateTime EmpleadoFechaGrabo { get; set; }

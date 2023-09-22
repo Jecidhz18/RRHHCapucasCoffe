@@ -75,5 +75,15 @@ namespace RRHHCapucasCoffe.Services
                 @"DELETE EstadosCiviles
                 WHERE EstadoCivilId = @EstadoCivilId", new {estadoCivilId});
         }
+
+        public async Task<IEnumerable<EstadoCivil>> ObtenerEstadoCivilActivo()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<EstadoCivil>(
+                @"SELECT EstadoCivilId, EstadoCivilNombre, EstadoCivilActivo
+                FROM EstadosCiviles
+                WHERE EstadoCivilActivo = '1'");
+        }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
 using RRHHCapucasCoffe.Models.Aldeas;
+using RRHHCapucasCoffe.Models.TablasUniones;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -66,6 +67,20 @@ namespace RRHHCapucasCoffe.Services
                 WHERE AldeaId = @AldeaId", aldea);
         }
 
+        public async Task<IEnumerable<Aldea>> ObtenerAldeasActivoPorMpio(PaisDeptoMpio paisDeptoMpio)
+        {
+            using var connection = new SqlConnection(connectionString);
 
+            return await connection.QueryAsync<Aldea>(
+                @"SELECT a.AldeaId, a.AldeaNombre, a.AldeaActivo
+                FROM DpAldeas a
+                INNER JOIN DpMpiosAldeas ma ON a.AldeaId = ma.AldeaId
+                WHERE ma.PaisId = @PaisId AND ma.DepartamentoId = @DepartamentoId AND ma.MunicipioId = @MunicipioId AND a.AldeaActivo = '1'", new
+                {
+                    paisDeptoMpio.PaisId, 
+                    paisDeptoMpio.DepartamentoId, 
+                    paisDeptoMpio.MunicipioId
+                });
+        }
     }
 }

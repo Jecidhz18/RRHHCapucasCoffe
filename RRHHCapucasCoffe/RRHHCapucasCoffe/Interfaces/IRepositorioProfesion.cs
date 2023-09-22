@@ -10,6 +10,7 @@ namespace RRHHCapucasCoffe.Interfaces
         Task EliminarProfesion(int profesionId);
         Task<bool> ExisteProfesion(string profesionNombre);
         Task<IEnumerable<ProfesionViewModel>> ObtenerProfesion();
+        Task<IEnumerable<Profesion>> ObtenerProfesionesActivas();
         Task<Profesion> ObtenerProfesionPorId(int profesionId);
     }
 }
