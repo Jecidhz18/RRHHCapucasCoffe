@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
@@ -67,6 +68,15 @@ namespace RRHHCapucasCoffe.Services
                 @"UPDATE Agencias
                 SET AgenciaNombre = @AgenciaNombre, AgenciaActiva = @AgenciaActiva
                 WHERE AgenciaId = @AgenciaId", agencia);
+        }
+
+        public async Task<IEnumerable<Agencia>> ObtenerAgenciasActivas()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Agencia>(
+                @"SELECT * FROM Agencias
+                WHERE AgenciaActiva = '1'");
         }
     }
 }

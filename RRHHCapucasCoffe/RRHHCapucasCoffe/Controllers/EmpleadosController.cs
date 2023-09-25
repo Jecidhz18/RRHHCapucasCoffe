@@ -17,10 +17,15 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IRepositorioEstadoCivil repositorioEstadoCivil;
         private readonly IRepositorioProfesion repositorioProfesion;
         private readonly IRepositorioBanco repositorioBanco;
+        private readonly IRepositorioColegioProfesional repositorioColegioProfesional;
+        private readonly IRepositorioAgencia repositorioAgencia;
+        private readonly IRepositorioUnidad repositorioUnidad;
+        private readonly IRepositorioAgenciaUnidad repositorioAgenciaUnidad;
 
         public EmpleadosController(IRepositorioDepartamento repositorioDepartamento, IRepositorioPais repositorioPais,
             IRepositorioMunicipio repositorioMunicipio, IRepositorioAldea repositorioAldea, IRepositorioEstadoCivil repositorioEstadoCivil,
-            IRepositorioProfesion repositorioProfesion, IRepositorioBanco repositorioBanco)
+            IRepositorioProfesion repositorioProfesion, IRepositorioBanco repositorioBanco, IRepositorioColegioProfesional repositorioColegioProfesional,
+            IRepositorioAgencia repositorioAgencia, IRepositorioUnidad repositorioUnidad, IRepositorioAgenciaUnidad repositorioAgenciaUnidad)
         {
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioPais = repositorioPais;
@@ -29,6 +34,10 @@ namespace RRHHCapucasCoffe.Controllers
             this.repositorioEstadoCivil = repositorioEstadoCivil;
             this.repositorioProfesion = repositorioProfesion;
             this.repositorioBanco = repositorioBanco;
+            this.repositorioColegioProfesional = repositorioColegioProfesional;
+            this.repositorioAgencia = repositorioAgencia;
+            this.repositorioUnidad = repositorioUnidad;
+            this.repositorioAgenciaUnidad = repositorioAgenciaUnidad;
         }
 
         public ActionResult Empleado()
@@ -43,6 +52,8 @@ namespace RRHHCapucasCoffe.Controllers
             modelo.EstadosCiviles = await ObtenerEstadosCiviles();
             modelo.Profesiones = await ObtenerProfesiones();
             modelo.Bancos = await ObtenerBancos();
+            modelo.ColegiosProfesionales = await ObtenerColegiosProfesionales();
+            modelo.Agencias = await ObtenerAgencias();
             return View(modelo);
         }
 
@@ -86,6 +97,13 @@ namespace RRHHCapucasCoffe.Controllers
             var aldeas = await ObtenerAldeasPorMpio(paisDeptoMpio);
 
             return Ok(aldeas);
+        }
+        //Metodo AJAX para obtener areas
+        public async Task<IActionResult> ObtenerAreas([FromBody] Agencia agencia)
+        {
+            var areas = await ObtenerAreasPorAgencia(agencia.AgenciaId);
+
+            return Ok(areas);
         }
         //Metodo privado para obtener paises
         private async Task<IEnumerable<SelectListItem>> ObtenerPaises()
@@ -138,18 +156,40 @@ namespace RRHHCapucasCoffe.Controllers
             return estadosCiviles.Select(x => new SelectListItem(x.EstadoCivilNombre, x.EstadoCivilId.ToString()));
         }
         //Metodo privado para obtener profesiones
-        public async Task<IEnumerable<SelectListItem>> ObtenerProfesiones()
+        private async Task<IEnumerable<SelectListItem>> ObtenerProfesiones()
         {
             var profesiones = await repositorioProfesion.ObtenerProfesionesActivas();
 
             return profesiones.Select(x => new SelectListItem(x.ProfesionNombre, x.ProfesionId.ToString()));
         }
         //Metodo privado para obtener bancos
-        public async Task<IEnumerable<SelectListItem>> ObtenerBancos()
+        private async Task<IEnumerable<SelectListItem>> ObtenerBancos()
         {
             var bancos = await repositorioBanco.ObtenerBancosActivos();
 
             return bancos.Select(x => new SelectListItem(x.BancoNombre, x.BancoId.ToString()));
         }
+        //Metodo privado para obtener colegios profesionales
+        private async Task<IEnumerable<SelectListItem>> ObtenerColegiosProfesionales()
+        {
+            var colegiosProfesionales = await repositorioColegioProfesional.ObtenerColegiosProfesionalesActivos();
+
+            return colegiosProfesionales.Select(x => new SelectListItem(x.ColegioProfesionalNombre, x.ColegioProfesionalId.ToString()));
+        }
+        //Metodo privado para obtener colegios profesionales
+        private async Task<IEnumerable<SelectListItem>> ObtenerAgencias()
+        {
+            var agencias = await repositorioAgencia.ObtenerAgenciasActivas();
+
+            return agencias.Select(x => new SelectListItem(x.AgenciaNombre, x.AgenciaId.ToString()));
+        }
+        //Metodo privado para obtener areas o unidades
+        private async Task<IEnumerable<SelectListItem>> ObtenerAreasPorAgencia(int agenciaId)
+        {
+            var areas = await repositorioAgenciaUnidad.ObtenerUnidadPorAgencia(agenciaId);
+
+            return areas.Select(x => new SelectListItem(x.UnidadDescripcion, x.UnidadId.ToString()));
+        }
+        
     }
 }

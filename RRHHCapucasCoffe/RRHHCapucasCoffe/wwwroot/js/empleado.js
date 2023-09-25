@@ -162,6 +162,31 @@
         //$("#DepartamentoId").html(options);
     });
 
+    $('#select-agencia').change(async function () {
+        const valueAgencia = $(this).val();
+
+        const result = await fetch(urlGetArea, {
+            method: 'POST',
+            body: JSON.stringify({ AgenciaId: valueAgencia }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const json = await result.json();
+
+        const options =
+            json.map(agencia => `<option value=${agencia.value}>${agencia.text}</option>`);
+
+        //Obtener la primera opcion
+        const selectOption = $("#select-area option:first");
+
+        //Elimina las opciones despues de la primera opcion
+        $("#select-area option").remove(':gt(0)');
+
+        //Agregar las nuevas opciones despues de la primera opcion
+        selectOption.after(options.join(''));
+    });
 
 }
 
@@ -190,6 +215,7 @@ $(document).ready(function () {
             viewMode: 1, // Opciones de visualización para ajustar la imagen
         });
     }
+
     $('#crop-button').click(function () {
         var canvas = cropper.getCroppedCanvas();
         var croppedImageBase64 = canvas.toDataURL('image/jpeg');
@@ -206,4 +232,60 @@ $('#btn-delete-photo').click(function () {
     // Establece la nueva imagen desde la carpeta 'img/'
     var nuevaImagenSrc = '/img/ImgUpload.png'; // Reemplaza 'tu-nueva-imagen.jpg' con el nombre de tu nueva imagen
     $('#imagen-previa').attr('src', nuevaImagenSrc);
+});
+
+$('#btn-agregar-banco').click(function () {
+    const selectBanco = $('#select-banco');
+
+    const celdaAccionesBank = $('<td>');
+    const botonEliminarBank = $('<button>', {
+        class: 'btn btn-outline-danger btn-sm bi bi-trash',
+        id: 'botonEliminarBank'
+    });
+
+    const celdaBank = $('<td>', {
+        text: selectBanco.find('option:selected').text()
+    });
+    const inputBancoId = $('<input>', {
+        type: 'hidden',
+        name: 'BancoId',
+        value: selectBanco.value
+    });
+
+    const celdaInputNoCuenta = $('<td>');
+    const inputNoCuenta = $('<input>', {
+        type: 'text',
+        class: 'form-control form-control-sm',
+        name: 'EmpleadoBanco.EmpleadoBancoNoCuenta'
+    });
+    const celdaInputBancoActiva = $('<td>');
+    const divFormCheck = $('<div>', {
+        class: 'form-check'
+    });
+    const inputBancoActiva = $('<input>', {
+        type: 'radio',
+        class: 'form-check-input',
+        name: 'EmpleadoBanco.EmpleadoBancoActiva',
+        value: ''
+    });
+
+    celdaAccionesBank.append(botonEliminarBank);
+    celdaBank.append(inputBancoId);
+    celdaInputNoCuenta.append(inputNoCuenta);
+    celdaInputBancoActiva.append(divFormCheck.append(inputBancoActiva));
+
+    const nuevaFilaBank = $('<tr>').append(celdaAccionesBank, celdaBank, celdaInputNoCuenta, celdaInputBancoActiva);
+
+    $('#data-table-body-bank').append(nuevaFilaBank);
+});
+
+$('input[name="EmpleadoBanco.EmpleadoBancoActiva"]').change(function () {
+    // Establece el valor de todos los botones de radio en "false"
+    $('input[name="EmpleadoBanco.EmpleadoBancoActiva"]').val('false');
+    // Establece el valor del botón de radio seleccionado en "true"
+    $(this).val('true');
+});
+
+$(document).on("click", "#botonEliminarBank", function () {
+    $(this).closest("tr").remove();
 });

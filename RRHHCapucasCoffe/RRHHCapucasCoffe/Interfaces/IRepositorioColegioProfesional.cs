@@ -10,5 +10,6 @@ namespace RRHHCapucasCoffe.Interfaces
         Task<bool> ExisteColegioProfesional(string colegioProfesionalNombre);
         Task<IEnumerable<ColegioProfesional>> ObtenerColegioProfesional();
         Task<ColegioProfesional> ObtenerColegioProfesionalPorId(int colegioProfesionalId);
+        Task<IEnumerable<ColegioProfesional>> ObtenerColegiosProfesionalesActivos();
     }
 }

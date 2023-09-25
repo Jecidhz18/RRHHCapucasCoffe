@@ -75,5 +75,14 @@ namespace RRHHCapucasCoffe.Services
                 @"DELETE ColegiosProfesionales
                 WHERE ColegioProfesionalId = @ColegioProfesionalId",new { colegioProfesionalId });
         }
+
+        public async Task<IEnumerable<ColegioProfesional>> ObtenerColegiosProfesionalesActivos()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<ColegioProfesional>(
+                @"SELECT * FROM ColegiosProfesionales
+                WHERE ColegioProfesionalActivo = '1'");
+        }
     }
 }

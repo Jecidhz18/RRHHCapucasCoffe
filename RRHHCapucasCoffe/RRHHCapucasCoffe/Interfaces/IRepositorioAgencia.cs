@@ -10,5 +10,6 @@ namespace RRHHCapucasCoffe.Interfaces
         Task<bool> ExisteAgencia(string agenciaNombre);
         Task<IEnumerable<AgenciaViewModel>> ObtenerAgencia();
         Task<Agencia> ObtenerAgenciaPorId(int agenciaId);
+        Task<IEnumerable<Agencia>> ObtenerAgenciasActivas();
     }
 }
