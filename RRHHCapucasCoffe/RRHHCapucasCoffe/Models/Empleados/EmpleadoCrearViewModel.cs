@@ -7,6 +7,7 @@ namespace RRHHCapucasCoffe.Models.Empleados
     {
         public Familiar Familiar { get; set; }
         public EmpleadoBanco EmpleadoBanco { get; set; }
+        public EmpleadoColegiacion EmpleadoColegiacion {get; set;}
         public IEnumerable<SelectListItem> Paises { get; set; }
         public IEnumerable<SelectListItem> EstadosCiviles { get; set; }
         public IEnumerable<SelectListItem> Profesiones { get; set; }

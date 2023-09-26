@@ -240,7 +240,7 @@ $('#btn-agregar-banco').click(function () {
     const celdaAccionesBank = $('<td>');
     const botonEliminarBank = $('<button>', {
         class: 'btn btn-outline-danger btn-sm bi bi-trash',
-        id: 'botonEliminarBank'
+        id: 'botonEliminarFila'
     });
 
     const celdaBank = $('<td>', {
@@ -279,13 +279,72 @@ $('#btn-agregar-banco').click(function () {
     $('#data-table-body-bank').append(nuevaFilaBank);
 });
 
+$('#btn-agregar-colegiacion').click(function () {
+    const selectColegio = $('#select-colegio');
+
+    const celdaAccionesColegio = $('<td>');
+    const botonEliminasColegio = $('<button>', {
+        class: 'btn btn-outline-danger btn-sm bi bi-trash',
+        id: 'botonEliminarFila'
+    });
+
+    const celdaColegio = $('<td>', {
+        text: selectColegio.find('option:selected').text()
+    });
+    const inputColegioId = $('<input>', {
+        type: 'hidden',
+        name: 'BancoId',
+        value: selectColegio.value
+    });
+    const celdaInputColAnio = $('<td>');
+    const inputColAnio = $('<input>', {
+        type: 'text',
+        class: 'form-control form-control-sm',
+        name: ''
+    });
+    const celdaInputColCuota = $('<td>');
+    const inputColCuota = $('<input>', {
+        type: 'text',
+        class: 'form-control form-control-sm',
+        name: ''
+    });
+    const celdaInputColActivo = $('<td>');
+    const divFormCheck = $('<div>', {
+        class: 'form-check'
+    });
+    const inputColActivo = $('<input>', {
+        type: 'radio',
+        class: 'form-check-input',
+        name: 'EmpleadoColegiacion.EmpleadoColegiacionActivo',
+        value: ''
+    });
+
+    celdaAccionesColegio.append(botonEliminasColegio);
+    celdaColegio.append(inputColegioId);
+    celdaInputColAnio.append(inputColAnio);
+    celdaInputColCuota.append(inputColCuota);
+    celdaInputColActivo.append(divFormCheck.append(inputColActivo));
+
+    const nuevaFilaColegio = $('<tr>').append(celdaAccionesColegio, celdaColegio, celdaInputColAnio, celdaInputColCuota, celdaInputColActivo);
+
+    $('#data-table-body-colegio').append(nuevaFilaColegio);
+});
+// radio buttons tabla de empleado bancos
 $('input[name="EmpleadoBanco.EmpleadoBancoActiva"]').change(function () {
     // Establece el valor de todos los botones de radio en "false"
     $('input[name="EmpleadoBanco.EmpleadoBancoActiva"]').val('false');
     // Establece el valor del botón de radio seleccionado en "true"
     $(this).val('true');
 });
+// Radio buttons tabla de empleado colegiaciones
+$('input[name="EmpleadoColegiacion.EmpleadoColegiacionActivo"]').change(function () {
+    // Establece el valor de todos los botones de radio en "false"
+    $('input[name="EmpleadoColegiacion.EmpleadoColegiacionActivo"]').val('false');
+    // Establece el valor del botón de radio seleccionado en "true"
+    $(this).val('true');
+});
 
-$(document).on("click", "#botonEliminarBank", function () {
+$(document).on("click", "#botonEliminarFila", function () {
     $(this).closest("tr").remove();
 });
+
