@@ -1,0 +1,42 @@
+﻿@model RRHHCapucasCoffe.Entities.Modalidad
+@{
+    ViewData["Title"] = "Crear Modalidad";
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Crear Modalidad</h3>
+
+        <form class="row g-3" asp-action="CrearModalidad">
+            <div class="col-12">
+                <label asp-for="ModalidadNombre" class="form-label"></label>
+                <input asp-for="ModalidadNombre" type="text" placeholder="" class="form-control">
+                <span asp-validation-for="ModalidadNombre" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="ModalidadDescripcion" class="form-label"></label>
+                <textarea asp-for="ModalidadDescripcion" class="form-control"></textarea>
+                <span asp-validation-for="ModalidadDescripcion" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <label asp-for="ModalidadActiva" class="form-check-label"></label>
+                    <input asp-for="ModalidadActiva" class="form-check-input" type="checkbox" checked>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary" title="Confirmar">Confirmar</button>
+                <button type="reset" class="btn btn-secondary" onclick="location.href='@Url.Action("Modalidad", "Modalidades")'" title="Cancelar">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<RRHHCapucasCoffe.Entities.Modalidad>
+
+@{
+    ViewData["Title"] = "Modalidades";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mx-3 mt-2 py-0">Modalidades</h5>
+        <div class="d-flex" id="container-buttons">
+            <div class="p-1 flex-fill">
+                <div class="d-flex d-flex justify-content-end dt-buttons">
+                    <button type="submit" class="d-flex align-items-center btn btn-outline-primary mx-1" onclick="location.href='@Url.Action("CrearModalidad", "Modalidades")'" title="Agregar">
+                        <span>
+                            <i class="bi bi-file-plus d-block d-lg-none"></i>
+                            <span class="mx-1 d-none d-lg-block">Agregar</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body mt-3">
+        <div class="table-responsive">
+            <table class="table dataTable" id="datatable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Modalidad</th>
+                        <th>Descripción</th>
+                        <th>Activo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var modalidad in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a class="btn btn-outline-primary" asp-action="EditarModalidad" asp-route-modalidadId="@modalidad.ModalidadId" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="btn btn-outline-danger" asp-action="EliminarModalidad" asp-route-modalidadId="@modalidad.ModalidadId" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                            <td>
+                                @modalidad.ModalidadNombre
+                            </td>
+                            <td>
+                                @modalidad.ModalidadDescripcion
+                            </td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" disabled checked="@modalidad.ModalidadActiva">
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/table.js" asp-append-version="true"></script>
+}

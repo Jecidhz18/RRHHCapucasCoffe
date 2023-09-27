@@ -23,6 +23,7 @@ builder.Services.AddTransient<IRepositorioMpioAldea, RepositorioMpioAldea>();
 builder.Services.AddTransient<IRepositorioDeduccion, RepositorioDeduccion>();
 builder.Services.AddTransient<IRepositorioAgencia, RepositorioAgencia>();
 builder.Services.AddTransient<IRepositorioAgenciaUnidad, RepositorioAgenciaUnidad>();
+builder.Services.AddTransient<IRepositorioModalidad, RepositorioModalidad>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
