@@ -228,7 +228,6 @@ $(document).ready(function () {
 
 $('#btn-delete-photo').click(function () {
     $('#imagen-previa').attr('src', '');
-
     // Establece la nueva imagen desde la carpeta 'img/'
     var nuevaImagenSrc = '/img/ImgUpload.png'; // Reemplaza 'tu-nueva-imagen.jpg' con el nombre de tu nueva imagen
     $('#imagen-previa').attr('src', nuevaImagenSrc);
@@ -240,16 +239,16 @@ $('#btn-agregar-banco').click(function () {
     const celdaAccionesBank = $('<td>');
     const botonEliminarBank = $('<button>', {
         class: 'btn btn-outline-danger btn-sm bi bi-trash',
-        id: 'botonEliminarFila'
+        id: 'btn-eliminar-fila'
     });
 
     const celdaBank = $('<td>', {
-        text: selectBanco.find('option:selected').text()
+        text: selectBanco.find(':selected').text()
     });
     const inputBancoId = $('<input>', {
         type: 'hidden',
         name: 'BancoId',
-        value: selectBanco.value
+        value: selectBanco.val()
     });
 
     const celdaInputNoCuenta = $('<td>');
@@ -285,16 +284,16 @@ $('#btn-agregar-colegiacion').click(function () {
     const celdaAccionesColegio = $('<td>');
     const botonEliminasColegio = $('<button>', {
         class: 'btn btn-outline-danger btn-sm bi bi-trash',
-        id: 'botonEliminarFila'
+        id: 'btn-eliminar-fila'
     });
 
     const celdaColegio = $('<td>', {
-        text: selectColegio.find('option:selected').text()
+        text: selectColegio.find(':selected').text()
     });
     const inputColegioId = $('<input>', {
         type: 'hidden',
         name: 'BancoId',
-        value: selectColegio.value
+        value: selectColegio.val()
     });
     const celdaInputColAnio = $('<td>');
     const inputColAnio = $('<input>', {
@@ -329,22 +328,139 @@ $('#btn-agregar-colegiacion').click(function () {
 
     $('#data-table-body-colegio').append(nuevaFilaColegio);
 });
-// radio buttons tabla de empleado bancos
-$('input[name="EmpleadoBanco.EmpleadoBancoActiva"]').change(function () {
-    // Establece el valor de todos los botones de radio en "false"
-    $('input[name="EmpleadoBanco.EmpleadoBancoActiva"]').val('false');
-    // Establece el valor del botón de radio seleccionado en "true"
-    $(this).val('true');
-});
-// Radio buttons tabla de empleado colegiaciones
-$('input[name="EmpleadoColegiacion.EmpleadoColegiacionActivo"]').change(function () {
-    // Establece el valor de todos los botones de radio en "false"
-    $('input[name="EmpleadoColegiacion.EmpleadoColegiacionActivo"]').val('false');
-    // Establece el valor del botón de radio seleccionado en "true"
-    $(this).val('true');
+
+$('#btn-agregar-area').click(function () {
+    const selectAgencia = $('#select-agencia');
+    const selectArea = $('#select-area');
+
+    const celdaAccionesArea = $('<td>');
+    const buttonEliminarArea = $('<button>', {
+        class: 'btn btn-outline-danger btn-sm bi bi-trash',
+        id: 'btn-eliminar-fila'
+    });
+
+    const celdaAgencia = $('<td>', {
+        text: selectAgencia.find(':selected').text()
+    });
+    const inputAgencia = $('<input>', {
+        type: 'hidden',
+        name: 'EmpleadoArea.AgenciaId',
+        value: selectAgencia.val()
+    })
+
+    const celdaArea = $('<td>', {
+        text: selectArea.find(':selected').text()
+    });
+    const inputArea = $('<input>', {
+        type: 'hidden',
+        name: 'EmpleadoArea.UnidadId',
+        value: selectArea.val()
+    })
+
+    const celdaInputAreaActiva = $('<td>');
+    const divFormCheck = $('<div>', {
+        class: 'form-check'
+    });
+    const inputAreaActiva = $('<input>', {
+        id: 'radio-area-activo',
+        type: 'radio',
+        class: 'form-check-input',
+        name: 'EmpleadoArea.EmpleadoAreaActivo',
+        value: ''
+    });
+
+    celdaAccionesArea.append(buttonEliminarArea);
+    celdaAgencia.append(inputAgencia);
+    celdaArea.append(inputArea);
+    celdaInputAreaActiva.append(divFormCheck.append(inputAreaActiva));
+
+    const nuevaFilaArea = $('<tr>').append(celdaAccionesArea, celdaAgencia, celdaArea, celdaInputAreaActiva);
+
+    $('#data-table-body-area').append(nuevaFilaArea);
+})
+
+$('#btn-agregar-cargo').click(function () {
+    const selectCargo = $('#select-cargo');
+    const selectModalidad = $('#select-modalidad')
+
+    const celdaAccionesCargo = $('<td>');
+    const buttonEliminarCargo = $('<button>', {
+        type: 'button',
+        class: 'btn btn-outline-danger btn-sm bi bi-trash',
+        id: 'btn-eliminar-fila'
+    });
+    const celdaCargo = $('<td>', {
+        text: selectCargo.find(':selected').text()
+    });
+    const inputCargoId = $('<input>', {
+        type: 'hidden',
+        name: 'EmpleadoCargo.CargoId',
+        value: selectCargo.val()
+    });
+    const celdaModalidad = $('<td>', {
+        text: selectModalidad.find(':selected').text()
+    });
+    const inputModalidadId = $('<input>', {
+        type: 'hidden',
+        name: 'EmpleadoCargo.ModalidadId',
+        value: selectModalidad.val()
+    });
+    const celdaFechaInicio = $('<td>');
+    const inputFechaInicio = $('<input>', {
+        type: 'date',
+        class: 'form-control form-control-sm',
+        name: 'EmpleadoCargo.EmpleadoCargoFechaInicio'
+    });
+    const celdaFechaFinal = $('<td>');
+    const inputFechaFinal = $('<input>', {
+        type: 'date',
+        class: 'form-control form-control-sm',
+        name: 'EmpleadoCargo.EmpleadoCargoFechaFinal'
+    });
+    const celdaSalario = $('<td>');
+    const inputSalario = $('<input>', {
+        type: 'number',
+        class: 'form-control form-control-sm',
+        name: 'EmpleadoCargo.EmpleadoCargoFechaFinal'
+    });
+    const celdaObservacion = $('<td>');
+    const inputObservacion = $('<input>', {
+        type: 'text',
+        class: 'form-control form-control-sm',
+        name: 'EmpleadoCargo.EmpleadoCargoObs'
+    });
+    const celdaInputCargoActivo = $('<td>');
+    const divFormCheck = $('<div>', {
+        class: 'form-check'
+    });
+    const inputCargoActivo = $('<input>', {
+        type: 'radio',
+        class: 'form-check-input',
+        name: 'EmpleadoCargo.EmpleadoCargoActivo',
+        value: ''
+    });
+
+    celdaAccionesCargo.append(buttonEliminarCargo);
+    celdaCargo.append(inputCargoId);
+    celdaModalidad.append(inputModalidadId);
+    celdaFechaInicio.append(inputFechaInicio);
+    celdaFechaFinal.append(inputFechaFinal);
+    celdaSalario.append(inputSalario);
+    celdaObservacion.append(inputObservacion);
+    celdaInputCargoActivo.append(divFormCheck.append(inputCargoActivo));
+
+    const nuevaFilaCargo = $('<tr>').append(celdaAccionesCargo, celdaCargo, celdaModalidad, celdaFechaInicio, celdaFechaFinal, celdaSalario, celdaObservacion, celdaInputCargoActivo);
+
+    $('#data-table-body-cargo').append(nuevaFilaCargo);
 });
 
-$(document).on("click", "#botonEliminarFila", function () {
+$(document).on("change", "input[type=\"radio\"]", function () {
+    $('input[type="radio"]:checked').val('true');
+    // Establece el valor del botón de radio seleccionado en "true"
+    $('input[type="radio"]:not(:checked)').val('false');
+});
+
+$(document).on("click", "#btn-eliminar-fila", function () {
     $(this).closest("tr").remove();
 });
 

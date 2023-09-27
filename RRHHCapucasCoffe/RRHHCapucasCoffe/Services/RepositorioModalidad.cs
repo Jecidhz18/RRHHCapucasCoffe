@@ -60,5 +60,14 @@ namespace RRHHCapucasCoffe.Services
                 SET ModalidadNombre = @ModalidadNombre, ModalidadDescripcion = @ModalidadDescripcion, ModalidadActiva = @ModalidadActiva
                 WHERE ModalidadId = @ModalidadId", modalidad);
         }
+
+        public async Task<IEnumerable<Modalidad>> ObtenerModalidadesActivas()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Modalidad>(
+                @"SELECT * FROM Modalidades
+                WHERE ModalidadActiva = '1'");
+        }
     }
 }

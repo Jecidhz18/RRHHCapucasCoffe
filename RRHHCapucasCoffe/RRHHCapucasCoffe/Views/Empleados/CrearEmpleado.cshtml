@@ -374,7 +374,7 @@
                                         </div>
                                         <div class="col d-flex align-items-end">
                                             <button class="bi bi-search btn btn-outline-secondary me-2" type="button"></button>
-                                            <button id="btn-agregar" type="button" onclick="addCobro()" class="btn btn-outline-primary" title="Agregar">
+                                            <button id="btn-agregar-area" type="button" class="btn btn-outline-primary" title="Agregar">
                                                 <i class="bi bi-file-plus d-block d-lg-none"></i>
                                                 <span class="d-none d-lg-block">Agregar</span>
                                             </button>
@@ -391,7 +391,7 @@
                                                         <th>Activo</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="data-table-body">
+                                                <tbody id="data-table-body-area">
                                                 </tbody>
                                             </table>
                                         </div>
@@ -411,33 +411,21 @@
                             <div id="flush-collapse-cargo" class="accordion-collapse collapse" aria-labelledby="flush-heading-cargo" data-bs-parent="#accordion-cargo">
                                 <div class="accordion-body">
                                     <div class="row g-3" id="">
-                                        <div class="col-3">
-                                            <label class="form-label">Cargo</label>
+                                        <div class="col-6">
                                             <div class="input-group">
-                                                <select class="form-select" id="select-pais">
-                                                    <option selected>Seleccione una opción</option>
+                                                <select class="form-select" id="select-cargo" asp-items="Model.Cargos" >
+                                                    <option selected>Seleccione un cargo</option>
                                                 </select>
                                                 <button class="bi bi-search btn btn-outline-secondary" type="button"></button>
                                             </div>
                                         </div>
-                                        <div class="col-2">
-                                            <label class="form-label">Fecha Inicio</label>
-                                            <input type="date" class="form-control" />
-                                        </div>
-                                        <div class="col-2">
-                                            <label class="form-label">Fecha Final</label>
-                                            <input type="date" class="form-control" />
-                                        </div>
-                                        <div class="col-2">
-                                            <label class="form-label">Salario</label>
-                                            <input type="number" class="form-control" />
-                                        </div>
-                                        <div class="col-2">
-                                            <label class="form-label">Observación</label>
-                                            <input type="text" class="form-control" />
+                                        <div class="col-5">
+                                            <select class="form-select" id="select-modalidad" asp-items="Model.Modalidades">
+                                                <option selected>Seleccione una modalidad</option>
+                                            </select>
                                         </div>
                                         <div class="col-1 d-flex align-items-end">
-                                            <button id="btn-agregar" type="button" onclick="addCobro()" class="btn btn-outline-primary" title="Agregar">
+                                            <button id="btn-agregar-cargo" type="button" class="btn btn-outline-primary" title="Agregar">
                                                 <i class="bi bi-file-plus d-block d-lg-none"></i>
                                                 <span class="d-none d-lg-block">Agregar</span>
                                             </button>
@@ -450,6 +438,7 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>Cargo</th>
+                                                        <th>Modalidad</th>
                                                         <th>Fecha Inicio</th>
                                                         <th>Fecha Final</th>
                                                         <th>Salario</th>
@@ -457,7 +446,7 @@
                                                         <th>Activo</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="data-table-body">
+                                                <tbody id="data-table-body-cargo">
                                                 </tbody>
                                             </table>
                                         </div>

@@ -21,11 +21,14 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IRepositorioAgencia repositorioAgencia;
         private readonly IRepositorioUnidad repositorioUnidad;
         private readonly IRepositorioAgenciaUnidad repositorioAgenciaUnidad;
+        private readonly IRepositorioCargo repositorioCargo;
+        private readonly IRepositorioModalidad repositorioModalidad;
 
         public EmpleadosController(IRepositorioDepartamento repositorioDepartamento, IRepositorioPais repositorioPais,
             IRepositorioMunicipio repositorioMunicipio, IRepositorioAldea repositorioAldea, IRepositorioEstadoCivil repositorioEstadoCivil,
             IRepositorioProfesion repositorioProfesion, IRepositorioBanco repositorioBanco, IRepositorioColegioProfesional repositorioColegioProfesional,
-            IRepositorioAgencia repositorioAgencia, IRepositorioUnidad repositorioUnidad, IRepositorioAgenciaUnidad repositorioAgenciaUnidad)
+            IRepositorioAgencia repositorioAgencia, IRepositorioUnidad repositorioUnidad, IRepositorioAgenciaUnidad repositorioAgenciaUnidad,
+            IRepositorioCargo repositorioCargo, IRepositorioModalidad repositorioModalidad)
         {
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioPais = repositorioPais;
@@ -38,6 +41,8 @@ namespace RRHHCapucasCoffe.Controllers
             this.repositorioAgencia = repositorioAgencia;
             this.repositorioUnidad = repositorioUnidad;
             this.repositorioAgenciaUnidad = repositorioAgenciaUnidad;
+            this.repositorioCargo = repositorioCargo;
+            this.repositorioModalidad = repositorioModalidad;
         }
 
         public ActionResult Empleado()
@@ -54,6 +59,8 @@ namespace RRHHCapucasCoffe.Controllers
             modelo.Bancos = await ObtenerBancos();
             modelo.ColegiosProfesionales = await ObtenerColegiosProfesionales();
             modelo.Agencias = await ObtenerAgencias();
+            modelo.Cargos = await ObtenerCargos();
+            modelo.Modalidades = await ObtenerModalidades();
             return View(modelo);
         }
 
@@ -189,6 +196,20 @@ namespace RRHHCapucasCoffe.Controllers
             var areas = await repositorioAgenciaUnidad.ObtenerUnidadPorAgencia(agenciaId);
 
             return areas.Select(x => new SelectListItem(x.UnidadDescripcion, x.UnidadId.ToString()));
+        }
+        //Metodo privado para obtener cargos
+        private async Task<IEnumerable<SelectListItem>> ObtenerCargos()
+        {
+            var cargos = await repositorioCargo.ObtenerCargosActivos();
+
+            return cargos.Select(x => new SelectListItem(x.CargoNombre, x.CargoId.ToString()));
+        }
+        //Metodo privado para obtener modalidades
+        private async Task<IEnumerable<SelectListItem>> ObtenerModalidades()
+        {
+            var modalidades = await repositorioModalidad.ObtenerModalidadesActivas();
+
+            return modalidades.Select(x => new SelectListItem(x.ModalidadNombre, x.ModalidadId.ToString()));    
         }
         
     }

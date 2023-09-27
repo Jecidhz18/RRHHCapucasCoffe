@@ -59,6 +59,11 @@ namespace RRHHCapucasCoffe.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarModalidad(Modalidad modalidad)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(modalidad);
+            }
+
             var existeModalidad = await repositorioModalidad.ObtenerModalidaPorId(modalidad.ModalidadId);
 
             if (existeModalidad is null)

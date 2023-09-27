@@ -74,5 +74,14 @@ namespace RRHHCapucasCoffe.Services
                 @"DELETE Cargos
                 WHERE CargoId = @CargoId", new {cargoId});
         }
+
+        public async Task<IEnumerable<Cargo>> ObtenerCargosActivos()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Cargo>(
+                @"SELECT * FROM Cargos
+                WHERE CargoActivo = '1'");
+        }
     }
 }

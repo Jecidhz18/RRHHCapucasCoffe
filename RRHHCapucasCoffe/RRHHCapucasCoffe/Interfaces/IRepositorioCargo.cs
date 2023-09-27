@@ -11,5 +11,6 @@ namespace RRHHCapucasCoffe.Interfaces
         Task<bool> ExisteCargo(string cargoNombre);
         Task<IEnumerable<CargoViewModel>> ObtenerCargo();
         Task<Cargo> ObtenerCargoPorId(int cargoId);
+        Task<IEnumerable<Cargo>> ObtenerCargosActivos();
     }
 }
