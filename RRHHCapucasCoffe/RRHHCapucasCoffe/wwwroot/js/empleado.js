@@ -219,7 +219,8 @@ $(document).ready(function () {
     $('#crop-button').click(function () {
         var canvas = cropper.getCroppedCanvas();
         var croppedImageBase64 = canvas.toDataURL('image/jpeg');
-        $('#imagen-recortada').val(croppedImageBase64);
+        var croppedImageBase64WithoutPrefix = croppedImageBase64.slice(23);
+        $('#imagen-recortada').val(croppedImageBase64WithoutPrefix);
         var previewImage = document.getElementById('imagen-previa');
         previewImage.src = canvas.toDataURL(); // Actualiza la imagen previa
         modal.hide(); // Cierra el modal
@@ -231,10 +232,44 @@ $('#btn-delete-photo').click(function () {
     // Establece la nueva imagen desde la carpeta 'img/'
     var nuevaImagenSrc = '/img/ImgUpload.png'; // Reemplaza 'tu-nueva-imagen.jpg' con el nombre de tu nueva imagen
     $('#imagen-previa').attr('src', nuevaImagenSrc);
+    $('#imagen-recortada').val("");
 });
+
+function validarAgregarBanco(selectBanco, newEmpleadoBancoNoCuenta) {
+    var errorAgregarBanco = true;
+    if (selectBanco.val() == "") {
+        errorBancoSelect("Seleccione una opción válida.");
+        errorAgregarBanco = false;
+    }
+    if (newEmpleadoBancoNoCuenta.val() == "") {
+        errorInputBancoNoCuenta("Campo requerido.");
+        errorAgregarBanco = false;
+        
+    }
+    $("#data-table-body-bank tr").each(function () {
+        var bancoId = $(this).find("td input[name='BancoId']").val();
+        var empleadoBancoNoCuenta = $(this).find("td input[name='EmpleadoBancoNoCuenta']").val();
+
+        if (bancoId == selectBanco.val() && empleadoBancoNoCuenta == newEmpleadoBancoNoCuenta.val()) {
+            errorInputBancoNoCuenta("Ya existe el número de cuenta.");
+
+            errorAgregarBanco = false;
+            return false;
+        }
+    });
+    return errorAgregarBanco 
+}
 
 $('#btn-agregar-banco').click(function () {
     const selectBanco = $('#select-banco');
+    const empleadoBancoNoCuenta = $("#empleado-banco-no-cuenta");
+
+    errorBancoSelect("");
+    errorInputBancoNoCuenta("");
+
+    if (!validarAgregarBanco(selectBanco, empleadoBancoNoCuenta)) {
+        return;
+    }
 
     const celdaAccionesBank = $('<td>');
     const botonEliminarBank = $('<button>', {
@@ -251,11 +286,13 @@ $('#btn-agregar-banco').click(function () {
         value: selectBanco.val()
     });
 
-    const celdaInputNoCuenta = $('<td>');
+    const celdaInputNoCuenta = $('<td>', {
+        text: empleadoBancoNoCuenta.val()
+    });
     const inputNoCuenta = $('<input>', {
-        type: 'text',
-        class: 'form-control form-control-sm',
-        name: 'EmpleadoBanco.EmpleadoBancoNoCuenta'
+        type: 'hidden',
+        name: 'EmpleadoBancoNoCuenta',
+        value: empleadoBancoNoCuenta.val()
     });
     const celdaInputBancoActiva = $('<td>');
     const divFormCheck = $('<div>', {
@@ -264,7 +301,7 @@ $('#btn-agregar-banco').click(function () {
     const inputBancoActiva = $('<input>', {
         type: 'radio',
         class: 'form-check-input',
-        name: 'EmpleadoBanco.EmpleadoBancoActiva',
+        name: 'EmpleadoBancoActiva',
         value: ''
     });
 
@@ -276,10 +313,51 @@ $('#btn-agregar-banco').click(function () {
     const nuevaFilaBank = $('<tr>').append(celdaAccionesBank, celdaBank, celdaInputNoCuenta, celdaInputBancoActiva);
 
     $('#data-table-body-bank').append(nuevaFilaBank);
+
+    selectBanco.val("");
+    empleadoBancoNoCuenta.val("");
 });
 
+function validarAgregarColegiacion(newSelectColegio, newEmpleadoColegioAnio, newEmpleadoColegioCuota) {
+    var errorAgregarColegiacion = true;
+    if (newSelectColegio.val() == "") {
+        errorColegioSelect("Seleccione una opción válida.");
+        errorAgregarColegiacion = false;
+    }
+    if (newEmpleadoColegioAnio.val() == "") {
+        errorInputColegioAnio("Campo requerido.");
+        errorAgregarColegiacion = false;
+    }
+    if (newEmpleadoColegioCuota.val() == "") {
+        errorInputColegioCuota("Campo requerido.");
+        errorAgregarColegiacion = false;
+    }
+    $("#data-table-body-colegio tr").each(function () {
+        var colegioProfesionalId = $(this).find("td input[name='ColegioProfesionalId']").val();
+
+        if (colegioProfesionalId == newSelectColegio.val()) {
+            errorColegioSelect("Ya existe la colegiación.");
+
+            errorAgregarColegiacion = false;
+            return false;
+        }
+    });
+    return errorAgregarColegiacion
+}
+
+
 $('#btn-agregar-colegiacion').click(function () {
-    const selectColegio = $('#select-colegio');
+    const selectColegio = $('#select-colegio')
+    const empleadoColegioAnio = $('#colegiacion-anio');
+    const empleadoColegioCuota = $('#colegiacion-cuota');
+
+    errorColegioSelect("");
+    errorInputColegioAnio("");
+    errorInputColegioCuota("");
+
+    if (!validarAgregarColegiacion(selectColegio, empleadoColegioAnio, empleadoColegioCuota)) {
+        return;
+    }
 
     const celdaAccionesColegio = $('<td>');
     const botonEliminasColegio = $('<button>', {
@@ -292,20 +370,24 @@ $('#btn-agregar-colegiacion').click(function () {
     });
     const inputColegioId = $('<input>', {
         type: 'hidden',
-        name: 'BancoId',
+        name: 'ColegioProfesionalId',
         value: selectColegio.val()
     });
-    const celdaInputColAnio = $('<td>');
-    const inputColAnio = $('<input>', {
-        type: 'text',
-        class: 'form-control form-control-sm',
-        name: ''
+    const celdaInputColAnio = $('<td>', {
+        text: empleadoColegioAnio.val()
     });
-    const celdaInputColCuota = $('<td>');
+    const inputColAnio = $('<input>', {
+        type: 'hidden',
+        name: 'EmpleadoColegiacionAnio',
+        value: empleadoColegioAnio.val()
+    });
+    const celdaInputColCuota = $('<td>', {
+        text: empleadoColegioCuota.val()
+    });
     const inputColCuota = $('<input>', {
-        type: 'text',
-        class: 'form-control form-control-sm',
-        name: ''
+        type: 'hidden',
+        name: 'EmpleadoColegiacionCuota',
+        value: empleadoColegioCuota.val()
     });
     const celdaInputColActivo = $('<td>');
     const divFormCheck = $('<div>', {
@@ -314,7 +396,7 @@ $('#btn-agregar-colegiacion').click(function () {
     const inputColActivo = $('<input>', {
         type: 'radio',
         class: 'form-check-input',
-        name: 'EmpleadoColegiacion.EmpleadoColegiacionActivo',
+        name: 'EmpleadoColegiacionActivo',
         value: ''
     });
 
@@ -327,11 +409,48 @@ $('#btn-agregar-colegiacion').click(function () {
     const nuevaFilaColegio = $('<tr>').append(celdaAccionesColegio, celdaColegio, celdaInputColAnio, celdaInputColCuota, celdaInputColActivo);
 
     $('#data-table-body-colegio').append(nuevaFilaColegio);
+
+    selectColegio.val("");
+    empleadoColegioAnio.val("");
+    empleadoColegioCuota.val("");
 });
+
+function validarAgregarArea(newSelectAgencia, newSelectArea) {
+    var errorAgregarArea = true;
+    if (newSelectAgencia.val() == "") {
+        errorAgenciaSelect("Seleccione una opción válida.");
+        errorAgregarArea = false;
+    }
+    if (newSelectArea.val() == "") {
+        errorAreaSelect("Seleccione una opción válida.");
+        errorAgregarArea = false;
+    }
+    $("#data-table-body-area tr").each(function () {
+        var agenciaId = $(this).find("td input[name='AgenciaId']").val();
+        var areaId = $(this).find("td input[name='UnidadId']").val();
+
+        if (agenciaId == newSelectAgencia.val() && areaId == newSelectArea.val()) {
+            errorAreaSelect("Ya existe el area.");
+
+            errorAgregarArea = false;
+            return false;
+        }
+    });
+    return errorAgregarArea
+}
+
 
 $('#btn-agregar-area').click(function () {
     const selectAgencia = $('#select-agencia');
     const selectArea = $('#select-area');
+
+    errorAgenciaSelect("");
+    errorAreaSelect("");
+
+    if (!validarAgregarArea(selectAgencia, selectArea)) {
+        return;
+    }
+
 
     const celdaAccionesArea = $('<td>');
     const buttonEliminarArea = $('<button>', {
@@ -344,7 +463,7 @@ $('#btn-agregar-area').click(function () {
     });
     const inputAgencia = $('<input>', {
         type: 'hidden',
-        name: 'EmpleadoArea.AgenciaId',
+        name: 'AgenciaId',
         value: selectAgencia.val()
     })
 
@@ -353,7 +472,7 @@ $('#btn-agregar-area').click(function () {
     });
     const inputArea = $('<input>', {
         type: 'hidden',
-        name: 'EmpleadoArea.UnidadId',
+        name: 'UnidadId',
         value: selectArea.val()
     })
 
@@ -365,7 +484,7 @@ $('#btn-agregar-area').click(function () {
         id: 'radio-area-activo',
         type: 'radio',
         class: 'form-check-input',
-        name: 'EmpleadoArea.EmpleadoAreaActivo',
+        name: 'EmpleadoAreaActivo',
         value: ''
     });
 
@@ -377,11 +496,69 @@ $('#btn-agregar-area').click(function () {
     const nuevaFilaArea = $('<tr>').append(celdaAccionesArea, celdaAgencia, celdaArea, celdaInputAreaActiva);
 
     $('#data-table-body-area').append(nuevaFilaArea);
+
+    selectAgencia.val("");
+    selectArea.val("");
 })
+
+function validarAgregarCargo(newSelectCargo, newSelectModalidad, newEmpleadoCargoFechaInicio, newEmpleadoCargoFechaFinal, newEmpleadoCargoSalario) {
+    var errorAgregarCargo = true;
+    if (newSelectCargo.val() == "") {
+        errorCargoSelect("Seleccione una opción válida.");
+        errorAgregarCargo = false;
+    }
+    if (newSelectModalidad.val() == "") {
+        errorModalidadSelect("Seleccione una opción válida.");
+        errorAgregarCargo = false;
+    }
+    if (newEmpleadoCargoFechaInicio.val() == "") {
+        errorCargoFechaInicio("Campo requerido.");
+        errorAgregarCargo = false;
+    }
+    if (newEmpleadoCargoFechaFinal.val() == "") {
+        errorCargoFechaFinal("Campo requerido.");
+        errorAgregarCargo = false;
+    }
+    if (newEmpleadoCargoSalario.val() == "") {
+        errorCargoSalario("Campo requerido.");
+        errorAgregarCargo = false;
+    }
+    $("#data-table-body-cargo tr").each(function () {
+        var cargoId = $(this).find("td input[name='CargoId']").val();
+
+        if (cargoId == newSelectCargo.val()) {
+            errorCargoSelect("Ya existe el cargo.");
+            errorAgregarCargo = false;
+            return false;
+        }
+    });
+    return errorAgregarCargo
+}
 
 $('#btn-agregar-cargo').click(function () {
     const selectCargo = $('#select-cargo');
-    const selectModalidad = $('#select-modalidad')
+    const selectModalidad = $('#select-modalidad');
+    const empleadoCargoFechaInicio = $('#cargo-fecha-inicio');
+    const empleadoCargoFechaFinal = $('#cargo-fecha-final');
+    const empleadoCargoSalario = $('#cargo-salario')
+
+    errorCargoSelect("");
+    errorModalidadSelect("");
+    errorCargoFechaInicio("");
+    errorCargoFechaFinal("");
+    errorCargoSalario("");
+
+    if (!validarAgregarCargo(selectCargo, selectModalidad, empleadoCargoFechaInicio, empleadoCargoFechaFinal, empleadoCargoSalario)) {
+        return;
+    }
+
+    //Formateo de fecha
+    const partesFechaInicio = empleadoCargoFechaInicio.val().split('-');
+    const formatFechaInicio = `${partesFechaInicio[2]}/${partesFechaInicio[1]}/${partesFechaInicio[0]}`;
+
+    const partesFechaFinal = empleadoCargoFechaFinal.val().split('-');
+    const formatFechaFinal = `${partesFechaFinal[2]}/${partesFechaFinal[1]}/${partesFechaFinal[0]}`;
+
 
     const celdaAccionesCargo = $('<td>');
     const buttonEliminarCargo = $('<button>', {
@@ -394,7 +571,7 @@ $('#btn-agregar-cargo').click(function () {
     });
     const inputCargoId = $('<input>', {
         type: 'hidden',
-        name: 'EmpleadoCargo.CargoId',
+        name: 'CargoId',
         value: selectCargo.val()
     });
     const celdaModalidad = $('<td>', {
@@ -402,32 +579,38 @@ $('#btn-agregar-cargo').click(function () {
     });
     const inputModalidadId = $('<input>', {
         type: 'hidden',
-        name: 'EmpleadoCargo.ModalidadId',
+        name: 'ModalidadId',
         value: selectModalidad.val()
     });
-    const celdaFechaInicio = $('<td>');
+    const celdaFechaInicio = $('<td>', {
+        text: formatFechaInicio
+    });
     const inputFechaInicio = $('<input>', {
-        type: 'date',
-        class: 'form-control form-control-sm',
-        name: 'EmpleadoCargo.EmpleadoCargoFechaInicio'
+        type: 'hidden',
+        name: 'EmpleadoCargoFechaInicio',
+        value: empleadoCargoFechaInicio.val()
     });
-    const celdaFechaFinal = $('<td>');
+    const celdaFechaFinal = $('<td>', {
+        text: formatFechaFinal
+    });
     const inputFechaFinal = $('<input>', {
-        type: 'date',
-        class: 'form-control form-control-sm',
-        name: 'EmpleadoCargo.EmpleadoCargoFechaFinal'
+        type: 'hidden',
+        name: 'EmpleadoCargoFechaFinal',
+        value: empleadoCargoFechaFinal.val()
     });
-    const celdaSalario = $('<td>');
+    const celdaSalario = $('<td>', {
+        text: empleadoCargoSalario.val()
+    });
     const inputSalario = $('<input>', {
-        type: 'number',
-        class: 'form-control form-control-sm',
-        name: 'EmpleadoCargo.EmpleadoCargoFechaFinal'
+        type: 'hidden',
+        name: 'EmpleadoCargoSalario',
+        value: empleadoCargoSalario.val()
     });
     const celdaObservacion = $('<td>');
     const inputObservacion = $('<input>', {
         type: 'text',
         class: 'form-control form-control-sm',
-        name: 'EmpleadoCargo.EmpleadoCargoObs'
+        name: 'EmpleadoCargoObs'
     });
     const celdaInputCargoActivo = $('<td>');
     const divFormCheck = $('<div>', {
@@ -436,7 +619,7 @@ $('#btn-agregar-cargo').click(function () {
     const inputCargoActivo = $('<input>', {
         type: 'radio',
         class: 'form-check-input',
-        name: 'EmpleadoCargo.EmpleadoCargoActivo',
+        name: 'EmpleadoCargoActivo',
         value: ''
     });
 
@@ -452,6 +635,12 @@ $('#btn-agregar-cargo').click(function () {
     const nuevaFilaCargo = $('<tr>').append(celdaAccionesCargo, celdaCargo, celdaModalidad, celdaFechaInicio, celdaFechaFinal, celdaSalario, celdaObservacion, celdaInputCargoActivo);
 
     $('#data-table-body-cargo').append(nuevaFilaCargo);
+
+    selectCargo.val("");
+    selectModalidad.val("");
+    empleadoCargoFechaInicio.val("");
+    empleadoCargoFechaFinal.val(""); 
+    empleadoCargoSalario.val("");
 });
 
 $(document).on("change", "input[type=\"radio\"]", function () {
@@ -464,3 +653,129 @@ $(document).on("click", "#btn-eliminar-fila", function () {
     $(this).closest("tr").remove();
 });
 
+
+
+$("#crear-empleado").submit(async function (event) {
+    event.preventDefault();
+
+    const empleado = obtenerDataCrearEmpleado();
+
+    await crearEmpleado(empleado);
+});
+
+//Data
+function obtenerDataCrearEmpleado() {
+    var empleadoBancos = [];
+    var empleadoColegiaciones = [];
+    var empleadoAreas = [];
+    var empleadoCargos = [];
+
+    $("#data-table-body-bank tr").each(function () {
+        var fila = $(this);
+        var banco = {
+            BancoId: fila.find("td input[name='BancoId']").val(),
+            EmpleadoBancoNoCuenta: fila.find("td input[name='EmpleadoBancoNoCuenta']").val(),
+            EmpleadoBancoActiva: fila.find("td input[name='EmpleadoBancoActiva']").is(":checked")
+        };
+        empleadoBancos.push(banco);
+    });
+
+    $("#data-table-body-colegio tr").each(function () {
+        var fila = $(this);
+        var colegiacion = {
+            ColegiacionId: fila.find("td input[name='ColegioProfesionalId']").val(),
+            EmpleadoColegiacionAnio: fila.find("td input[name='EmpleadoColegiacionAnio']").val(),
+            EmpleadoColegiacionCuota: fila.find("td input[name='EmpleadoColegiacionCuota']").val(),
+            EmpleadoColegiacionActivo: fila.find("td input[name='EmpleadoColegiacionActivo']").is(":checked")
+        };
+        empleadoColegiaciones.push(colegiacion);
+    });
+
+    $("#data-table-body-area tr").each(function () {
+        var fila = $(this);
+        var area = {
+            AgenciaId: fila.find("td input[name='AgenciaId']").val(),
+            UnidadId: fila.find("td input[name='UnidadId']").val(),
+            EmpleadoAreaActivo: fila.find("td input[name='EmpleadoAreaActivo']").is(":checked")
+        };
+        empleadoAreas.push(area);
+    });
+
+    $("#data-table-body-cargo tr").each(function () {
+        var fila = $(this);
+        var cargo = {
+            CargoId: fila.find("td input[name='CargoId']").val(),
+            ModalidadId: fila.find("td input[name='ModalidadId']").val(),
+            EmpleadoCargoFechaInicio: fila.find("td input[name='EmpleadoCargoFechaInicio']").val(),
+            EmpleadoCargoFechaFinal: fila.find("td input[name='EmpleadoCargoFechaFinal']").val(),
+            EmpleadoCargoSalario: fila.find("td input[name='EmpleadoCargoSalario']").val(),
+            EmpleadoCargoObs: fila.find("td input[name='EmpleadoCargoObs']").val(),
+            EmpleadoCargoActivo: fila.find("td input[name='EmpleadoCargoActivo']").is(":checked")
+        };
+        empleadoCargos.push(cargo);
+    });
+
+    var crearEmpleadoData = {
+        EmpleadoIdentificacion: $("[name='EmpleadoIdentificacion']").val(),
+        EmpleadoNombre: $("[name='EmpleadoNombre']").val(),
+        EmpleadoPrimerApellido: $("[name='EmpleadoPrimerApellido']").val(),
+        EmpleadoSegundoApellido: $("[name='EmpleadoSegundoApellido']").val(),
+        EmpleadoFotografiaBase64: $("[name='EmpleadoFotografiaBase64']").val(),
+        EmpleadoSexo: $("[name='EmpleadoSexo']").val() || null,
+        EmpleadoFechaNacimiento: $("[name='EmpleadoNacimiento']").val(),
+        EmpleadoNacPaisId: $("[name='EmpleadoNacPaisId']").val() || null,
+        EmpleadoNacDeptoId: $("[name='EmpleadoNacDeptoId']").val() || null,
+        EmpleadoNacMpioId: $("[name='EmpleadoNacMpioId']").val() || null,
+        EmpleadoNacAldeaId: $("[name='EmpleadoNacAldeaId']").val() || null,
+        EmpleadoEdad: $("[name='EmpleadoEdad']").val(),
+        EstadoCivilId: $("[name='EstadoCivilId']").val() || null,
+        EmpleadoTelefono: $("[name='EmpleadoTelefono']").val(),
+        EmpeadoCelular: $("[name='EmpleadoCelular']").val(),
+        EmpleadoDirPaisId: $("[name='EmpleadoDirPaisId']").val() || null,
+        EmpleadoDirDeptoId: $("[name='EmpleadoDirDeptoId']").val() || null,
+        EmpleadoDirMpioId: $("[name='EmpleadoDirMpioId']").val() || null,
+        EmpleadoDirAldeaId: $("[name='EmpleadoDirAldeaId']").val() || null,
+        EmpleadoDireccion: $("[name='EmpleadoDireccion']").val(),
+        EmpleadoEmail: $("[name='EmpleadoEmail']").val(),
+        ProfesionId: $("[name='ProfesionId']").val() || null,
+        EmpleadoFechaIngreso: $("[name='EmpleadoFechaIngreso']").val(),
+        EmpleadoFechaContrato: $("[name='EmpleadoFechaContrato']").val(),
+        EmpleadoActivo: $("[name='EmpleadoActivo']").is(":checked"),
+        Familiar: {
+            FamiliarIdentificacion: $("[name='Familiar.FamiliarIdentificacion']").val(),
+            FamiliarNombre: $("[name='Familiar.FamiliarNombre']").val(),
+            FamiliarPrimerApellido: $("[name='Familiar.FamiliarPrimerApellido']").val(),
+            FamiliarSegundoApellido: $("[name='Familiar.FamiliarSegundoApellido']").val(),
+            ParentescoId: $("[name='Familiar.ParentescoId']").val() || null,
+            FamiliarTelefono: $("[name='Familiar.FamiliarTelefono']").val(),
+            FamiliarCelular: $("[name='Familiar.FamiliarCelular']").val()
+        },
+        EmpleadoBancos: empleadoBancos,
+        EmpleadoColegiaciones: empleadoColegiaciones,
+        EmpleadoAreas: empleadoAreas,
+        EmpleadoCargos: empleadoCargos
+    } 
+    return crearEmpleadoData;
+}
+
+async function crearEmpleado(empleado) {
+    try {
+        const result = await fetch(urlCrearEmpleado, {
+            method: 'POST',
+            body: JSON.stringify(empleado),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (result.ok) {
+            console.log("Empleado creado exitosamente");
+        } else {
+            console.error("Error en la respuesta del servidor:", result.status, result.statusText);
+            const responseText = await result.text();
+            console.error("Contenido de la respuesta:", responseText);
+        }
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+    }
+}

@@ -62,3 +62,63 @@ function errorAgenciaNombre(mensaje) {
     const mensajeError = document.getElementById("validation-agenciaNombre");
     mensajeError.textContent = mensaje;
 }
+//Empleado
+function errorBancoSelect(mensaje) {
+    const mensajeError = $('#validate-select-banco');
+    mensajeError.text(mensaje);
+}
+
+function errorInputBancoNoCuenta(mensaje) {
+    const mensajeError = $('#validate-input-banco-no-cuenta');
+    mensajeError.text(mensaje);
+}
+
+function errorColegioSelect(mensaje) {
+    const mensajeError = $('#validate-colegio-profesional');
+    mensajeError.text(mensaje);
+}
+
+function errorInputColegioAnio(mensaje) {
+    const mensajeError = $('#validate-colegiacion-anio');
+    mensajeError.text(mensaje);
+}
+
+function errorInputColegioCuota(mensaje) {
+    const mensajeError = $('#validate-colegiacion-cuota');
+    mensajeError.text(mensaje);
+}
+
+function errorAgenciaSelect(mensaje) {
+    const mensajeError = $('#validate-agencia');
+    mensajeError.text(mensaje);
+}
+
+function errorAreaSelect(mensaje) {
+    const mensajeError = $('#validate-unidad');
+    mensajeError.text(mensaje);
+}
+
+function errorCargoSelect(mensaje) {
+    const mensajeError = $('#validate-cargo');
+    mensajeError.text(mensaje);
+}
+
+function errorModalidadSelect(mensaje) {
+    const mensajeError = $('#validate-modalidad');
+    mensajeError.text(mensaje);
+}
+
+function errorCargoFechaInicio(mensaje) {
+    const mensajeError = $('#validate-fecha-inicio');
+    mensajeError.text(mensaje);
+}
+
+function errorCargoFechaFinal(mensaje) {
+    const mensajeError = $('#validate-fecha-final');
+    mensajeError.text(mensaje);
+}
+
+function errorCargoSalario(mensaje) {
+    const mensajeError = $('#validate-salario');
+    mensajeError.text(mensaje);
+}

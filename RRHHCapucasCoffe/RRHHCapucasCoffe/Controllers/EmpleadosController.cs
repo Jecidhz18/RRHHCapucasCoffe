@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
@@ -23,12 +24,14 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IRepositorioAgenciaUnidad repositorioAgenciaUnidad;
         private readonly IRepositorioCargo repositorioCargo;
         private readonly IRepositorioModalidad repositorioModalidad;
+        private readonly IRepositorioEmpleado repositorioEmpleado;
+        private readonly IMapper mapper;
 
         public EmpleadosController(IRepositorioDepartamento repositorioDepartamento, IRepositorioPais repositorioPais,
             IRepositorioMunicipio repositorioMunicipio, IRepositorioAldea repositorioAldea, IRepositorioEstadoCivil repositorioEstadoCivil,
             IRepositorioProfesion repositorioProfesion, IRepositorioBanco repositorioBanco, IRepositorioColegioProfesional repositorioColegioProfesional,
             IRepositorioAgencia repositorioAgencia, IRepositorioUnidad repositorioUnidad, IRepositorioAgenciaUnidad repositorioAgenciaUnidad,
-            IRepositorioCargo repositorioCargo, IRepositorioModalidad repositorioModalidad)
+            IRepositorioCargo repositorioCargo, IRepositorioModalidad repositorioModalidad, IRepositorioEmpleado repositorioEmpleado, IMapper mapper)
         {
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioPais = repositorioPais;
@@ -43,6 +46,8 @@ namespace RRHHCapucasCoffe.Controllers
             this.repositorioAgenciaUnidad = repositorioAgenciaUnidad;
             this.repositorioCargo = repositorioCargo;
             this.repositorioModalidad = repositorioModalidad;
+            this.repositorioEmpleado = repositorioEmpleado;
+            this.mapper = mapper;
         }
 
         public ActionResult Empleado()
@@ -63,22 +68,31 @@ namespace RRHHCapucasCoffe.Controllers
             modelo.Modalidades = await ObtenerModalidades();
             return View(modelo);
         }
-
         [HttpPost]
-        public IActionResult CrearEmpleado(EmpleadoCrearViewModel modelo)
+        public async Task<IActionResult> CrearEmpleado([FromBody] EmpleadoCrearViewModel modelo)
         {
-            return RedirectToAction("Empleado");
-        }
+            var existeEmpleado = await repositorioEmpleado.ExisteEmpleado(modelo.EmpleadoIdentificacion);
 
-        [HttpGet]
-        public IActionResult PruebaEmpleados() 
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult InsertarFoto(string imagenRecortada)
-        {
-            return RedirectToAction("Empleado");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (existeEmpleado)
+            {
+                ModelState.AddModelError("", $"El empleado {modelo.EmpleadoNombre + " " + modelo.EmpleadoPrimerApellido + " " + modelo.EmpleadoSegundoApellido}");
+                return BadRequest();
+            }
+
+            var direccionEmpleado = new DireccionEmpleado();
+            mapper.Map(modelo, direccionEmpleado);
+
+            if (direccionEmpleado is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         //Metodo AJAX para obtener departamentos

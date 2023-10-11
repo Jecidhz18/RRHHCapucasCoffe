@@ -23,7 +23,7 @@
                 <button class="nav-link" id="working-info-tab" data-bs-toggle="tab" data-bs-target="#bordered-working-info" type="button" role="tab" aria-controls="working-info" aria-selected="false">Información Laboral</button>
             </li>
         </ul>
-        <form asp-action="CrearEmpleado">
+        <form id="crear-empleado">
             <div class="tab-content pt-2" id="borderedTabContent">
                 <div class="tab-pane fade show active" id="bordered-general-info" role="tabpanel" aria-labelledby="general-info-tab">
                     <div class="accordion accordion-flush" id="accordion-personal-info">
@@ -61,8 +61,9 @@
                                                 <div class="col-12">
                                                     <label asp-for="EmpleadoSexo" class="form-label"></label>
                                                     <select asp-for="EmpleadoSexo" class="form-select" asp-items="Html.GetEnumSelectList<Sexos>()">
-                                                        <option selected>Seleccione una opción</option>
+                                                        <option value="" selected>Seleccione una opción</option>
                                                     </select>
+                                                    <span asp-validation-for="EmpleadoSexo" class="text-danger"></span>
                                                 </div>
                                                 <div class="col-12">
                                                     <label asp-for="EmpleadoFechaNacimiento" class="form-label"></label>
@@ -78,7 +79,7 @@
                                                     <div class="border border-secondary-subtle img-thumbnail">
                                                         <img id="imagen-previa" class="img-fluid" src="~/img/ImgUpload.png" />
                                                     </div>
-                                                    <input type="hidden" asp-for="EmpleadoFotografia" id="imagen-recortada"/>
+                                                    <input type="hidden" asp-for="EmpleadoFotografiaBase64" id="imagen-recortada" />
                                                 </div>
                                                 <div class="col-12 d-flex align-items-center">
                                                     <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#modal-cropper-empleado">Subir</button>
@@ -93,23 +94,26 @@
                                                     <label asp-for="EmpleadoDirNacimientoId" class="form-label"></label>
                                                     <div class="row">
                                                         <div class="col-3">
-                                                            <select class="form-select select2" id="select-pais-nac" asp-items="@Model.Paises">
-                                                                <option selected>Seleccione un Pais</option>
+                                                            <select class="form-select select2" id="select-pais-nac" asp-for="EmpleadoNacPaisId" asp-items="@Model.Paises">
+                                                                <option value="" selected>Seleccione un Pais</option>
                                                             </select>
+                                                            <span asp-validation-for="EmpleadoNacPaisId" class="text-danger"></span>
                                                         </div>
                                                         <div class="form-group col-3">
-                                                            <select class="form-select select2" id="select-depto-nac">
-                                                                <option selected>Seleccione un Departamento</option>
+                                                            <select class="form-select select2" id="select-depto-nac" asp-for="EmpleadoNacDeptoId">
+                                                                <option value="" selected>Seleccione un Departamento</option>
                                                             </select>
+                                                            <span asp-validation-for="EmpleadoNacDeptoId" class="text-danger"></span>
                                                         </div>
                                                         <div class="form-group col-3">
-                                                            <select class="form-select select2" id="select-mpio-nac">
-                                                                <option selected>Seleccione un Municipio</option>
+                                                            <select class="form-select select2" id="select-mpio-nac" asp-for="EmpleadoNacMpioId">
+                                                                <option value="" selected>Seleccione un Municipio</option>
                                                             </select>
+                                                            <span asp-validation-for="EmpleadoNacMpioId" class="text-danger"></span>
                                                         </div>
                                                         <div class="form-group col-3">
-                                                            <select class="form-select select2" id="select-aldea-nac">
-                                                                <option selected>Seleccione una Aldea</option>
+                                                            <select class="form-select select2" id="select-aldea-nac" asp-for="EmpleadoNacAldeaId">
+                                                                <option value="" selected>Seleccione una Aldea</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -121,8 +125,8 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <label asp-for="EstadoCivilId" class="form-label"></label>
-                                                    <select class="form-select" id="" asp-items="@Model.EstadosCiviles">
-                                                        <option selected>Seleccione una opción</option>
+                                                    <select class="form-select" asp-for="EstadoCivilId" asp-items="@Model.EstadosCiviles">
+                                                        <option value="" selected>Seleccione una opción</option>
                                                     </select>
                                                     <span asp-validation-for="EstadoCivilId" class="text-danger"></span>
                                                 </div>
@@ -140,23 +144,23 @@
                                                     <label asp-for="EmpleadoDireccionId" class="form-label"></label>
                                                     <div class="row">
                                                         <div class="col-3">
-                                                            <select class="form-select select2" id="select-pais-dir" asp-items="@Model.Paises">
-                                                                <option selected>Seleccione un Pais</option>
+                                                            <select class="form-select select2" id="select-pais-dir" asp-for="EmpleadoDirPaisId" asp-items="@Model.Paises">
+                                                                <option value="" selected>Seleccione un Pais</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-3">
-                                                            <select class="form-select select2" id="select-depto-dir">
-                                                                <option selected>Seleccione un Departamento</option>
+                                                            <select class="form-select select2" id="select-depto-dir" asp-for="EmpleadoDirDeptoId">
+                                                                <option value="" selected>Seleccione un Departamento</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-3">
-                                                            <select class="form-select select2" id="select-mpio-dir">
-                                                                <option selected>Seleccione un Municipio</option>
+                                                            <select class="form-select select2" id="select-mpio-dir" asp-for="EmpleadoDirMpioId">
+                                                                <option value="" selected>Seleccione un Municipio</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-3">
-                                                            <select class="form-select select2" id="select-aldea-dir">
-                                                                <option selected>Seleccione una Aldea</option>
+                                                            <select class="form-select select2" id="select-aldea-dir" asp-for="EmpleadoDirAldeaId">
+                                                                <option value="" selected>Seleccione una Aldea</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -174,7 +178,7 @@
                                                 <div class="col-6">
                                                     <label asp-for="ProfesionId" class="form-label"></label>
                                                     <select asp-for="ProfesionId" class="form-select" asp-items="@Model.Profesiones">
-                                                        <option selected>Seleccione una opción</option>
+                                                        <option value="" selected>Seleccione una opción</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-6">
@@ -235,7 +239,7 @@
                                             <div class="col-12">
                                                 <label asp-for="Familiar.ParentescoId" class="form-label"></label>
                                                 <select asp-for="Familiar.ParentescoId" class="form-select" asp-items="Html.GetEnumSelectList<Parentescos>()">
-                                                    <option selected>Seleccione una opción</option>
+                                                    <option value="" selected>Seleccione una opción</option>
                                                 </select>
                                                 <span asp-validation-for="Familiar.ParentescoId" class="text-danger"></span>
                                             </div>
@@ -268,18 +272,31 @@
                                 <div class="accordion-body mb-0">
                                     <div class="row g-3" id="">
                                         <div class="col-6">
+                                            <label class="form-label" asp-for="EmpleadoBanco.BancoId"></label>
                                             <div class="input-group">
                                                 <select class="form-select" id="select-banco" asp-items="@Model.Bancos">
-                                                    <option selected>Seleccione una opción</option>
+                                                    <option value="" selected>Seleccione una opción</option>
                                                 </select>
                                                 <button class="bi bi-search btn btn-outline-secondary" type="button"></button>
                                             </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <label class="form-label" asp-for="EmpleadoBanco.EmpleadoBancoNoCuenta"></label>
+                                            <input type="text" class="form-control" id="empleado-banco-no-cuenta" />
                                         </div>
                                         <div class="col-1 d-flex align-items-end">
                                             <button id="btn-agregar-banco" type="button" class="btn btn-outline-primary" title="Agregar">
                                                 <i class="bi bi-file-plus d-block d-lg-none"></i>
                                                 <span class="d-none d-lg-block">Agregar</span>
                                             </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="text-danger" id="validate-select-banco"></span>
+                                        </div>
+                                        <div class="col-5">
+                                            <span class="text-danger" id="validate-input-banco-no-cuenta"></span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -294,7 +311,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="data-table-body-bank">
-                                                    
                                                 </tbody>
                                             </table>
                                         </div>
@@ -314,19 +330,39 @@
                             <div id="flush-collapse-collegiate" class="accordion-collapse collapse" aria-labelledby="flush-heading-collegiate" data-bs-parent="#accordion-collegiate">
                                 <div class="accordion-body">
                                     <div class="row g-3" id="">
-                                        <div class="col-6">
+                                        <div class="col-5">
+                                            <label class="form-label" asp-for="EmpleadoColegiacion.ColegioProfesionalId"></label>
                                             <div class="input-group">
                                                 <select class="form-select" id="select-colegio" asp-items="@Model.ColegiosProfesionales">
-                                                    <option selected>Seleccione una opción</option>
+                                                    <option value="" selected>Seleccione una opción</option>
                                                 </select>
                                                 <button class="bi bi-search btn btn-outline-secondary" type="button"></button>
                                             </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <label class="form-label" asp-for="EmpleadoColegiacion.EmpleadoColegiacionAnio"></label>
+                                            <input type="number" class="form-control" id="colegiacion-anio" placeholder="1990" min="1980" step="1" />
+                                        </div>
+                                        <div class="col-3">
+                                            <label class="form-label" asp-for="EmpleadoColegiacion.EmpleadoColegiacionCuota"></label>
+                                            <input type="number" class="form-control" id="colegiacion-cuota"/>
                                         </div>
                                         <div class="col-1 d-flex align-items-end">
                                             <button id="btn-agregar-colegiacion" type="button" class="btn btn-outline-primary" title="Agregar">
                                                 <i class="bi bi-file-plus d-block d-lg-none"></i>
                                                 <span class="d-none d-lg-block">Agregar</span>
                                             </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <span class="text-danger" id="validate-colegio-profesional"></span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-danger" id="validate-colegiacion-anio"></span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-danger" id="validate-colegiacion-cuota"></span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -362,22 +398,32 @@
                             <div id="flush-collapse-area" class="accordion-collapse collapse" aria-labelledby="flush-heading-area" data-bs-parent="#accordion-area">
                                 <div class="accordion-body">
                                     <div class="row g-3" id="">
-                                        <div class="col">
+                                        <div class="col-5">
+                                            <label class="form-label" asp-for="EmpleadoArea.AgenciaId"></label>
                                             <select class="form-select" id="select-agencia" asp-items="@Model.Agencias">
-                                                <option selected>Seleccione una agencia</option>
+                                                <option value="" selected>Seleccione una opción</option>
                                             </select>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-5">
+                                            <label class="form-label" asp-for="EmpleadoArea.UnidadId"></label>
                                             <select class="form-select" id="select-area">
-                                                <option selected>Seleccione una area</option>
+                                                <option value="" selected>Seleccione una opción</option>
                                             </select>
                                         </div>
-                                        <div class="col d-flex align-items-end">
+                                        <div class="col-2 d-flex align-items-end">
                                             <button class="bi bi-search btn btn-outline-secondary me-2" type="button"></button>
                                             <button id="btn-agregar-area" type="button" class="btn btn-outline-primary" title="Agregar">
                                                 <i class="bi bi-file-plus d-block d-lg-none"></i>
                                                 <span class="d-none d-lg-block">Agregar</span>
                                             </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <span class="text-danger" id="validate-agencia"></span>
+                                        </div>
+                                        <div class="col-5">
+                                            <span class="text-danger" id="validate-unidad"></span>
                                         </div>
                                     </div>
                                     <div class="row" id="">
@@ -411,24 +457,55 @@
                             <div id="flush-collapse-cargo" class="accordion-collapse collapse" aria-labelledby="flush-heading-cargo" data-bs-parent="#accordion-cargo">
                                 <div class="accordion-body">
                                     <div class="row g-3" id="">
-                                        <div class="col-6">
+                                        <div class="col-3">
+                                            <label class="form-label" asp-for="EmpleadoCargo.CargoId"></label>
                                             <div class="input-group">
                                                 <select class="form-select" id="select-cargo" asp-items="Model.Cargos" >
-                                                    <option selected>Seleccione un cargo</option>
+                                                    <option value="" selected>Seleccione una opción</option>
                                                 </select>
                                                 <button class="bi bi-search btn btn-outline-secondary" type="button"></button>
                                             </div>
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-2">
+                                            <label class="form-label" asp-for="EmpleadoCargo.ModalidadId"></label>
                                             <select class="form-select" id="select-modalidad" asp-items="Model.Modalidades">
-                                                <option selected>Seleccione una modalidad</option>
+                                                <option value="" selected>Seleccione una opción</option>
                                             </select>
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="form-label" asp-for="EmpleadoCargo.EmpleadoCargoFechaInicio"></label>
+                                            <input type="date" class="form-control" id="cargo-fecha-inicio"/>
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="form-label" asp-for="EmpleadoCargo.EmpleadoCargoFechaFinal"></label>
+                                            <input type="date" class="form-control" id="cargo-fecha-final"/>
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="form-label" asp-for="EmpleadoCargo.EmpleadoCargoSalario"></label>
+                                            <input type="number" class="form-control" id="cargo-salario"/>
                                         </div>
                                         <div class="col-1 d-flex align-items-end">
                                             <button id="btn-agregar-cargo" type="button" class="btn btn-outline-primary" title="Agregar">
                                                 <i class="bi bi-file-plus d-block d-lg-none"></i>
                                                 <span class="d-none d-lg-block">Agregar</span>
                                             </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span class="text-danger" id="validate-cargo"></span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-danger" id="validate-modalidad"></span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-danger" id="validate-fecha-inicio"></span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-danger" id="validate-fecha-final"></span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-danger" id="validate-salario"></span>
                                         </div>
                                     </div>
                                     <div class="row" id="">
@@ -474,6 +551,8 @@
         const urlGetMpio = '@Url.Action("ObtenerMunicipios")';
         const urlGetAldea = '@Url.Action("ObtenerAldeas")';
         const urlGetArea = '@Url.Action("ObtenerAreas")';
+
+        const urlCrearEmpleado = '@Url.Action("CrearEmpleado")';
 
         $(function(){
             inicializarFormCrearEmpleado(urlGetDepto, urlGetMpio, urlGetAldea, urlGetArea);
