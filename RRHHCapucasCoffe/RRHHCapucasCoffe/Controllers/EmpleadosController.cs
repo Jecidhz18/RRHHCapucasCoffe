@@ -28,13 +28,14 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IRepositorioEmpleado repositorioEmpleado;
         private readonly IMapper mapper;
         private readonly IRepositorioDireccionEmpleado repositorioDireccionEmpleado;
+        private readonly IRepositorioFamiliar repositorioFamiliar;
 
         public EmpleadosController(IRepositorioDepartamento repositorioDepartamento, IRepositorioPais repositorioPais,
             IRepositorioMunicipio repositorioMunicipio, IRepositorioAldea repositorioAldea, IRepositorioEstadoCivil repositorioEstadoCivil,
             IRepositorioProfesion repositorioProfesion, IRepositorioBanco repositorioBanco, IRepositorioColegioProfesional repositorioColegioProfesional,
             IRepositorioAgencia repositorioAgencia, IRepositorioUnidad repositorioUnidad, IRepositorioAgenciaUnidad repositorioAgenciaUnidad,
             IRepositorioCargo repositorioCargo, IRepositorioModalidad repositorioModalidad, IRepositorioEmpleado repositorioEmpleado, IMapper mapper,
-            IRepositorioDireccionEmpleado repositorioDireccionEmpleado)
+            IRepositorioDireccionEmpleado repositorioDireccionEmpleado, IRepositorioFamiliar repositorioFamiliar)
         {
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioPais = repositorioPais;
@@ -52,6 +53,7 @@ namespace RRHHCapucasCoffe.Controllers
             this.repositorioEmpleado = repositorioEmpleado;
             this.mapper = mapper;
             this.repositorioDireccionEmpleado = repositorioDireccionEmpleado;
+            this.repositorioFamiliar = repositorioFamiliar;
         }
 
         public ActionResult Empleado()
@@ -116,7 +118,19 @@ namespace RRHHCapucasCoffe.Controllers
                 modelo.EmpleadoDireccionId = existeDireccionResidencia;
             }
 
+            var familiar = new Familiar();
+            mapper.Map(modelo, familiar);
 
+            var existeFamiliar = await repositorioFamiliar.ObtenerFamiliarPorIdentificacion(familiar.FamiliarIdentificacion);
+
+            if (existeFamiliar is null)
+            {
+                modelo.FamiliarId = await repositorioFamiliar.CrearFamiliar(familiar);
+            }
+            else
+            {
+                modelo.FamiliarId = existeFamiliar.FamiliarId;
+            }
 
             return Ok();
         }

@@ -35,7 +35,7 @@ namespace RRHHCapucasCoffe.Services
                 .ForMember(dest => dest.DepartamentoId, opt => opt.MapFrom(src => src.EmpleadoDirDeptoId))
                 .ForMember(dest => dest.MunicipioId, opt => opt.MapFrom(src => src.EmpleadoDirMpioId))
                 .ForMember(dest => dest.AldeaId, opt => opt.MapFrom(src => src.EmpleadoDirAldeaId));
-
+            CreateMap<EmpleadoCrearViewModel, Familiar>();
         }
     }
 }
