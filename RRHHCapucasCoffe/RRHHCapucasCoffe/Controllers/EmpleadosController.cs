@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
+using RRHHCapucasCoffe.Models.DireccionesEmpleados;
 using RRHHCapucasCoffe.Models.Empleados;
 using RRHHCapucasCoffe.Models.TablasUniones;
 using RRHHCapucasCoffe.Services;
@@ -26,12 +27,14 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IRepositorioModalidad repositorioModalidad;
         private readonly IRepositorioEmpleado repositorioEmpleado;
         private readonly IMapper mapper;
+        private readonly IRepositorioDireccionEmpleado repositorioDireccionEmpleado;
 
         public EmpleadosController(IRepositorioDepartamento repositorioDepartamento, IRepositorioPais repositorioPais,
             IRepositorioMunicipio repositorioMunicipio, IRepositorioAldea repositorioAldea, IRepositorioEstadoCivil repositorioEstadoCivil,
             IRepositorioProfesion repositorioProfesion, IRepositorioBanco repositorioBanco, IRepositorioColegioProfesional repositorioColegioProfesional,
             IRepositorioAgencia repositorioAgencia, IRepositorioUnidad repositorioUnidad, IRepositorioAgenciaUnidad repositorioAgenciaUnidad,
-            IRepositorioCargo repositorioCargo, IRepositorioModalidad repositorioModalidad, IRepositorioEmpleado repositorioEmpleado, IMapper mapper)
+            IRepositorioCargo repositorioCargo, IRepositorioModalidad repositorioModalidad, IRepositorioEmpleado repositorioEmpleado, IMapper mapper,
+            IRepositorioDireccionEmpleado repositorioDireccionEmpleado)
         {
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioPais = repositorioPais;
@@ -48,6 +51,7 @@ namespace RRHHCapucasCoffe.Controllers
             this.repositorioModalidad = repositorioModalidad;
             this.repositorioEmpleado = repositorioEmpleado;
             this.mapper = mapper;
+            this.repositorioDireccionEmpleado = repositorioDireccionEmpleado;
         }
 
         public ActionResult Empleado()
@@ -73,10 +77,10 @@ namespace RRHHCapucasCoffe.Controllers
         {
             var existeEmpleado = await repositorioEmpleado.ExisteEmpleado(modelo.EmpleadoIdentificacion);
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest();
+            //}
 
             if (existeEmpleado)
             {
@@ -84,13 +88,35 @@ namespace RRHHCapucasCoffe.Controllers
                 return BadRequest();
             }
 
-            var direccionEmpleado = new DireccionEmpleado();
-            mapper.Map(modelo, direccionEmpleado);
+            var direccionEmpleadoNacimiento = new DireccionEmpleadoNacimiento();
+            mapper.Map(modelo, direccionEmpleadoNacimiento);
 
-            if (direccionEmpleado is null)
+            var direccionEmpleadoResidencia = new DireccionEmpleadoResidencia();
+            mapper.Map(modelo, direccionEmpleadoResidencia);
+
+            // Comprobamos si existen ambas direcciones en una sola llamada.
+            var existeDireccionNacimiento = await repositorioDireccionEmpleado.ExisteDireccionEmpleado(direccionEmpleadoNacimiento);
+            var existeDireccionResidencia = await repositorioDireccionEmpleado.ExisteDireccionEmpleado(direccionEmpleadoResidencia);
+
+            if (existeDireccionNacimiento == 0)
             {
-                return BadRequest();
+                modelo.EmpleadoDirNacimientoId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoNacimiento);
             }
+            else
+            {
+                modelo.EmpleadoDirNacimientoId = existeDireccionNacimiento;
+            }
+
+            if (existeDireccionResidencia == 0)
+            {
+                modelo.EmpleadoDireccionId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoResidencia);
+            }
+            else
+            {
+                modelo.EmpleadoDireccionId = existeDireccionResidencia;
+            }
+
+
 
             return Ok();
         }
