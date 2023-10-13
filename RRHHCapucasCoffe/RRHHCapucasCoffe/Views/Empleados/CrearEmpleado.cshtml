@@ -237,11 +237,11 @@
                                                 <span asp-validation-for="Familiar.FamiliarSegundoApellido" class="text-danger"></span>
                                             </div>
                                             <div class="col-12">
-                                                <label asp-for="Familiar.ParentescoId" class="form-label"></label>
-                                                <select asp-for="Familiar.ParentescoId" class="form-select" asp-items="Html.GetEnumSelectList<Parentescos>()">
+                                                <label asp-for="Familiar.FamiliarParentesco" class="form-label"></label>
+                                                <select asp-for="Familiar.FamiliarParentesco" class="form-select" asp-items="Html.GetEnumSelectList<Parentescos>()">
                                                     <option value="" selected>Seleccione una opción</option>
                                                 </select>
-                                                <span asp-validation-for="Familiar.ParentescoId" class="text-danger"></span>
+                                                <span asp-validation-for="Familiar.FamiliarParentesco" class="text-danger"></span>
                                             </div>
                                             <div class="col-6">
                                                 <label asp-for="Familiar.FamiliarTelefono" class="form-label"></label>

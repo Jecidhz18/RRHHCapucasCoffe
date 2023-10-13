@@ -10,7 +10,7 @@ namespace RRHHCapucasCoffe.Entities
         public string FamiliarNombre { get; set; }
         public string FamiliarPrimerApellido { get; set; }
         public string FamiliarSegundoApellido { get; set; }
-        public int? ParentescoId { get; set; }
+        public int? FamiliarParentesco { get; set; }
         public string FamiliarTelefono { get; set; }
         public string FamiliarCelular { get; set; }
     }

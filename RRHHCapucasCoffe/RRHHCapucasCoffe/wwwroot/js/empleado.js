@@ -683,7 +683,7 @@ function obtenerDataCrearEmpleado() {
     $("#data-table-body-colegio tr").each(function () {
         var fila = $(this);
         var colegiacion = {
-            ColegiacionId: fila.find("td input[name='ColegioProfesionalId']").val(),
+            ColegioProfesionalId: fila.find("td input[name='ColegioProfesionalId']").val(),
             EmpleadoColegiacionAnio: fila.find("td input[name='EmpleadoColegiacionAnio']").val(),
             EmpleadoColegiacionCuota: fila.find("td input[name='EmpleadoColegiacionCuota']").val(),
             EmpleadoColegiacionActivo: fila.find("td input[name='EmpleadoColegiacionActivo']").is(":checked")
@@ -730,7 +730,7 @@ function obtenerDataCrearEmpleado() {
         EmpleadoEdad: $("[name='EmpleadoEdad']").val(),
         EstadoCivilId: $("[name='EstadoCivilId']").val() || null,
         EmpleadoTelefono: $("[name='EmpleadoTelefono']").val(),
-        EmpeadoCelular: $("[name='EmpleadoCelular']").val(),
+        EmpleadoCelular: $("[name='EmpleadoCelular']").val(),
         EmpleadoDirPaisId: $("[name='EmpleadoDirPaisId']").val() || null,
         EmpleadoDirDeptoId: $("[name='EmpleadoDirDeptoId']").val() || null,
         EmpleadoDirMpioId: $("[name='EmpleadoDirMpioId']").val() || null,
@@ -746,7 +746,7 @@ function obtenerDataCrearEmpleado() {
             FamiliarNombre: $("[name='Familiar.FamiliarNombre']").val(),
             FamiliarPrimerApellido: $("[name='Familiar.FamiliarPrimerApellido']").val(),
             FamiliarSegundoApellido: $("[name='Familiar.FamiliarSegundoApellido']").val(),
-            ParentescoId: $("[name='Familiar.ParentescoId']").val() || null,
+            FamiliarParentesco: $("[name='Familiar.FamiliarParentesco']").val() || null,
             FamiliarTelefono: $("[name='Familiar.FamiliarTelefono']").val(),
             FamiliarCelular: $("[name='Familiar.FamiliarCelular']").val()
         },

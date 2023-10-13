@@ -27,6 +27,8 @@ builder.Services.AddTransient<IRepositorioModalidad, RepositorioModalidad>();
 builder.Services.AddTransient<IRepositorioEmpleado, RepositorioEmpleado>();
 builder.Services.AddTransient<IRepositorioDireccionEmpleado, RepositorioDireccionEmpleado>();
 builder.Services.AddTransient<IRepositorioFamiliar, RepositorioFamiliar>();
+builder.Services.AddTransient<IRepositorioEmpleadoBanco, RepositorioEmpleadoBanco>();
+builder.Services.AddTransient<IRepositorioEmpleadoColegiacion, RepositorioEmpleadoColegiacion>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

@@ -7,6 +7,7 @@ using RRHHCapucasCoffe.Models.DireccionesEmpleados;
 using RRHHCapucasCoffe.Models.Empleados;
 using RRHHCapucasCoffe.Models.TablasUniones;
 using RRHHCapucasCoffe.Services;
+using System.Data;
 
 namespace RRHHCapucasCoffe.Controllers
 {
@@ -29,13 +30,17 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IMapper mapper;
         private readonly IRepositorioDireccionEmpleado repositorioDireccionEmpleado;
         private readonly IRepositorioFamiliar repositorioFamiliar;
+        private readonly IRepositorioUsuario repositorioUsuario;
+        private readonly IRepositorioEmpleadoBanco repositorioEmpleadoBanco;
+        private readonly IRepositorioEmpleadoColegiacion repositorioEmpleadoColegiacion;
 
         public EmpleadosController(IRepositorioDepartamento repositorioDepartamento, IRepositorioPais repositorioPais,
             IRepositorioMunicipio repositorioMunicipio, IRepositorioAldea repositorioAldea, IRepositorioEstadoCivil repositorioEstadoCivil,
             IRepositorioProfesion repositorioProfesion, IRepositorioBanco repositorioBanco, IRepositorioColegioProfesional repositorioColegioProfesional,
             IRepositorioAgencia repositorioAgencia, IRepositorioUnidad repositorioUnidad, IRepositorioAgenciaUnidad repositorioAgenciaUnidad,
             IRepositorioCargo repositorioCargo, IRepositorioModalidad repositorioModalidad, IRepositorioEmpleado repositorioEmpleado, IMapper mapper,
-            IRepositorioDireccionEmpleado repositorioDireccionEmpleado, IRepositorioFamiliar repositorioFamiliar)
+            IRepositorioDireccionEmpleado repositorioDireccionEmpleado, IRepositorioFamiliar repositorioFamiliar, IRepositorioUsuario repositorioUsuario,
+            IRepositorioEmpleadoBanco repositorioEmpleadoBanco, IRepositorioEmpleadoColegiacion repositorioEmpleadoColegiacion)
         {
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioPais = repositorioPais;
@@ -54,7 +59,11 @@ namespace RRHHCapucasCoffe.Controllers
             this.mapper = mapper;
             this.repositorioDireccionEmpleado = repositorioDireccionEmpleado;
             this.repositorioFamiliar = repositorioFamiliar;
+            this.repositorioUsuario = repositorioUsuario;
+            this.repositorioEmpleadoBanco = repositorioEmpleadoBanco;
+            this.repositorioEmpleadoColegiacion = repositorioEmpleadoColegiacion;
         }
+
 
         public ActionResult Empleado()
         {
@@ -77,61 +86,71 @@ namespace RRHHCapucasCoffe.Controllers
         [HttpPost]
         public async Task<IActionResult> CrearEmpleado([FromBody] EmpleadoCrearViewModel modelo)
         {
-            var existeEmpleado = await repositorioEmpleado.ExisteEmpleado(modelo.EmpleadoIdentificacion);
+            //var existeEmpleado = await repositorioEmpleado.ExisteEmpleado(modelo.EmpleadoIdentificacion);
 
-            //if (!ModelState.IsValid)
+            ////if (!ModelState.IsValid)
+            ////{
+            ////    return BadRequest();
+            ////}
+
+            //if (existeEmpleado)
             //{
+            //    ModelState.AddModelError("", $"El empleado {modelo.EmpleadoNombre + " " + modelo.EmpleadoPrimerApellido + " " + modelo.EmpleadoSegundoApellido}");
             //    return BadRequest();
             //}
 
-            if (existeEmpleado)
-            {
-                ModelState.AddModelError("", $"El empleado {modelo.EmpleadoNombre + " " + modelo.EmpleadoPrimerApellido + " " + modelo.EmpleadoSegundoApellido}");
-                return BadRequest();
-            }
+            //var direccionEmpleadoNacimiento = new DireccionEmpleadoNacimiento();
+            //mapper.Map(modelo, direccionEmpleadoNacimiento);
 
-            var direccionEmpleadoNacimiento = new DireccionEmpleadoNacimiento();
-            mapper.Map(modelo, direccionEmpleadoNacimiento);
+            //var direccionEmpleadoResidencia = new DireccionEmpleadoResidencia();
+            //mapper.Map(modelo, direccionEmpleadoResidencia);
 
-            var direccionEmpleadoResidencia = new DireccionEmpleadoResidencia();
-            mapper.Map(modelo, direccionEmpleadoResidencia);
+            //// Comprobamos si existen ambas direcciones en una sola llamada.
+            //var existeDireccionNacimiento = await repositorioDireccionEmpleado.ExisteDireccionEmpleado(direccionEmpleadoNacimiento);
+            //var existeDireccionResidencia = await repositorioDireccionEmpleado.ExisteDireccionEmpleado(direccionEmpleadoResidencia);
 
-            // Comprobamos si existen ambas direcciones en una sola llamada.
-            var existeDireccionNacimiento = await repositorioDireccionEmpleado.ExisteDireccionEmpleado(direccionEmpleadoNacimiento);
-            var existeDireccionResidencia = await repositorioDireccionEmpleado.ExisteDireccionEmpleado(direccionEmpleadoResidencia);
+            //if (existeDireccionNacimiento == 0)
+            //{
+            //    modelo.EmpleadoDirNacimientoId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoNacimiento);
+            //}
+            //else
+            //{
+            //    modelo.EmpleadoDirNacimientoId = existeDireccionNacimiento;
+            //}
 
-            if (existeDireccionNacimiento == 0)
-            {
-                modelo.EmpleadoDirNacimientoId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoNacimiento);
-            }
-            else
-            {
-                modelo.EmpleadoDirNacimientoId = existeDireccionNacimiento;
-            }
+            //if (existeDireccionResidencia == 0)
+            //{
+            //    modelo.EmpleadoDireccionId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoResidencia);
+            //}
+            //else
+            //{
+            //    modelo.EmpleadoDireccionId = existeDireccionResidencia;
+            //}
 
-            if (existeDireccionResidencia == 0)
-            {
-                modelo.EmpleadoDireccionId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoResidencia);
-            }
-            else
-            {
-                modelo.EmpleadoDireccionId = existeDireccionResidencia;
-            }
+            //var existeFamiliar = await repositorioFamiliar.ObtenerFamiliarPorIdentificacion(modelo.Familiar.FamiliarIdentificacion);
 
-            var familiar = new Familiar();
-            mapper.Map(modelo, familiar);
+            //if (existeFamiliar is null)
+            //{
+            //    modelo.FamiliarId = await repositorioFamiliar.CrearFamiliar(modelo.Familiar);
+            //}
+            //else
+            //{
+            //    modelo.FamiliarId = existeFamiliar.FamiliarId;
+            //}
 
-            var existeFamiliar = await repositorioFamiliar.ObtenerFamiliarPorIdentificacion(familiar.FamiliarIdentificacion);
+            //var empleado = new Empleado();
+            //mapper.Map(modelo, empleado);
+            //var usuario = await repositorioUsuario.ObtenerUsuario();
+            //empleado.EmpleadoFotografia = Convert.FromBase64String(modelo.EmpleadoFotografiaBase64);
+            //empleado.EmpleadoUsuarioGrabo = usuario.UsuarioId;
+            //empleado.EmpleadoFechaGrabo = DateTime.Now; 
 
-            if (existeFamiliar is null)
-            {
-                modelo.FamiliarId = await repositorioFamiliar.CrearFamiliar(familiar);
-            }
-            else
-            {
-                modelo.FamiliarId = existeFamiliar.FamiliarId;
-            }
+            //var empleadoId = await repositorioEmpleado.CrearEmpleado(empleado);
 
+            var empleadoId = 11;
+
+            await repositorioEmpleadoBanco.CrearEmpleadoBanco(modelo.EmpleadoBancos, empleadoId);
+            await repositorioEmpleadoColegiacion.CrearEmpleadoColegiacion(modelo.EmpleadoColegiaciones, empleadoId);
             return Ok();
         }
 
