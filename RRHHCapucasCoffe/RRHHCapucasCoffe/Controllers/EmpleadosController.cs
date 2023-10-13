@@ -33,6 +33,7 @@ namespace RRHHCapucasCoffe.Controllers
         private readonly IRepositorioUsuario repositorioUsuario;
         private readonly IRepositorioEmpleadoBanco repositorioEmpleadoBanco;
         private readonly IRepositorioEmpleadoColegiacion repositorioEmpleadoColegiacion;
+        private readonly IRepositorioEmpleadoArea repositorioEmpleadoArea;
 
         public EmpleadosController(IRepositorioDepartamento repositorioDepartamento, IRepositorioPais repositorioPais,
             IRepositorioMunicipio repositorioMunicipio, IRepositorioAldea repositorioAldea, IRepositorioEstadoCivil repositorioEstadoCivil,
@@ -40,7 +41,7 @@ namespace RRHHCapucasCoffe.Controllers
             IRepositorioAgencia repositorioAgencia, IRepositorioUnidad repositorioUnidad, IRepositorioAgenciaUnidad repositorioAgenciaUnidad,
             IRepositorioCargo repositorioCargo, IRepositorioModalidad repositorioModalidad, IRepositorioEmpleado repositorioEmpleado, IMapper mapper,
             IRepositorioDireccionEmpleado repositorioDireccionEmpleado, IRepositorioFamiliar repositorioFamiliar, IRepositorioUsuario repositorioUsuario,
-            IRepositorioEmpleadoBanco repositorioEmpleadoBanco, IRepositorioEmpleadoColegiacion repositorioEmpleadoColegiacion)
+            IRepositorioEmpleadoBanco repositorioEmpleadoBanco, IRepositorioEmpleadoColegiacion repositorioEmpleadoColegiacion, IRepositorioEmpleadoArea repositorioEmpleadoArea)
         {
             this.repositorioDepartamento = repositorioDepartamento;
             this.repositorioPais = repositorioPais;
@@ -62,6 +63,7 @@ namespace RRHHCapucasCoffe.Controllers
             this.repositorioUsuario = repositorioUsuario;
             this.repositorioEmpleadoBanco = repositorioEmpleadoBanco;
             this.repositorioEmpleadoColegiacion = repositorioEmpleadoColegiacion;
+            this.repositorioEmpleadoArea = repositorioEmpleadoArea;
         }
 
 
@@ -151,6 +153,7 @@ namespace RRHHCapucasCoffe.Controllers
 
             await repositorioEmpleadoBanco.CrearEmpleadoBanco(modelo.EmpleadoBancos, empleadoId);
             await repositorioEmpleadoColegiacion.CrearEmpleadoColegiacion(modelo.EmpleadoColegiaciones, empleadoId);
+            await repositorioEmpleadoArea.CrearEmpleadoArea(modelo.EmpleadoAreas, empleadoId);
             return Ok();
         }
 
