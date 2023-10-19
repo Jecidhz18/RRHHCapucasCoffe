@@ -1,4 +1,5 @@
 ﻿using RRHHCapucasCoffe.Entities;
+using RRHHCapucasCoffe.Models.Empleados;
 
 namespace RRHHCapucasCoffe.Interfaces
 {
@@ -6,5 +7,6 @@ namespace RRHHCapucasCoffe.Interfaces
     {
         Task<int> CrearEmpleado(Empleado empleado);
         Task<bool> ExisteEmpleado(string empleadoIdentificacion);
+        Task<IEnumerable<EmpleadoViewModel>> ObtenerEmpleado();
     }
 }

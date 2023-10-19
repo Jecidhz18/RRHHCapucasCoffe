@@ -1,7 +1,9 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
+using RRHHCapucasCoffe.Models.Empleados;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -37,6 +39,14 @@ namespace RRHHCapucasCoffe.Services
                 WHERE EmpleadoIdentificacion = @EmpleadoIdentificacion", new { empleadoIdentificacion });
 
             return existeEmpleado == 1;
+        }
+
+        public async Task<IEnumerable<EmpleadoViewModel>> ObtenerEmpleado()
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<EmpleadoViewModel>(
+                @"SELECT * FROM Empleados");
         }
 
     }

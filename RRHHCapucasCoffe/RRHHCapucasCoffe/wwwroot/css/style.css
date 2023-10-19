@@ -16,6 +16,7 @@ body {
     font-family: "Open Sans", sans-serif;
     background: #f6f9ff;
     color: #444444;
+  
 }
 
 a {
@@ -104,20 +105,20 @@ h6 {
 --------------------------------------------------------------*/
 /* Dropdown menus */
 .dropdown-menu {
-  border-radius: 4px;
-  padding: 10px 0;
-  animation-name: dropdown-animate;
-  animation-duration: 0.2s;
-  animation-fill-mode: both;
-  border: 0;
-  box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
+    border-radius: 4px;
+    padding: 10px 0;
+    animation-name: dropdown-animate;
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    border: 0;
+    box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
 }
 
 .dropdown-menu .dropdown-header,
 .dropdown-menu .dropdown-footer {
-  text-align: center;
-  font-size: 15px;
-  padding: 10px 25px;
+    text-align: center;
+    font-size: 15px;
+    padding: 10px 25px;
 }
 
 .dropdown-menu .dropdown-footer a {
@@ -1265,4 +1266,12 @@ End SlideBar-btn*/
 .fade {  /*zoom*/
     width: 100%;
     height: 100%;
+}
+
+div.dropdown-menu {
+    left: auto !important;
+}
+
+.dropdow-menu-correct{
+    left: 92% !important;
 }

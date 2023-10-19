@@ -70,9 +70,10 @@ namespace RRHHCapucasCoffe.Controllers
         }
 
 
-        public ActionResult Empleado()
+        public async Task<ActionResult> Empleado()
         {
-            return View();
+            var modelo = await repositorioEmpleado.ObtenerEmpleado();
+            return View(modelo);
         }
         [HttpGet]
         public async Task<IActionResult> CrearEmpleado()
