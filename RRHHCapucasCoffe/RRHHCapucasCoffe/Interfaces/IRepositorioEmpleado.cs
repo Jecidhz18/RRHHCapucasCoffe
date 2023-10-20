@@ -8,5 +8,6 @@ namespace RRHHCapucasCoffe.Interfaces
         Task<int> CrearEmpleado(Empleado empleado);
         Task<bool> ExisteEmpleado(string empleadoIdentificacion);
         Task<IEnumerable<EmpleadoViewModel>> ObtenerEmpleado();
+        Task<Empleado> ObtenerEmpleadoPorId(int empleadoId);
     }
 }

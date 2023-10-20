@@ -12,5 +12,6 @@ namespace RRHHCapucasCoffe.Interfaces
         Task<IEnumerable<Pais>> ObtenerPaisActivo();
         Task<IEnumerable<Pais>> ObtenerPaisPorDepto(int departamentoId);
         Task<Pais> ObtenerPaisPorId(int paisId);
+        Task<IEnumerable<Pais>> ObtenerPaisPorIdAndActivo(int? paisId);
     }
 }

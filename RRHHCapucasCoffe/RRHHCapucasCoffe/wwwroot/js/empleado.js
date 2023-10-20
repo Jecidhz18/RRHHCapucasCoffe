@@ -770,6 +770,7 @@ async function crearEmpleado(empleado) {
 
         if (result.ok) {
             console.log("Empleado creado exitosamente");
+            window.location.href = "/Empleados/Empleado";
         } else {
             console.error("Error en la respuesta del servidor:", result.status, result.statusText);
             const responseText = await result.text();

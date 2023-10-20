@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
+using RRHHCapucasCoffe.Models.EmpleadosAreas;
 using System.Data.Common;
 
 namespace RRHHCapucasCoffe.Services
@@ -30,6 +31,19 @@ namespace RRHHCapucasCoffe.Services
                         empleadoArea.EmpleadoAreaActivo
                     });
             }
+        }
+
+        public async Task<IEnumerable<EmpleadoAreaViewModel>> ObtenerEmpleadoAreaPorEmpleadoId(int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<EmpleadoAreaViewModel>(
+                @"SELECT ea.AgenciaId, a.AgenciaNombre, ea.UnidadId, u.UnidadDescripcion, ea.EmpleadoAreaActivo
+                FROM EmpleadosAreas ea 
+                INNER JOIN Agencias a ON a.AgenciaId = ea.AgenciaId
+                INNER JOIN Unidades u ON u.UnidadId = ea.UnidadId
+                WHERE ea.EmpleadoId = @EmpleadoId", new { empleadoId });
+
         }
     }
 }

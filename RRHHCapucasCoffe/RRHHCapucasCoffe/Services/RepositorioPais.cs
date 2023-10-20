@@ -87,5 +87,14 @@ namespace RRHHCapucasCoffe.Services
                 JOIN DpDepartamentos AS D ON PD.DepartamentoId = D.DepartamentoId
                 WHERE D.DepartamentoId = @DepartamentoId;", new {departamentoId});
         }
+
+        public async Task<IEnumerable<Pais>> ObtenerPaisPorIdAndActivo(int? paisId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<Pais>(
+                @"SELECT * FROM DpPaises
+                WHERE PaisId = @PaisId OR PaisActivo = 1", new { paisId });
+        }
     }
 }

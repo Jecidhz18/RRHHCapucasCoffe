@@ -49,5 +49,14 @@ namespace RRHHCapucasCoffe.Services
                 @"SELECT * FROM Empleados");
         }
 
+        public async Task<Empleado> ObtenerEmpleadoPorId(int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryFirstOrDefaultAsync<Empleado>(
+                @"SELECT * FROM Empleados
+                WHERE EmpleadoId = @EmpleadoId", new { empleadoId });
+        }
+
     }
 }

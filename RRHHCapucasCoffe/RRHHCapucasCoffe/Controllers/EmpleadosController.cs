@@ -161,9 +161,57 @@ namespace RRHHCapucasCoffe.Controllers
             return Ok();
         }
         [HttpGet]
-        public IActionResult EditarEmpleado()
+        public async Task<IActionResult> EditarEmpleado(int empleadoId)
         {
-            return View();  
+
+            var existeEmpleado = await repositorioEmpleado.ObtenerEmpleadoPorId(empleadoId);
+
+            if (existeEmpleado == null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+
+            var modelo = new EmpleadoEditarViewModel();
+            var direccionEmpleadoNacimiento = new DireccionEmpleadoNacimiento();
+            var direccionEmpleadoResidencia = new DireccionEmpleadoResidencia();
+
+            mapper.Map(existeEmpleado, modelo);
+            modelo.Familiar = await repositorioFamiliar.ObtenerFamiliarPorId(existeEmpleado.FamiliarId);
+            modelo.EmpleadoBancos = await repositorioEmpleadoBanco.ObtenerEmpleadoBancoPorEmpleadoId(existeEmpleado.EmpleadoId);
+            modelo.EmpleadoColegiaciones = await repositorioEmpleadoColegiacion.ObtenerEmpleadoColegiacionPorEmpleadoId(existeEmpleado.EmpleadoId);
+            modelo.EmpleadoAreas = await repositorioEmpleadoArea.ObtenerEmpleadoAreaPorEmpleadoId(existeEmpleado.EmpleadoId);
+            modelo.EmpleadoCargos = await repositorioEmpleadoCargo.ObtenerEmpleadoCargoPorEmpleadoId(existeEmpleado.EmpleadoId);
+            direccionEmpleadoNacimiento = await repositorioDireccionEmpleado.ObtenerDireccionEmpleadoNacPorId(modelo.EmpleadoDirNacimientoId);
+            direccionEmpleadoResidencia = await repositorioDireccionEmpleado.ObtenerDireccionEmpleadoResPorId(modelo.EmpleadoDireccionId);
+            modelo.EmpleadoFotografiaImg = Convert.ToBase64String(modelo.EmpleadoFotografia);
+            //Mapeos
+            mapper.Map(direccionEmpleadoNacimiento, modelo);
+            mapper.Map(direccionEmpleadoResidencia, modelo);
+            //Select List
+            modelo.PaisesNac = await ObtenerPaisesEditarEmpleado(modelo.EmpleadoNacPaisId ?? 0);
+            modelo.DepartamentoNac = await ObtenerDepartamentoEditarEmpleado(modelo.EmpleadoNacDeptoId ?? 0);
+            modelo.MunicipioNac = await ObtenerMunicipioEditarEmpleado(modelo.EmpleadoNacMpioId ?? 0);
+            if (modelo.EmpleadoNacAldeaId != null)
+            {
+                modelo.AldeaNac = await ObtenerAldeaEditarEmpleado(modelo.EmpleadoNacAldeaId ?? 0);
+            }
+            modelo.PaisesRes = await ObtenerPaisesEditarEmpleado(modelo.EmpleadoDirPaisId ?? 0);
+            modelo.DepartamentoRes = await ObtenerDepartamentoEditarEmpleado(modelo.EmpleadoDirDeptoId ?? 0);
+            modelo.MunicipioRes = await ObtenerMunicipioEditarEmpleado(modelo.EmpleadoDirMpioId ?? 0);
+            if (modelo.EmpleadoDirAldeaId != null)
+            {
+                modelo.AldeaRes = await ObtenerAldeaEditarEmpleado(modelo.EmpleadoDirAldeaId ?? 0);
+            }
+
+            modelo.EstadosCiviles = await ObtenerEstadosCiviles();
+            modelo.Profesiones = await ObtenerProfesiones();
+            modelo.Bancos = await ObtenerBancos();
+            modelo.ColegiosProfesionales = await ObtenerColegiosProfesionales();
+            modelo.Agencias = await ObtenerAgencias();
+            modelo.Cargos = await ObtenerCargos();
+            modelo.Modalidades = await ObtenerModalidades();
+
+            return View(modelo);  
         }
 
         //Metodo AJAX para obtener departamentos
@@ -203,6 +251,34 @@ namespace RRHHCapucasCoffe.Controllers
             var paises = await repositorioPais.ObtenerPaisActivo();
 
             return paises.Select(x => new SelectListItem(x.PaisNombre, x.PaisId.ToString()));
+        }
+        //Metodo privado para obtener paises
+        private async Task<IEnumerable<SelectListItem>> ObtenerPaisesEditarEmpleado(int paisId)
+        {
+            var paises = await repositorioPais.ObtenerPaisPorIdAndActivo(paisId);
+
+            return paises.Select(x => new SelectListItem(x.PaisNombre, x.PaisId.ToString()));
+        }
+        //Metodo privado para obtener Departamentos
+        private async Task<IEnumerable<SelectListItem>> ObtenerDepartamentoEditarEmpleado(int departamentoId)
+        {
+            var departamento = await repositorioDepartamento.ObtenerDepartamentoPorId(departamentoId);
+            IEnumerable<Departamento> departamentos = new List<Departamento> { departamento };
+            return departamentos.Select(x => new SelectListItem(x.DepartamentoNombre, x.DepartamentoId.ToString()));
+        }
+        //Metodo privado para obtener Municipios
+        private async Task<IEnumerable<SelectListItem>> ObtenerMunicipioEditarEmpleado(int municipioId)
+        {
+            var municipio = await repositorioMunicipio.ObtenerMunicipioPorId(municipioId);
+            IEnumerable<Municipio> municipios = new List<Municipio> { municipio };
+            return municipios.Select(x => new SelectListItem(x.MunicipioNombre, x.MunicipioId.ToString()));
+        }
+        //Metodo privado para obtener Aldeas
+        private async Task<IEnumerable<SelectListItem>> ObtenerAldeaEditarEmpleado(int aldeaId)
+        {
+            var aldea = await repositorioAldea.ObtenerAldeaPorId(aldeaId);
+            IEnumerable<Aldea> aldeas = new List<Aldea> { aldea };
+            return aldeas.Select(x => new SelectListItem(x.AldeaNombre, x.AldeaId.ToString()));
         }
         //Metodo privado para obtener departamentos por pais
         private async Task<IEnumerable<SelectListItem>> ObtenerDeptosPorPais(Pais pais)

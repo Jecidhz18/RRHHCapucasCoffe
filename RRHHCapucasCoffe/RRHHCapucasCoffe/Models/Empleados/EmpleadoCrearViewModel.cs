@@ -21,6 +21,7 @@ namespace RRHHCapucasCoffe.Models.Empleados
         [Required(ErrorMessage = "El campo {0} es requerido")]
         public int? EmpleadoDirMpioId { get; set; }
         public int? EmpleadoDirAldeaId { get; set; }
+        [Required]
         public Familiar Familiar { get; set; }
         public EmpleadoBanco EmpleadoBanco { get; set; }
         public EmpleadoColegiacion EmpleadoColegiacion {get; set;}

@@ -1,4 +1,668 @@
-﻿
+﻿@using RRHHCapucasCoffe.Enums;
+@model RRHHCapucasCoffe.Models.Empleados.EmpleadoEditarViewModel
+
+@{
+    ViewData["Title"] = "Editar Empleado";
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Editar Empleado</h3>
+        <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="general-info-tab" data-bs-toggle="tab" data-bs-target="#bordered-general-info" type="button" role="tab" aria-controls="general-info" aria-selected="true">Información General</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="additional-info-tab" data-bs-toggle="tab" data-bs-target="#bordered-additional-info" type="button" role="tab" aria-controls="additional-info" aria-selected="false">Información Adicional</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="working-info-tab" data-bs-toggle="tab" data-bs-target="#bordered-working-info" type="button" role="tab" aria-controls="working-info" aria-selected="false">Información Laboral</button>
+            </li>
+        </ul>
+        <form id="crear-empleado">
+            <input type="hidden" asp-for="EmpleadoId"/>
+            <div class="tab-content pt-2" id="borderedTabContent">
+                <div class="tab-pane fade show active" id="bordered-general-info" role="tabpanel" aria-labelledby="general-info-tab">
+                    <div class="accordion accordion-flush" id="accordion-personal-info">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading-personal-info">
+                                <button id="accordion-button-reference-info" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-personal-info" aria-expanded="false" aria-controls="flush-collapse-personal-info">
+                                    Información personal:
+                                </button>
+                            </h2>
+                            <div id="flush-collapse-personal-info" class="accordion-collapse collapse mt-2" aria-labelledby="flush-heading-personal-info" data-bs-parent="#accordion-personal-info">
+                                <div class="accordion-body">
+                                    <div class="row g-3">
+                                        <div class="col-md-9">
+                                            <div class="row g-2">
+                                                <div class="col-12">
+                                                    <label asp-for="EmpleadoIdentificacion" class="form-label">Identificación</label>
+                                                    <input asp-for="EmpleadoIdentificacion" type="text" class="form-control" autocomplete="off">
+                                                    <span asp-validation-for="EmpleadoIdentificacion" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label asp-for="EmpleadoNombre" class="form-label"></label>
+                                                    <input asp-for="EmpleadoNombre" type="text" class="form-control" autocomplete="off">
+                                                    <span asp-validation-for="EmpleadoNombre" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="EmpleadoPrimerApellido" class="form-label"></label>
+                                                    <input asp-for="EmpleadoPrimerApellido" type="text" class="form-control" autocomplete="off">
+                                                    <span asp-validation-for="EmpleadoPrimerApellido" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="EmpleadoSegundoApellido" class="form-label"></label>
+                                                    <input asp-for="EmpleadoSegundoApellido" type="text" class="form-control" autocomplete="off">
+                                                    <span asp-validation-for="EmpleadoSegundoApellido" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label asp-for="EmpleadoSexo" class="form-label"></label>
+                                                    <select asp-for="EmpleadoSexo" class="form-select" asp-items="Html.GetEnumSelectList<Sexos>()">
+                                                        <option value="" selected>Seleccione una opción</option>
+                                                    </select>
+                                                    <span asp-validation-for="EmpleadoSexo" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label asp-for="EmpleadoFechaNacimiento" class="form-label"></label>
+                                                    <input asp-for="EmpleadoFechaNacimiento" type="date" class="form-control" />
+                                                    <span asp-validation-for="EmpleadoFechaNacimiento" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="row g-2">
+                                                <div class="col-12">
+                                                    <label asp-for="EmpleadoFotografia" class="form-label"></label>
+                                                    <div class="border border-secondary-subtle img-thumbnail">
+                                                        @* <img id="imagen-previa" class="img-fluid" src="~/img/ImgUpload.png" /> *@
+                                                        @if (Model.EmpleadoFotografiaImg != "")
+                                                        {
+                                                            <img id="imagen-previa" src="data:image/jpeg;base64,@Model.EmpleadoFotografiaImg" class="img-fluid"/>
+                                                        }else{
+                                                            <img id="imagen-previa" class="img-fluid" src="~/img/ImgUpload.png" />
+                                                        }
+                                                    </div>
+                                                    <input type="hidden" asp-for="EmpleadoFotografiaBase64" id="imagen-recortada" />
+                                                </div>
+                                                <div class="col-12 d-flex align-items-center">
+                                                    <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#modal-cropper-empleado">Subir</button>
+                                                    <button type="button" class="btn btn-outline-secondary w-100" id="btn-delete-photo">Eliminar</button>
+                                                </div>
+                                            </div>
+                                            <partial name="_ModalEmpleadoFotografia" model="Model"></partial>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <div class="row g-2">
+                                                <div class="col-12">
+                                                    <label asp-for="EmpleadoDirNacimientoId" class="form-label"></label>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <select class="form-select select2" id="select-pais-nac" asp-for="EmpleadoNacPaisId" asp-items="@Model.PaisesNac">
+                                                                <option value="" selected>Seleccione un Pais</option>
+                                                            </select>
+                                                            <span asp-validation-for="EmpleadoNacPaisId" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group col-3">
+                                                            <select class="form-select select2" id="select-depto-nac" asp-for="EmpleadoNacDeptoId" asp-items="@Model.DepartamentoNac">
+                                                                <option value="" selected>Seleccione un Departamento</option>
+                                                            </select>
+                                                            <span asp-validation-for="EmpleadoNacDeptoId" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group col-3">
+                                                            <select class="form-select select2" id="select-mpio-nac" asp-for="EmpleadoNacMpioId" asp-items="@Model.MunicipioNac">
+                                                                <option value="" selected>Seleccione un Municipio</option>
+                                                            </select>
+                                                            <span asp-validation-for="EmpleadoNacMpioId" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group col-3">
+                                                            <select class="form-select select2" id="select-aldea-nac" asp-for="EmpleadoNacAldeaId" asp-items="@Model.AldeaNac">
+                                                                <option value="" selected>Seleccione una Aldea</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="EmpleadoEdad" class="form-label"></label>
+                                                    <input asp-for="EmpleadoEdad" class="form-control" />
+                                                    <span asp-validation-for="EmpleadoEdad" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="EstadoCivilId" class="form-label"></label>
+                                                    <select class="form-select" asp-for="EstadoCivilId" asp-items="@Model.EstadosCiviles">
+                                                        <option value="" selected>Seleccione una opción</option>
+                                                    </select>
+                                                    <span asp-validation-for="EstadoCivilId" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="EmpleadoTelefono" class="form-label"></label>
+                                                    <input asp-for="EmpleadoTelefono" type="tel" class="form-control" placeholder="" />
+                                                    <span asp-validation-for="EmpleadoTelefono" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="EmpleadoCelular" class="form-label"></label>
+                                                    <input asp-for="EmpleadoCelular" type="tel" class="form-control" placeholder="" />
+                                                    <span asp-validation-for="EmpleadoCelular" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label asp-for="EmpleadoDireccionId" class="form-label"></label>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <select class="form-select select2" id="select-pais-dir" asp-for="EmpleadoDirPaisId" asp-items="@Model.PaisesRes">
+                                                                <option value="" selected>Seleccione un Pais</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <select class="form-select select2" id="select-depto-dir" asp-for="EmpleadoDirDeptoId" asp-items="@Model.DepartamentoRes">
+                                                                <option value="" selected>Seleccione un Departamento</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <select class="form-select select2" id="select-mpio-dir" asp-for="EmpleadoDirMpioId" asp-items="@Model.MunicipioRes">
+                                                                <option value="" selected>Seleccione un Municipio</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <select class="form-select select2" id="select-aldea-dir" asp-for="EmpleadoDirAldeaId" asp-items="@Model.AldeaRes">
+                                                                <option value="" selected>Seleccione una Aldea</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label asp-for="EmpleadoDireccion" class="form-label"></label>
+                                                    <textarea asp-for="EmpleadoDireccion" class="form-control"></textarea>
+                                                    <span asp-validation-for="EmpleadoDireccion" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="EmpleadoEmail" class="form-label"></label>
+                                                    <input asp-for="EmpleadoEmail" type="tel" class="form-control" placeholder="" />
+                                                    <span asp-validation-for="EmpleadoEmail" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="ProfesionId" class="form-label"></label>
+                                                    <select asp-for="ProfesionId" class="form-select" asp-items="@Model.Profesiones">
+                                                        <option value="" selected>Seleccione una opción</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="EmpleadoFechaIngreso" class="form-label"></label>
+                                                    <input asp-for="EmpleadoFechaIngreso" type="date" class="form-control" />
+                                                    <span asp-validation-for="EmpleadoFechaIngreso" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label asp-for="EmpleadoFechaContrato" class="form-label"></label>
+                                                    <input asp-for="EmpleadoFechaContrato" type="date" class="form-control" />
+                                                    <span asp-validation-for="EmpleadoFechaContrato" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-check form-switch">
+                                                        <label asp-for="EmpleadoActivo" class="form-check-label"></label>
+                                                        <input asp-for="EmpleadoActivo" class="form-check-input" type="checkbox" checked="@Model.EmpleadoActivo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-1" />
+                    <div class="col-12">
+                        <div class="accordion accordion-flush" id="accordion-reference-info">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-heading-reference-info">
+                                    <button id="accordion-button-reference-info" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-reference-info" aria-expanded="false" aria-controls="flush-collapse-reference-info">
+                                        Referencia familiar:
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse-reference-info" class="accordion-collapse collapse mt-2" aria-labelledby="flush-heading-reference-info" data-bs-parent="#accordion-reference-info">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label asp-for="Familiar.FamiliarIdentificacion" class="form-label"></label>
+                                                <input asp-for="Familiar.FamiliarIdentificacion" type="text" class="form-control" autocomplete="off">
+                                                <span asp-validation-for="Familiar.FamiliarIdentificacion" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-12">
+                                                <label asp-for="Familiar.FamiliarNombre" class="form-label"></label>
+                                                <input asp-for="Familiar.FamiliarNombre" type="text" class="form-control" autocomplete="off">
+                                                <span asp-validation-for="Familiar.FamiliarNombre" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <label asp-for="Familiar.FamiliarPrimerApellido" class="form-label"></label>
+                                                <input asp-for="Familiar.FamiliarPrimerApellido" type="text" class="form-control" autocomplete="off">
+                                                <span asp-validation-for="Familiar.FamiliarPrimerApellido" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <label asp-for="Familiar.FamiliarSegundoApellido" class="form-label"></label>
+                                                <input asp-for="Familiar.FamiliarSegundoApellido" type="text" class="form-control" autocomplete="off">
+                                                <span asp-validation-for="Familiar.FamiliarSegundoApellido" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-12">
+                                                <label asp-for="Familiar.FamiliarParentesco" class="form-label"></label>
+                                                <select asp-for="Familiar.FamiliarParentesco" class="form-select" asp-items="Html.GetEnumSelectList<Parentescos>()">
+                                                    <option value="" selected>Seleccione una opción</option>
+                                                </select>
+                                                <span asp-validation-for="Familiar.FamiliarParentesco" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <label asp-for="Familiar.FamiliarTelefono" class="form-label"></label>
+                                                <input asp-for="Familiar.FamiliarTelefono" type="text" class="form-control" autocomplete="off">
+                                                <span asp-validation-for="Familiar.FamiliarTelefono" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <label asp-for="Familiar.FamiliarCelular" class="form-label"></label>
+                                                <input asp-for="Familiar.FamiliarCelular" type="text" class="form-control" autocomplete="off">
+                                                <span asp-validation-for="Familiar.FamiliarCelular" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade pb-0" id="bordered-additional-info" role="tabpanel" aria-labelledby="additional-info-tab">
+                    <div class="accordion accordion-flush" id="accordion-bank-info">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading-bank-info">
+                                <button id="accordion-button-bank-info" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-bank-info" aria-expanded="false" aria-controls="flush-collapse-bank-info">
+                                    Información bancaria:
+                                </button>
+                            </h2>
+                            <div id="flush-collapse-bank-info" class="accordion-collapse collapse" aria-labelledby="flush-heading-bank-info" data-bs-parent="#accordion-bank-info">
+                                <div class="accordion-body mb-0">
+                                    <div class="row g-3" id="">
+                                        <div class="col-6">
+                                            <label class="form-label" asp-for="EmpleadoBanco.BancoId"></label>
+                                            <div class="input-group">
+                                                <select class="form-select" id="select-banco" asp-items="@Model.Bancos">
+                                                    <option value="" selected>Seleccione una opción</option>
+                                                </select>
+                                                <button class="bi bi-search btn btn-outline-secondary" type="button"></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <label class="form-label" asp-for="EmpleadoBanco.EmpleadoBancoNoCuenta"></label>
+                                            <input type="text" class="form-control" id="empleado-banco-no-cuenta" />
+                                        </div>
+                                        <div class="col-1 d-flex align-items-end">
+                                            <button id="btn-agregar-banco" type="button" class="btn btn-outline-primary" title="Agregar">
+                                                <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                                <span class="d-none d-lg-block">Agregar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="text-danger" id="validate-select-banco"></span>
+                                        </div>
+                                        <div class="col-5">
+                                            <span class="text-danger" id="validate-input-banco-no-cuenta"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Banco</th>
+                                                        <th>No Cuenta</th>
+                                                        <th>Activa</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="data-table-body-bank">
+                                                    @foreach (var item in Model.EmpleadoBancos)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <button class="btn btn-outline-danger btn-sm bi bi-trash" id="btn-eliminar-fila"></button>
+                                                            </td>
+                                                            <td>
+                                                                @item.BancoNombre
+                                                                <input type="hidden" name="BancoId" value="@item.BancoId">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control form-control-sm" name="EmpleadoBancoNoCuenta" value="@item.EmpleadoBancoNoCuenta">
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="radio" class="form-check-input" name="EmpleadoBancoActiva" value="@item.EmpleadoBancoActiva" @(item.EmpleadoBancoActiva ? "checked" : "")>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-1" />
+                    <div class="accordion accordion-flush" id="accordion-collegiate">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading-collegiate">
+                                <button id="accordion-button-collegiate" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-collegiate" aria-expanded="false" aria-controls="flush-collapse-collegiate">
+                                    Colegiación:
+                                </button>
+                            </h2>
+                            <div id="flush-collapse-collegiate" class="accordion-collapse collapse" aria-labelledby="flush-heading-collegiate" data-bs-parent="#accordion-collegiate">
+                                <div class="accordion-body">
+                                    <div class="row g-3" id="">
+                                        <div class="col-5">
+                                            <label class="form-label" asp-for="EmpleadoColegiacion.ColegioProfesionalId"></label>
+                                            <div class="input-group">
+                                                <select class="form-select" id="select-colegio" asp-items="@Model.ColegiosProfesionales">
+                                                    <option value="" selected>Seleccione una opción</option>
+                                                </select>
+                                                <button class="bi bi-search btn btn-outline-secondary" type="button"></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <label class="form-label" asp-for="EmpleadoColegiacion.EmpleadoColegiacionAnio"></label>
+                                            <input type="number" class="form-control" id="colegiacion-anio" placeholder="1990" min="1980" step="1" />
+                                        </div>
+                                        <div class="col-3">
+                                            <label class="form-label" asp-for="EmpleadoColegiacion.EmpleadoColegiacionCuota"></label>
+                                            <input type="number" class="form-control" id="colegiacion-cuota" />
+                                        </div>
+                                        <div class="col-1 d-flex align-items-end">
+                                            <button id="btn-agregar-colegiacion" type="button" class="btn btn-outline-primary" title="Agregar">
+                                                <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                                <span class="d-none d-lg-block">Agregar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <span class="text-danger" id="validate-colegio-profesional"></span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-danger" id="validate-colegiacion-anio"></span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="text-danger" id="validate-colegiacion-cuota"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Colegiación</th>
+                                                        <th>Colegiación Año</th>
+                                                        <th>Colegiación Cuota</th>
+                                                        <th>Activa</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="data-table-body-colegio">
+                                                    @foreach (var item in Model.EmpleadoColegiaciones)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <button class="btn btn-outline-danger btn-sm bi bi-trash" id="btn-eliminar-fila"></button>
+                                                            </td>
+                                                            <td>
+                                                                @item.ColegioProfesionalNombre
+                                                                <input type="hidden" name="ColegioProfesionalId" value="@item.ColegioProfesionalId">
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control form-control-sm" name="EmpleadoColegiacionAnio" value="@item.EmpleadoColegiacionAnio">
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control form-control-sm" name="EmpleadoColegiacionCuota" value="@item.EmpleadoColegiacionCuota">
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="radio" class="form-check-input" name="EmpleadoColegiacionActivo" value="@item.EmpleadoColegiacionActivo" @(item.EmpleadoColegiacionActivo ? "checked" : "")>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="bordered-working-info" role="tabpanel" aria-labelledby="working-info-tab">
+                    <div class="accordion accordion-flush" id="accordion-area">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading-area">
+                                <button id="accordion-button-area" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-area" aria-expanded="false" aria-controls="flush-collapse-area">
+                                    Area:
+                                </button>
+                            </h2>
+                            <div id="flush-collapse-area" class="accordion-collapse collapse" aria-labelledby="flush-heading-area" data-bs-parent="#accordion-area">
+                                <div class="accordion-body">
+                                    <div class="row g-3" id="">
+                                        <div class="col-5">
+                                            <label class="form-label" asp-for="EmpleadoArea.AgenciaId"></label>
+                                            <select class="form-select" id="select-agencia" asp-items="@Model.Agencias">
+                                                <option value="" selected>Seleccione una opción</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-5">
+                                            <label class="form-label" asp-for="EmpleadoArea.UnidadId"></label>
+                                            <select class="form-select" id="select-area">
+                                                <option value="" selected>Seleccione una opción</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-2 d-flex align-items-end">
+                                            <button class="bi bi-search btn btn-outline-secondary me-2" type="button"></button>
+                                            <button id="btn-agregar-area" type="button" class="btn btn-outline-primary" title="Agregar">
+                                                <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                                <span class="d-none d-lg-block">Agregar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <span class="text-danger" id="validate-agencia"></span>
+                                        </div>
+                                        <div class="col-5">
+                                            <span class="text-danger" id="validate-unidad"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Agencia</th>
+                                                        <th>Area</th>
+                                                        <th>Activo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="data-table-body-area">
+                                                    @foreach (var item in Model.EmpleadoAreas)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <button class="btn btn-outline-danger btn-sm bi bi-trash" id="btn-eliminar-fila"></button>
+                                                            </td>
+                                                            <td>
+                                                                @item.AgenciaNombre
+                                                                <input type="hidden" name="AgenciaId" value="@item.AgenciaId">
+                                                            </td>
+                                                            <td>
+                                                                @item.UnidadDescripcion
+                                                                <input type="hidden" name="UnidadId" value="@item.UnidadId">
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input id="radio-area-activo" type="radio" class="form-check-input" name="EmpleadoAreaActivo" value="@item.EmpleadoAreaActivo" @(item.EmpleadoAreaActivo ? "checked" : "")>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-1" />
+                    <div class="accordion accordion-flush" id="accordion-cargo">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading-cargo">
+                                <button id="accordion-button-cargo" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-cargo" aria-expanded="false" aria-controls="flush-collapse-cargo">
+                                    Cargo:
+                                </button>
+                            </h2>
+                            <div id="flush-collapse-cargo" class="accordion-collapse collapse" aria-labelledby="flush-heading-cargo" data-bs-parent="#accordion-cargo">
+                                <div class="accordion-body">
+                                    <div class="row g-3" id="">
+                                        <div class="col-3">
+                                            <label class="form-label" asp-for="EmpleadoCargo.CargoId"></label>
+                                            <div class="input-group">
+                                                <select class="form-select" id="select-cargo" asp-items="Model.Cargos">
+                                                    <option value="" selected>Seleccione una opción</option>
+                                                </select>
+                                                <button class="bi bi-search btn btn-outline-secondary" type="button"></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="form-label" asp-for="EmpleadoCargo.ModalidadId"></label>
+                                            <select class="form-select" id="select-modalidad" asp-items="Model.Modalidades">
+                                                <option value="" selected>Seleccione una opción</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="form-label" asp-for="EmpleadoCargo.EmpleadoCargoFechaInicio"></label>
+                                            <input type="date" class="form-control" id="cargo-fecha-inicio" />
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="form-label" asp-for="EmpleadoCargo.EmpleadoCargoFechaFinal"></label>
+                                            <input type="date" class="form-control" id="cargo-fecha-final" />
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="form-label" asp-for="EmpleadoCargo.EmpleadoCargoSalario"></label>
+                                            <input type="number" class="form-control" id="cargo-salario" />
+                                        </div>
+                                        <div class="col-1 d-flex align-items-end">
+                                            <button id="btn-agregar-cargo" type="button" class="btn btn-outline-primary" title="Agregar">
+                                                <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                                <span class="d-none d-lg-block">Agregar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span class="text-danger" id="validate-cargo"></span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-danger" id="validate-modalidad"></span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-danger" id="validate-fecha-inicio"></span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-danger" id="validate-fecha-final"></span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="text-danger" id="validate-salario"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Cargo</th>
+                                                        <th>Modalidad</th>
+                                                        <th>Fecha Inicio</th>
+                                                        <th>Fecha Final</th>
+                                                        <th>Salario</th>
+                                                        <th>Observación</th>
+                                                        <th>Activo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="data-table-body-cargo">
+                                                    @foreach (var item in Model.EmpleadoCargos)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <button type="button" class="btn btn-outline-danger btn-sm bi bi-trash" id="btn-eliminar-fila"></button>
+                                                            </td>
+                                                            <td>
+                                                                @item.CargoId
+                                                                <input type="hidden" name="CargoId" value="@item.CargoId">
+                                                            </td>
+                                                            <td>
+                                                                @item.ModalidadNombre
+                                                                <input type="hidden" name="ModalidadId" value="@item.ModalidadId">
+                                                            </td>
+                                                            <td>
+                                                                <input type="date" class="form-control form-control-sm" name="EmpleadoCargoFechaInicio" value="@item.EmpleadoCargoFechaInicio">
+                                                            </td>
+                                                            <td>
+                                                                <input type="date" class="form-control form-control-sm" name="EmpleadoCargoFechaFinal" value="@item.EmpleadoCargoFechaFinal">
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control form-control-sm" name="EmpleadoCargoSalario" value="@item.EmpleadoCargoSalario">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control form-control-sm" name="EmpleadoCargoObs" value="@item.EmpleadoCargoObs">
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="radio" class="form-check-input" name="EmpleadoCargoActivo" value="@item.EmpleadoCargoActivo" @(item.EmpleadoCargoActivo ? "checked" : "")>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Empleado", "Empleados")'">Cancelar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/empleado.js" asp-append-version="true"></script>
+
+    <script>
+        const urlGetDepto = '@Url.Action("ObtenerDepartamentos")';
+        const urlGetMpio = '@Url.Action("ObtenerMunicipios")';
+        const urlGetAldea = '@Url.Action("ObtenerAldeas")';
+        const urlGetArea = '@Url.Action("ObtenerAreas")';
+
+        const urlCrearEmpleado = '@Url.Action("CrearEmpleado")';
+
+        $(function () {
+            inicializarFormCrearEmpleado(urlGetDepto, urlGetMpio, urlGetAldea, urlGetArea);
+        });
+    </script>
+}
 
 
 

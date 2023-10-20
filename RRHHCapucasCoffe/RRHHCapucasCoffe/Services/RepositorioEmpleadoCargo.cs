@@ -2,6 +2,8 @@
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
+using RRHHCapucasCoffe.Models.Empleados;
+using RRHHCapucasCoffe.Models.EmpleadosCargos;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -36,6 +38,19 @@ namespace RRHHCapucasCoffe.Services
                         empleadoCargo.EmpleadoCargoActivo
                     });
             }
+        }
+
+        public async Task<IEnumerable<EmpleadoCargoViewModel>> ObtenerEmpleadoCargoPorEmpleadoId(int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<EmpleadoCargoViewModel>(
+                @"SELECT ec.CargoId, c.CargoNombre, ec.ModalidadId, m.ModalidadNombre, ec.EmpleadoCargoFechaInicio, ec.EmpleadoCargoFechaFinal,
+                    ec.EmpleadoCargoSalario, ec.EmpleadoCargoObs, ec.EmpleadoCargoActivo
+                FROM EmpleadosCargos ec
+                INNER JOIN Cargos c ON c.CargoId = ec.CargoId
+                INNER JOIN Modalidades m ON m.ModalidadId = ec.ModalidadId
+                WHERE ec.EmpleadoId = @EmpleadoId", new { empleadoId });
         }
     }
 }

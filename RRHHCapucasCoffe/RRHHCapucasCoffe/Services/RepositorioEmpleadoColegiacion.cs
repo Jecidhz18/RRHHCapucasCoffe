@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
+using RRHHCapucasCoffe.Models.EmpleadosColegiaciones;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -31,6 +32,18 @@ namespace RRHHCapucasCoffe.Services
                         empleadoColegiacion.EmpleadoColegiacionActivo
                     });
             }
+        }
+
+        public async Task<IEnumerable<EmpleadoColegiacionViewModel>> ObtenerEmpleadoColegiacionPorEmpleadoId(int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<EmpleadoColegiacionViewModel>(
+                @"SELECT ec.EmpleadoColegiacionId, ec.ColegioProfesionalId, cp.ColegioProfesionalNombre, ec.EmpleadoColegiacionAnio,
+                    ec.EmpleadoColegiacionCuota, ec.EmpleadoColegiacionActivo
+                FROM EmpleadosColegiaciones ec
+                INNER JOIN ColegiosProfesionales cp ON cp.ColegioProfesionalId = ec.ColegioProfesionalId
+                WHERE ec.EmpleadoId = @EmpleadoId", new { empleadoId });
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
+using RRHHCapucasCoffe.Models.EmpleadosBancos;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -29,6 +30,17 @@ namespace RRHHCapucasCoffe.Services
                         empleadoBanco.EmpleadoBancoActiva
                     });
             }
+        }
+
+        public async Task<IEnumerable<EmpleadoBancoViewModel>> ObtenerEmpleadoBancoPorEmpleadoId(int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryAsync<EmpleadoBancoViewModel>(
+                @"SELECT eb.EmpleadoBancoId, eb.BancoId, b.BancoNombre, eb.EmpleadoBancoNoCuenta, eb.EmpleadoBancoActiva
+                FROM EmpleadosBancos eb
+                INNER JOIN Bancos b ON b.BancoId = eb.BancoId
+                WHERE EmpleadoId = @EmpleadoId", new { empleadoId });
         }
     }
 }

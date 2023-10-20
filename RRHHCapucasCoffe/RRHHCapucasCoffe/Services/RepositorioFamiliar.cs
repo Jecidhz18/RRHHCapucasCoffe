@@ -34,5 +34,14 @@ namespace RRHHCapucasCoffe.Services
                 VALUES (@FamiliarIdentificacion, @FamiliarNombre, @FamiliarPrimerApellido, @FamiliarSegundoApellido, @FamiliarParentesco, @FamiliarTelefono, @FamiliarCelular)
                 SELECT SCOPE_IDENTITY()", familiar);
         }
+
+        public async Task<Familiar> ObtenerFamiliarPorId(int familiarId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryFirstOrDefaultAsync<Familiar>(
+                @"SELECT * FROM Familiares
+                WHERE FamiliarId = @FamiliarId", new { familiarId });
+        }
     }
 }

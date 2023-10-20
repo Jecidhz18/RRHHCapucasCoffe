@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
+using RRHHCapucasCoffe.Models.DireccionesEmpleados;
 
 namespace RRHHCapucasCoffe.Services
 {
@@ -30,6 +31,24 @@ namespace RRHHCapucasCoffe.Services
             return await connection.QueryFirstOrDefaultAsync<int>(
                 @"SELECT DireccionEmpleadoId FROM DireccionesEmpleados
                 WHERE PaisId = @PaisId AND DepartamentoId = @DepartamentoId AND MunicipioId = @MunicipioId AND (AldeaId = @AldeaId OR AldeaId IS NULL)", direccionEmpleado);
+        }
+
+        public async Task<DireccionEmpleadoNacimiento> ObtenerDireccionEmpleadoNacPorId(int direccionEmpleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryFirstOrDefaultAsync<DireccionEmpleadoNacimiento>(
+                @"SELECT * FROM DireccionesEmpleados
+                WHERE DireccionEmpleadoId = @DireccionEmpleadoId", new { direccionEmpleadoId });
+        }
+
+        public async Task<DireccionEmpleadoResidencia> ObtenerDireccionEmpleadoResPorId(int direccionEmpleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryFirstOrDefaultAsync<DireccionEmpleadoResidencia>(
+                @"SELECT * FROM DireccionesEmpleados
+                WHERE DireccionEmpleadoId = @DireccionEmpleadoId", new { direccionEmpleadoId });
         }
     }
 }

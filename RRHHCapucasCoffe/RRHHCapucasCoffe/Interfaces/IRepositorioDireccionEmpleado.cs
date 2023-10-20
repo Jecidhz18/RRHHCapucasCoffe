@@ -1,4 +1,5 @@
 ﻿using RRHHCapucasCoffe.Entities;
+using RRHHCapucasCoffe.Models.DireccionesEmpleados;
 
 namespace RRHHCapucasCoffe.Interfaces
 {
@@ -6,5 +7,7 @@ namespace RRHHCapucasCoffe.Interfaces
     {
         Task<int> CrearDireccionEmpleado(DireccionEmpleado direccionEmpleado);
         Task<int> ExisteDireccionEmpleado(DireccionEmpleado direccionEmpleado);
+        Task<DireccionEmpleadoNacimiento> ObtenerDireccionEmpleadoNacPorId(int direccionEmpleadoId);
+        Task<DireccionEmpleadoResidencia> ObtenerDireccionEmpleadoResPorId(int direccionEmpleadoId);
     }
 }
