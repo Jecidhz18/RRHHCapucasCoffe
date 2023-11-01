@@ -21,11 +21,11 @@ namespace RRHHCapucasCoffe.Services
 
             return await connection.QuerySingleAsync<int>(
                 @"INSERT INTO Empleados (EmpleadoIdentificacion, EmpleadoFotografia, EmpleadoNombre, EmpleadoPrimerApellido,
-	                EmpleadoSegundoApellido, EmpleadoSexo, EmpleadoDirNacimientoId, EmpleadoFechaNacimiento, EmpleadoEdad, EstadoCivilId,
+	                EmpleadoSegundoApellido, EmpleadoSexo, EmpleadoDirNacimientoId, EmpleadoFechaNacimiento, EstadoCivilId,
 	                EmpleadoTelefono, EmpleadoCelular, EmpleadoDireccion, EmpleadoDireccionId, EmpleadoEmail, FamiliarId, ProfesionId,
 	                EmpleadoFechaIngreso, EmpleadoFechaContrato, EmpleadoActivo, EmpleadoUsuarioGrabo, EmpleadoFechaGrabo)
                 VALUES (@EmpleadoIdentificacion, @EmpleadoFotografia, @EmpleadoNombre, @EmpleadoPrimerApellido,
-	                @EmpleadoSegundoApellido, @EmpleadoSexo, @EmpleadoDirNacimientoId, @EmpleadoFechaNacimiento, @EmpleadoEdad, @EstadoCivilId,
+	                @EmpleadoSegundoApellido, @EmpleadoSexo, @EmpleadoDirNacimientoId, @EmpleadoFechaNacimiento, @EstadoCivilId,
 	                @EmpleadoTelefono, @EmpleadoCelular, @EmpleadoDireccion, @EmpleadoDireccionId, @EmpleadoEmail, @FamiliarId, @ProfesionId,
 	                @EmpleadoFechaIngreso, @EmpleadoFechaContrato, @EmpleadoActivo, @EmpleadoUsuarioGrabo, @EmpleadoFechaGrabo)
 	            SELECT SCOPE_IDENTITY();", empleado);
@@ -58,5 +58,19 @@ namespace RRHHCapucasCoffe.Services
                 WHERE EmpleadoId = @EmpleadoId", new { empleadoId });
         }
 
+        public async Task EditarEmpleado(Empleado empleado)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"UPDATE Empleados
+                SET EmpleadoIdentificacion = @EmpleadoIdentificacion, EmpleadoFotografia = @EmpleadoFotografia, EmpleadoNombre = @EmpleadoNombre,
+	                EmpleadoPrimerApellido = @EmpleadoPrimerApellido, EmpleadoSegundoApellido = @EmpleadoSegundoApellido, EmpleadoSexo = @EmpleadoSexo,
+	                EmpleadoFechaNacimiento = @EmpleadoFechaNacimiento, EstadoCivilId = @EstadoCivilId, EmpleadoTelefono = @EmpleadoTelefono, 
+                    EmpleadoCelular = @EmpleadoCelular, EmpleadoDireccion = @EmpleadoDireccion, EmpleadoEmail = @EmpleadoEmail,ProfesionId = @ProfesionId,
+                    EmpleadoFechaIngreso = @EmpleadoFechaIngreso, EmpleadoFechaContrato = @EmpleadoFechaContrato, EmpleadoActivo = @EmpleadoActivo,
+                    EmpleadoUsuarioModifico = @EmpleadoUsuarioModifico, EmpleadoFechaModifico = @EmpleadoFechaModifico
+                WHERE EmpleadoId = @EmpleadoId", empleado);
+        }
     }
 }

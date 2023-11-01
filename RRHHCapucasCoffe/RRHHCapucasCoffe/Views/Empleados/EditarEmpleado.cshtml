@@ -23,7 +23,7 @@
                 <button class="nav-link" id="working-info-tab" data-bs-toggle="tab" data-bs-target="#bordered-working-info" type="button" role="tab" aria-controls="working-info" aria-selected="false">Información Laboral</button>
             </li>
         </ul>
-        <form id="crear-empleado">
+        <form id="editar-empleado">
             <input type="hidden" asp-for="EmpleadoId"/>
             <div class="tab-content pt-2" id="borderedTabContent">
                 <div class="tab-pane fade show active" id="bordered-general-info" role="tabpanel" aria-labelledby="general-info-tab">
@@ -99,6 +99,7 @@
                                             <div class="row g-2">
                                                 <div class="col-12">
                                                     <label asp-for="EmpleadoDirNacimientoId" class="form-label"></label>
+                                                    <input type="hidden" asp-for="EmpleadoDirNacimientoId"/>
                                                     <div class="row">
                                                         <div class="col-3">
                                                             <select class="form-select select2" id="select-pais-nac" asp-for="EmpleadoNacPaisId" asp-items="@Model.PaisesNac">
@@ -127,7 +128,7 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <label asp-for="EmpleadoEdad" class="form-label"></label>
-                                                    <input asp-for="EmpleadoEdad" class="form-control" />
+                                                    <input type="number" disabled asp-for="EmpleadoEdad" class="form-control" />
                                                     <span asp-validation-for="EmpleadoEdad" class="text-danger"></span>
                                                 </div>
                                                 <div class="col-6">
@@ -149,6 +150,7 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <label asp-for="EmpleadoDireccionId" class="form-label"></label>
+                                                    <input type="hidden" asp-for="EmpleadoDireccionId"/>
                                                     <div class="row">
                                                         <div class="col-3">
                                                             <select class="form-select select2" id="select-pais-dir" asp-for="EmpleadoDirPaisId" asp-items="@Model.PaisesRes">
@@ -223,6 +225,7 @@
                                 <div id="flush-collapse-reference-info" class="accordion-collapse collapse mt-2" aria-labelledby="flush-heading-reference-info" data-bs-parent="#accordion-reference-info">
                                     <div class="accordion-body">
                                         <div class="row g-3">
+                                            <input type="hidden" asp-for="Familiar.FamiliarId"/>
                                             <div class="col-12">
                                                 <label asp-for="Familiar.FamiliarIdentificacion" class="form-label"></label>
                                                 <input asp-for="Familiar.FamiliarIdentificacion" type="text" class="form-control" autocomplete="off">
@@ -318,10 +321,11 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="data-table-body-bank">
-                                                    @foreach (var item in Model.EmpleadoBancos)
+                                                    @foreach (var item in Model.EmpleadosBancos)
                                                     {
                                                         <tr>
                                                             <td>
+                                                                <input type="hidden" name="EmpleadoBancoId" value="@item.EmpleadoBancoId" />
                                                                 <button class="btn btn-outline-danger btn-sm bi bi-trash" id="btn-eliminar-fila"></button>
                                                             </td>
                                                             <td>
@@ -405,10 +409,11 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="data-table-body-colegio">
-                                                    @foreach (var item in Model.EmpleadoColegiaciones)
+                                                    @foreach (var item in Model.EmpleadosColegiaciones)
                                                     {
                                                         <tr>
                                                             <td>
+                                                                <input type="hidden" name="EmpleadoColegiacionId" value="@item.EmpleadoColegiacionId" />
                                                                 <button class="btn btn-outline-danger btn-sm bi bi-trash" id="btn-eliminar-fila"></button>
                                                             </td>
                                                             <td>
@@ -488,10 +493,11 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="data-table-body-area">
-                                                    @foreach (var item in Model.EmpleadoAreas)
+                                                    @foreach (var item in Model.EmpleadosAreas)
                                                     {
                                                         <tr>
                                                             <td>
+                                                                <input type="hidden" name="EmpleadoAreaId" value="@item.EmpleadoAreaId" />
                                                                 <button class="btn btn-outline-danger btn-sm bi bi-trash" id="btn-eliminar-fila"></button>
                                                             </td>
                                                             <td>
@@ -595,14 +601,15 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="data-table-body-cargo">
-                                                    @foreach (var item in Model.EmpleadoCargos)
+                                                    @foreach (var item in Model.EmpleadosCargos)
                                                     {
                                                         <tr>
                                                             <td>
+                                                                <input type="hidden" name="EmpleadoCargoId" value="@item.EmpleadoCargoId" />
                                                                 <button type="button" class="btn btn-outline-danger btn-sm bi bi-trash" id="btn-eliminar-fila"></button>
                                                             </td>
                                                             <td>
-                                                                @item.CargoId
+                                                                @item.CargoNombre
                                                                 <input type="hidden" name="CargoId" value="@item.CargoId">
                                                             </td>
                                                             <td>
@@ -610,10 +617,10 @@
                                                                 <input type="hidden" name="ModalidadId" value="@item.ModalidadId">
                                                             </td>
                                                             <td>
-                                                                <input type="date" class="form-control form-control-sm" name="EmpleadoCargoFechaInicio" value="@item.EmpleadoCargoFechaInicio">
+                                                                <input type="date" class="form-control form-control-sm" name="EmpleadoCargoFechaInicio" asp-for="@item.EmpleadoCargoFechaInicio">
                                                             </td>
                                                             <td>
-                                                                <input type="date" class="form-control form-control-sm" name="EmpleadoCargoFechaFinal" value="@item.EmpleadoCargoFechaFinal">
+                                                                <input type="date" class="form-control form-control-sm" name="EmpleadoCargoFechaFinal" asp-for="@item.EmpleadoCargoFechaFinal">
                                                             </td>
                                                             <td>
                                                                 <input type="number" class="form-control form-control-sm" name="EmpleadoCargoSalario" value="@item.EmpleadoCargoSalario">
@@ -656,7 +663,7 @@
         const urlGetAldea = '@Url.Action("ObtenerAldeas")';
         const urlGetArea = '@Url.Action("ObtenerAreas")';
 
-        const urlCrearEmpleado = '@Url.Action("CrearEmpleado")';
+        const urlEditarEmpleado = '@Url.Action("EditarEmpleado")';
 
         $(function () {
             inicializarFormCrearEmpleado(urlGetDepto, urlGetMpio, urlGetAldea, urlGetArea);

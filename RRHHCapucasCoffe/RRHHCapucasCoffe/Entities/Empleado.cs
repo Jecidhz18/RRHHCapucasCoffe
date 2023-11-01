@@ -21,8 +21,9 @@ namespace RRHHCapucasCoffe.Entities
         public int? EmpleadoSexo { get; set; }
         [Display(Name = "Lugar de Nacimiento")]
         public int EmpleadoDirNacimientoId { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "El campo {0} es requerido")]
-        public DateTime EmpleadoFechaNacimiento { get; set; } = DateTime.Now;
+        public DateTime EmpleadoFechaNacimiento { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Range(1, int.MaxValue, ErrorMessage = "El valor de EmpleadoEdad debe ser mayor que 0.")]
         public int EmpleadoEdad { get; set; }
@@ -35,8 +36,10 @@ namespace RRHHCapucasCoffe.Entities
         public string EmpleadoEmail { get; set; }
         public int FamiliarId { get; set; }
         public int? ProfesionId { get; set; }
-        public DateTime EmpleadoFechaIngreso { get; set; } = DateTime.Now;
-        public DateTime EmpleadoFechaContrato { get; set; } = DateTime.Now;
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyy}", ApplyFormatInEditMode = true)]
+        public DateTime EmpleadoFechaIngreso { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime EmpleadoFechaContrato { get; set; } 
         public bool EmpleadoActivo { get; set; }
         public Guid EmpleadoUsuarioGrabo { get; set; }
         public DateTime EmpleadoFechaGrabo { get; set; }

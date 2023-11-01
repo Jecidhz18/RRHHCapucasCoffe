@@ -2,6 +2,7 @@
 {
     public class EmpleadoArea
     {
+        public int EmpleadoAreaId { get; set; }
         public int EmpleadoId { get; set; }
         public int UnidadId { get; set; }
         public int AgenciaId { get; set; }

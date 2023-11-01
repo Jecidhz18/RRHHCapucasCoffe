@@ -40,11 +40,13 @@ namespace RRHHCapucasCoffe.Services
             CreateMap<EmpleadoEditarViewModel, Empleado>().ReverseMap();
 
             CreateMap<DireccionEmpleadoNacimiento, EmpleadoEditarViewModel>()
+                .ForMember(dest => dest.EmpleadoDirNacimientoId, opt => opt.MapFrom(src => src.DireccionEmpleadoId))
                 .ForMember(dest => dest.EmpleadoNacPaisId, opt => opt.MapFrom(src => src.PaisId))
                 .ForMember(dest => dest.EmpleadoNacDeptoId, opt => opt.MapFrom(src => src.DepartamentoId))
                 .ForMember(dest => dest.EmpleadoNacMpioId, opt => opt.MapFrom(src => src.MunicipioId))
                 .ForMember(dest => dest.EmpleadoNacAldeaId, opt => opt.MapFrom(src => src.AldeaId)).ReverseMap();
             CreateMap<DireccionEmpleadoResidencia, EmpleadoEditarViewModel>()
+                .ForMember(dest => dest.EmpleadoDireccionId, opt => opt.MapFrom(src => src.DireccionEmpleadoId))
                 .ForMember(dest => dest.EmpleadoDirPaisId, opt => opt.MapFrom(src => src.PaisId))
                 .ForMember(dest => dest.EmpleadoDirDeptoId, opt => opt.MapFrom(src => src.DepartamentoId))
                 .ForMember(dest => dest.EmpleadoDirMpioId, opt => opt.MapFrom(src => src.MunicipioId))

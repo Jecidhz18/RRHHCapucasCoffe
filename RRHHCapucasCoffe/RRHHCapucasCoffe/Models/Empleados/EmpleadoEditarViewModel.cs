@@ -11,10 +11,10 @@ namespace RRHHCapucasCoffe.Models.Empleados
     public class EmpleadoEditarViewModel : Empleado
     {
         public Familiar Familiar { get; set; }
-        public IEnumerable<EmpleadoBancoViewModel> EmpleadoBancos { get; set; }
-        public IEnumerable<EmpleadoColegiacionViewModel> EmpleadoColegiaciones { get; set; }
-        public IEnumerable<EmpleadoAreaViewModel> EmpleadoAreas { get; set; }
-        public IEnumerable<EmpleadoCargoViewModel> EmpleadoCargos { get; set; }
+        public IEnumerable<EmpleadoBancoViewModel> EmpleadosBancos { get; set; }
+        public IEnumerable<EmpleadoColegiacionViewModel> EmpleadosColegiaciones { get; set; }
+        public IEnumerable<EmpleadoAreaViewModel> EmpleadosAreas { get; set; }
+        public IEnumerable<EmpleadoCargoViewModel> EmpleadosCargos { get; set; }
         public string? EmpleadoFotografiaBase64 { get; set; }
         public string EmpleadoFotografiaImg { get; set; }
         public int? EmpleadoNacPaisId { get; set; }
@@ -30,7 +30,9 @@ namespace RRHHCapucasCoffe.Models.Empleados
         [Required(ErrorMessage = "El campo {0} es requerido")]
         public int? EmpleadoDirMpioId { get; set; }
         public int? EmpleadoDirAldeaId { get; set; }
-
+        public new DateTime EmpleadoFechaNacimiento { get; set; }
+        public new DateTime EmpleadoFechaIngreso { get; set; }
+        public new DateTime EmpleadoFechaContrato { get; set; }
         public IEnumerable<SelectListItem> PaisesNac { get; set; }
         public IEnumerable<SelectListItem> DepartamentoNac { get; set; }
         public IEnumerable<SelectListItem> MunicipioNac { get; set; }
@@ -52,5 +54,10 @@ namespace RRHHCapucasCoffe.Models.Empleados
         public EmpleadoColegiacion EmpleadoColegiacion { get; set; }
         public EmpleadoArea EmpleadoArea { get; set; }
         public EmpleadoCargo EmpleadoCargo { get; set; }
+
+        public List<EmpleadoBanco> EmpleadoBancos { get; set; }
+        public List<EmpleadoColegiacion>  EmpleadoColegiaciones{ get; set; }
+        public List<EmpleadoArea> EmpleadoAreas { get; set; }
+        public List<EmpleadoCargo> EmpleadoCargos { get; set; }
     }
 }

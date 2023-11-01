@@ -11,6 +11,8 @@ namespace RRHHCapucasCoffe.Enums
         [Display(Name = "Hermano(a)")]
         Hermanoa = 4,
         [Display(Name = "Tío(a)")]
-        Tioa = 5
+        Tioa = 5,
+        [Display(Name = "Esposo(a)")]
+        Esposoa = 6
     }
 }

@@ -45,5 +45,36 @@ namespace RRHHCapucasCoffe.Services
                 INNER JOIN ColegiosProfesionales cp ON cp.ColegioProfesionalId = ec.ColegioProfesionalId
                 WHERE ec.EmpleadoId = @EmpleadoId", new { empleadoId });
         }
+
+        public async Task EliminarEmpleadoColegiacion(int[] empleadoColegiacionIds, int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE EmpleadosColegiaciones
+                WHERE EmpleadoColegiacionId NOT IN @EmpleadoColegiacionIds AND EmpleadoId = @EmpleadoId", new { empleadoColegiacionIds, empleadoId });
+        }
+
+        public async Task EditarEmpleadoColegiacion(List<EmpleadoColegiacion> empleadoColegiaciones, int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            foreach (var empleadoColegiacion in empleadoColegiaciones)
+            {
+                await connection.ExecuteAsync(
+                    @"UPDATE EmpleadosColegiaciones
+                    SET EmpleadoColegiacionAnio = @EmpleadoColegiacionAnio, EmpleadoColegiacionCuota = @EmpleadoColegiacionCuota,
+                        EmpleadoColegiacionActivo = @EmpleadoColegiacionActivo
+                    WHERE EmpleadoColegiacionId = @EmpleadoColegiacionId AND EmpleadoId = @EmpleadoId", new
+                    {       
+                        empleadoColegiacion.EmpleadoColegiacionId,
+                        EmpleadoId = empleadoId,
+                        empleadoColegiacion.ColegioProfesionalId,
+                        empleadoColegiacion.EmpleadoColegiacionAnio,
+                        empleadoColegiacion.EmpleadoColegiacionCuota,
+                        empleadoColegiacion.EmpleadoColegiacionActivo
+                    });
+            }
+        }
     }
 }

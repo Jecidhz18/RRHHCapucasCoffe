@@ -50,5 +50,25 @@ namespace RRHHCapucasCoffe.Services
                 @"SELECT * FROM DireccionesEmpleados
                 WHERE DireccionEmpleadoId = @DireccionEmpleadoId", new { direccionEmpleadoId });
         }
+
+        public async Task EditarDireccionNacimientoEmpleado(DireccionEmpleadoNacimiento direccionEmpleadoNacimiento)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"UPDATE DireccionesEmpleados
+                SET PaisId = @PaisId, DepartamentoId = @DepartamentoId, MunicipioId = @MunicipioId, AldeaId = @AldeaId
+                WHERE DireccionEmpleadoId = @DireccionEmpleadoId", direccionEmpleadoNacimiento);
+        }
+
+        public async Task EditarDireccionResidenciaEmpleado(DireccionEmpleadoResidencia direccionEmpleadoResidencia )
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"UPDATE DireccionesEmpleados
+                SET PaisId = @PaisId, DepartamentoId = @DepartamentoId, MunicipioId = @MunicipioId, AldeaId = @AldeaId
+                WHERE DireccionEmpleadoId = @DireccionEmpleadoId", direccionEmpleadoResidencia);
+        }
     }
 }

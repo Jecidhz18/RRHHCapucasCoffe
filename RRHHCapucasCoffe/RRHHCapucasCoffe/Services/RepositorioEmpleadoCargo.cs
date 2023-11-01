@@ -45,12 +45,46 @@ namespace RRHHCapucasCoffe.Services
             using var connection = new SqlConnection(connectionString);
 
             return await connection.QueryAsync<EmpleadoCargoViewModel>(
-                @"SELECT ec.CargoId, c.CargoNombre, ec.ModalidadId, m.ModalidadNombre, ec.EmpleadoCargoFechaInicio, ec.EmpleadoCargoFechaFinal,
+                @"SELECT ec.EmpleadoCargoId, ec.CargoId, c.CargoNombre, ec.ModalidadId, m.ModalidadNombre, ec.EmpleadoCargoFechaInicio, ec.EmpleadoCargoFechaFinal,
                     ec.EmpleadoCargoSalario, ec.EmpleadoCargoObs, ec.EmpleadoCargoActivo
                 FROM EmpleadosCargos ec
                 INNER JOIN Cargos c ON c.CargoId = ec.CargoId
                 INNER JOIN Modalidades m ON m.ModalidadId = ec.ModalidadId
                 WHERE ec.EmpleadoId = @EmpleadoId", new { empleadoId });
+        }
+
+        public async Task EliminarEmpleadoCargo(int[] empleadoCargoIds, int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE EmpleadosCargos    
+                WHERE EmpleadoCargoId NOT IN @EmpleadoCargoIds AND EmpleadoId = @EmpleadoId", new { empleadoCargoIds, empleadoId });
+        }
+
+        public async Task EditarEmpleadoCargo(List<EmpleadoCargo> empleadoCargos, int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            foreach (var empleadoCargo in empleadoCargos)
+            {
+                await connection.ExecuteAsync(
+                    @"UPDATE EmpleadosCargos
+                    SET EmpleadoCargoFechaInicio = @EmpleadoCargoFechaInicio, EmpleadoCargoFechaFinal = @EmpleadoCargoFechaFinal,
+                        EmpleadoCargoSalario = @EmpleadoCargoSalario, EmpleadoCargoObs = @EmpleadoCargoObs, EmpleadoCargoActivo = @EmpleadoCargoActivo
+                    WHERE EmpleadoCargoId = @EmpleadoCargoId AND EmpleadoId = @EmpleadoId", new
+                    {
+                        empleadoCargo.EmpleadoCargoId,
+                        empleadoId,
+                        empleadoCargo.CargoId,
+                        empleadoCargo.ModalidadId,
+                        empleadoCargo.EmpleadoCargoFechaInicio,
+                        empleadoCargo.EmpleadoCargoFechaFinal,
+                        empleadoCargo.EmpleadoCargoSalario,
+                        empleadoCargo.EmpleadoCargoObs,
+                        empleadoCargo.EmpleadoCargoActivo
+                    });
+            }
         }
     }
 }

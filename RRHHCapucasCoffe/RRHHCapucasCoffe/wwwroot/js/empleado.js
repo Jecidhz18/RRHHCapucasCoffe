@@ -223,10 +223,21 @@ $(document).ready(function () {
         $('#imagen-recortada').val(croppedImageBase64WithoutPrefix);
         var previewImage = document.getElementById('imagen-previa');
         previewImage.src = canvas.toDataURL(); // Actualiza la imagen previa
+
+        image.removeAttribute('src'); // Elimina el atributo 'src' de la imagen
+        cropper.destroy();
+
+        $('#img-input').val("");
+
         modal.hide(); // Cierra el modal
     });
-});
 
+    $('#crop-cancel').click(function () {
+        image.removeAttribute('src'); // Elimina el atributo 'src' de la imagen
+        cropper.destroy();
+        $('#img-input').val("");
+    });
+});
 $('#btn-delete-photo').click(function () {
     $('#imagen-previa').attr('src', '');
     // Establece la nueva imagen desde la carpeta 'img/'
@@ -234,6 +245,14 @@ $('#btn-delete-photo').click(function () {
     $('#imagen-previa').attr('src', nuevaImagenSrc);
     $('#imagen-recortada').val("");
 });
+$('[name="EmpleadoFechaNacimiento"]').change(function () {
+    var empleadoFechaNac = new Date($('[name="EmpleadoFechaNacimiento"]').val());
+    var fechaActual = new Date();
+    var diferencia = fechaActual - empleadoFechaNac;
+    var edad = Math.floor(diferencia / (1000 * 60 * 60 * 24 * 365.25));
+    $('[name="EmpleadoEdad"]').val(edad);
+});
+
 
 function validarAgregarBanco(selectBanco, newEmpleadoBancoNoCuenta) {
     var errorAgregarBanco = true;
@@ -438,7 +457,6 @@ function validarAgregarArea(newSelectAgencia, newSelectArea) {
     });
     return errorAgregarArea
 }
-
 
 $('#btn-agregar-area').click(function () {
     const selectAgencia = $('#select-agencia');
@@ -653,18 +671,23 @@ $(document).on("click", "#btn-eliminar-fila", function () {
     $(this).closest("tr").remove();
 });
 
-
-
 $("#crear-empleado").submit(async function (event) {
     event.preventDefault();
 
-    const empleado = obtenerDataCrearEmpleado();
+    const empleado = await obtenerDataEmpleado();
 
     await crearEmpleado(empleado);
 });
 
+$("#editar-empleado").submit(async function (event) {
+    event.preventDefault();
+
+    const empleado = await obtenerDataEmpleado();
+
+    await editarEmpleado(empleado);
+});
 //Data
-function obtenerDataCrearEmpleado() {
+async function obtenerDataEmpleado() {
     var empleadoBancos = [];
     var empleadoColegiaciones = [];
     var empleadoAreas = [];
@@ -673,6 +696,7 @@ function obtenerDataCrearEmpleado() {
     $("#data-table-body-bank tr").each(function () {
         var fila = $(this);
         var banco = {
+            EmpleadoBancoId: fila.find("td input[name='EmpleadoBancoId']").val(),
             BancoId: fila.find("td input[name='BancoId']").val(),
             EmpleadoBancoNoCuenta: fila.find("td input[name='EmpleadoBancoNoCuenta']").val(),
             EmpleadoBancoActiva: fila.find("td input[name='EmpleadoBancoActiva']").is(":checked")
@@ -683,6 +707,7 @@ function obtenerDataCrearEmpleado() {
     $("#data-table-body-colegio tr").each(function () {
         var fila = $(this);
         var colegiacion = {
+            EmpleadoColegiacionId: fila.find("td input[name='EmpleadoColegiacionId']").val(),
             ColegioProfesionalId: fila.find("td input[name='ColegioProfesionalId']").val(),
             EmpleadoColegiacionAnio: fila.find("td input[name='EmpleadoColegiacionAnio']").val(),
             EmpleadoColegiacionCuota: fila.find("td input[name='EmpleadoColegiacionCuota']").val(),
@@ -694,6 +719,7 @@ function obtenerDataCrearEmpleado() {
     $("#data-table-body-area tr").each(function () {
         var fila = $(this);
         var area = {
+            EmpleadoAreaId: fila.find("td input[name='EmpleadoAreaId']").val(),
             AgenciaId: fila.find("td input[name='AgenciaId']").val(),
             UnidadId: fila.find("td input[name='UnidadId']").val(),
             EmpleadoAreaActivo: fila.find("td input[name='EmpleadoAreaActivo']").is(":checked")
@@ -704,6 +730,7 @@ function obtenerDataCrearEmpleado() {
     $("#data-table-body-cargo tr").each(function () {
         var fila = $(this);
         var cargo = {
+            EmpleadoCargoId: fila.find("td input[name='EmpleadoCargoId']").val(),
             CargoId: fila.find("td input[name='CargoId']").val(),
             ModalidadId: fila.find("td input[name='ModalidadId']").val(),
             EmpleadoCargoFechaInicio: fila.find("td input[name='EmpleadoCargoFechaInicio']").val(),
@@ -715,14 +742,16 @@ function obtenerDataCrearEmpleado() {
         empleadoCargos.push(cargo);
     });
 
-    var crearEmpleadoData = {
+    var EmpleadoData = {
+        EmpleadoId: $("[name='EmpleadoId']").val(),
         EmpleadoIdentificacion: $("[name='EmpleadoIdentificacion']").val(),
         EmpleadoNombre: $("[name='EmpleadoNombre']").val(),
         EmpleadoPrimerApellido: $("[name='EmpleadoPrimerApellido']").val(),
         EmpleadoSegundoApellido: $("[name='EmpleadoSegundoApellido']").val(),
         EmpleadoFotografiaBase64: $("[name='EmpleadoFotografiaBase64']").val(),
         EmpleadoSexo: $("[name='EmpleadoSexo']").val() || null,
-        EmpleadoFechaNacimiento: $("[name='EmpleadoNacimiento']").val(),
+        EmpleadoFechaNacimiento: $("[name='EmpleadoFechaNacimiento']").val(),
+        EmpleadoDirNacimientoId: $("[name='EmpleadoDirNacimientoId']").val(),
         EmpleadoNacPaisId: $("[name='EmpleadoNacPaisId']").val() || null,
         EmpleadoNacDeptoId: $("[name='EmpleadoNacDeptoId']").val() || null,
         EmpleadoNacMpioId: $("[name='EmpleadoNacMpioId']").val() || null,
@@ -731,6 +760,7 @@ function obtenerDataCrearEmpleado() {
         EstadoCivilId: $("[name='EstadoCivilId']").val() || null,
         EmpleadoTelefono: $("[name='EmpleadoTelefono']").val(),
         EmpleadoCelular: $("[name='EmpleadoCelular']").val(),
+        EmpleadoDireccionId: $("[name='EmpleadoDireccionId']").val(),
         EmpleadoDirPaisId: $("[name='EmpleadoDirPaisId']").val() || null,
         EmpleadoDirDeptoId: $("[name='EmpleadoDirDeptoId']").val() || null,
         EmpleadoDirMpioId: $("[name='EmpleadoDirMpioId']").val() || null,
@@ -755,7 +785,7 @@ function obtenerDataCrearEmpleado() {
         EmpleadoAreas: empleadoAreas,
         EmpleadoCargos: empleadoCargos
     } 
-    return crearEmpleadoData;
+    return EmpleadoData;
 }
 
 async function crearEmpleado(empleado) {
@@ -778,5 +808,29 @@ async function crearEmpleado(empleado) {
         }
     } catch (error) {
         console.error("Error en la solicitud:", error);
+    }
+}
+
+async function editarEmpleado(empleado) {
+    try {
+        const result = await fetch(urlEditarEmpleado, {
+            method: 'POST',
+            body: JSON.stringify(empleado),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (result.ok) {
+            console.log("Empleado editado exitosamente");
+            window.location.href = "/Empleados/Empleado";
+        } else {
+            if (result.status === 404) {
+                console.log("Empleado no encontrado");
+                window.location.href = "/Home/NoEncontrado";
+            }
+        }
+    } catch (error) {
+        
     }
 }

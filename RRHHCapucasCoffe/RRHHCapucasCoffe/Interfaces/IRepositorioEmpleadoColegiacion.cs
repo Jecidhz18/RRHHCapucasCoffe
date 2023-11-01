@@ -6,6 +6,8 @@ namespace RRHHCapucasCoffe.Interfaces
     public interface IRepositorioEmpleadoColegiacion
     {
         Task CrearEmpleadoColegiacion(List<EmpleadoColegiacion> empleadoColegiaciones, int empleadoId);
+        Task EditarEmpleadoColegiacion(List<EmpleadoColegiacion> empleadoColegiaciones, int empleadoId);
+        Task EliminarEmpleadoColegiacion(int[] empleadoColegiacionIds, int empleadoId);
         Task<IEnumerable<EmpleadoColegiacionViewModel>> ObtenerEmpleadoColegiacionPorEmpleadoId(int empleadoId);
     }
 }

@@ -111,27 +111,9 @@ namespace RRHHCapucasCoffe.Controllers
             var direccionEmpleadoResidencia = new DireccionEmpleadoResidencia();
             mapper.Map(modelo, direccionEmpleadoResidencia);
 
-            // Comprobamos si existen ambas direcciones en una sola llamada.
-            var existeDireccionNacimiento = await repositorioDireccionEmpleado.ExisteDireccionEmpleado(direccionEmpleadoNacimiento);
-            var existeDireccionResidencia = await repositorioDireccionEmpleado.ExisteDireccionEmpleado(direccionEmpleadoResidencia);
+            modelo.EmpleadoDirNacimientoId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoNacimiento);
 
-            if (existeDireccionNacimiento == 0)
-            {
-                modelo.EmpleadoDirNacimientoId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoNacimiento);
-            }
-            else
-            {
-                modelo.EmpleadoDirNacimientoId = existeDireccionNacimiento;
-            }
-
-            if (existeDireccionResidencia == 0)
-            {
-                modelo.EmpleadoDireccionId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoResidencia);
-            }
-            else
-            {
-                modelo.EmpleadoDireccionId = existeDireccionResidencia;
-            }
+            modelo.EmpleadoDireccionId = await repositorioDireccionEmpleado.CrearDireccionEmpleado(direccionEmpleadoResidencia);
 
             var existeFamiliar = await repositorioFamiliar.ObtenerFamiliarPorIdentificacion(modelo.Familiar.FamiliarIdentificacion);
 
@@ -172,18 +154,17 @@ namespace RRHHCapucasCoffe.Controllers
             }
 
             var modelo = new EmpleadoEditarViewModel();
-            var direccionEmpleadoNacimiento = new DireccionEmpleadoNacimiento();
-            var direccionEmpleadoResidencia = new DireccionEmpleadoResidencia();
 
             mapper.Map(existeEmpleado, modelo);
             modelo.Familiar = await repositorioFamiliar.ObtenerFamiliarPorId(existeEmpleado.FamiliarId);
-            modelo.EmpleadoBancos = await repositorioEmpleadoBanco.ObtenerEmpleadoBancoPorEmpleadoId(existeEmpleado.EmpleadoId);
-            modelo.EmpleadoColegiaciones = await repositorioEmpleadoColegiacion.ObtenerEmpleadoColegiacionPorEmpleadoId(existeEmpleado.EmpleadoId);
-            modelo.EmpleadoAreas = await repositorioEmpleadoArea.ObtenerEmpleadoAreaPorEmpleadoId(existeEmpleado.EmpleadoId);
-            modelo.EmpleadoCargos = await repositorioEmpleadoCargo.ObtenerEmpleadoCargoPorEmpleadoId(existeEmpleado.EmpleadoId);
-            direccionEmpleadoNacimiento = await repositorioDireccionEmpleado.ObtenerDireccionEmpleadoNacPorId(modelo.EmpleadoDirNacimientoId);
-            direccionEmpleadoResidencia = await repositorioDireccionEmpleado.ObtenerDireccionEmpleadoResPorId(modelo.EmpleadoDireccionId);
+            modelo.EmpleadosBancos = await repositorioEmpleadoBanco.ObtenerEmpleadoBancoPorEmpleadoId(existeEmpleado.EmpleadoId);
+            modelo.EmpleadosColegiaciones = await repositorioEmpleadoColegiacion.ObtenerEmpleadoColegiacionPorEmpleadoId(existeEmpleado.EmpleadoId);
+            modelo.EmpleadosAreas = await repositorioEmpleadoArea.ObtenerEmpleadoAreaPorEmpleadoId(existeEmpleado.EmpleadoId);
+            modelo.EmpleadosCargos = await repositorioEmpleadoCargo.ObtenerEmpleadoCargoPorEmpleadoId(existeEmpleado.EmpleadoId);
+            var direccionEmpleadoNacimiento = await repositorioDireccionEmpleado.ObtenerDireccionEmpleadoNacPorId(modelo.EmpleadoDirNacimientoId);
+            var direccionEmpleadoResidencia = await repositorioDireccionEmpleado.ObtenerDireccionEmpleadoResPorId(modelo.EmpleadoDireccionId);
             modelo.EmpleadoFotografiaImg = Convert.ToBase64String(modelo.EmpleadoFotografia);
+            modelo.EmpleadoFotografiaBase64 = Convert.ToBase64String(modelo.EmpleadoFotografia);
             //Mapeos
             mapper.Map(direccionEmpleadoNacimiento, modelo);
             mapper.Map(direccionEmpleadoResidencia, modelo);
@@ -210,8 +191,83 @@ namespace RRHHCapucasCoffe.Controllers
             modelo.Agencias = await ObtenerAgencias();
             modelo.Cargos = await ObtenerCargos();
             modelo.Modalidades = await ObtenerModalidades();
-
+            //Calculo de Edad
+            DateTime fechaActual = DateTime.Now;
+            modelo.EmpleadoEdad = fechaActual.Year - modelo.EmpleadoFechaNacimiento.Year;
+            // Verificar si el cumpleaños ya ocurrió este año
+            if (modelo.EmpleadoFechaNacimiento.Date > fechaActual.Date.AddYears(-modelo.EmpleadoEdad))
+            {
+                modelo.EmpleadoEdad--;
+            }
             return View(modelo);  
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditarEmpleado([FromBody] EmpleadoEditarViewModel modelo)
+        {
+            var existeEmpleado = await repositorioEmpleado.ObtenerEmpleadoPorId(modelo.EmpleadoId);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (existeEmpleado is null)
+            {
+                return NotFound();
+            }
+
+            var direccionEmpleadoNacimiento = new DireccionEmpleadoNacimiento();
+            var direccionEmpleadoResidencia = new DireccionEmpleadoResidencia();
+            var empleado = new Empleado();
+
+            mapper.Map(modelo, direccionEmpleadoNacimiento);
+            mapper.Map(modelo, direccionEmpleadoResidencia);
+            mapper.Map(modelo, empleado);
+
+            var usuario = await repositorioUsuario.ObtenerUsuario();
+            empleado.EmpleadoFotografia = Convert.FromBase64String(modelo.EmpleadoFotografiaBase64);
+            empleado.EmpleadoUsuarioModifico = usuario.UsuarioId;
+            empleado.EmpleadoFechaModifico = DateTime.Now;
+
+            await repositorioDireccionEmpleado.EditarDireccionNacimientoEmpleado(direccionEmpleadoNacimiento);
+            await repositorioDireccionEmpleado.EditarDireccionResidenciaEmpleado(direccionEmpleadoResidencia);
+            await repositorioFamiliar.EditarFamiliar(modelo.Familiar);
+
+            int[] empleadoBancoIds = modelo.EmpleadoBancos.Select(x => x.EmpleadoBancoId).ToArray();
+            var empleadoBancosEditar = modelo.EmpleadoBancos.Where(x => x.EmpleadoBancoId != 0).ToList();
+            var empleadoBancosCrear = modelo.EmpleadoBancos.Where(x => x.EmpleadoBancoId == 0).ToList();
+
+            int[] empleadoColegiacionIds = modelo.EmpleadoColegiaciones.Select(x => x.EmpleadoColegiacionId).ToArray();
+            var empleadoColegiacionesEditar = modelo.EmpleadoColegiaciones.Where(x => x.EmpleadoColegiacionId != 0).ToList();
+            var empleadoColegiacionesCrear = modelo.EmpleadoColegiaciones.Where(x => x.EmpleadoColegiacionId == 0).ToList();
+
+            int[] empleadoAreaIds = modelo.EmpleadoAreas.Select(x => x.EmpleadoAreaId).ToArray();
+            var empleadoAreasEditar = modelo.EmpleadoAreas.Where(x => x.EmpleadoAreaId != 0).ToList();
+            var empleadoAreasCrear = modelo.EmpleadoAreas.Where(x => x.EmpleadoAreaId == 0).ToList();
+
+            int[] empleadoCargoIds = modelo.EmpleadoCargos.Select(x => x.EmpleadoCargoId).ToArray();
+            var empleadoCargosEditar = modelo.EmpleadoCargos.Where(x => x.EmpleadoCargoId != 0).ToList();
+            var empleadoCargosCrear = modelo.EmpleadoCargos.Where(x => x.EmpleadoCargoId == 0).ToList();
+
+            await repositorioEmpleadoBanco.EliminarEmpleadoBanco(empleadoBancoIds, modelo.EmpleadoId);
+            await repositorioEmpleadoBanco.CrearEmpleadoBanco(empleadoBancosCrear, modelo.EmpleadoId);
+            await repositorioEmpleadoBanco.EditarEmpleadoBanco(empleadoBancosEditar, modelo.EmpleadoId);
+
+            await repositorioEmpleadoColegiacion.EliminarEmpleadoColegiacion(empleadoColegiacionIds, modelo.EmpleadoId);
+            await repositorioEmpleadoColegiacion.CrearEmpleadoColegiacion(empleadoColegiacionesCrear, modelo.EmpleadoId);
+            await repositorioEmpleadoColegiacion.EditarEmpleadoColegiacion(empleadoColegiacionesEditar, modelo.EmpleadoId);
+
+            await repositorioEmpleadoArea.EliminarEmpleadoArea(empleadoAreaIds, modelo.EmpleadoId);
+            await repositorioEmpleadoArea.CrearEmpleadoArea(empleadoAreasCrear, modelo.EmpleadoId);
+            await repositorioEmpleadoArea.EditarEmpleadoArea(empleadoAreasEditar, modelo.EmpleadoId);
+
+            await repositorioEmpleadoCargo.EliminarEmpleadoCargo(empleadoCargoIds, modelo.EmpleadoId);
+            await repositorioEmpleadoCargo.EditarEmpleadoCargo(empleadoCargosEditar, modelo.EmpleadoId);
+            await repositorioEmpleadoCargo.CrearEmpleadoCargo(empleadoCargosCrear, modelo.EmpleadoId);
+
+            await repositorioEmpleado.EditarEmpleado(empleado);
+
+            return Ok();
         }
 
         //Metodo AJAX para obtener departamentos

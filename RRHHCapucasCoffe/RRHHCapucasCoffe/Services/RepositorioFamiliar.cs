@@ -43,5 +43,17 @@ namespace RRHHCapucasCoffe.Services
                 @"SELECT * FROM Familiares
                 WHERE FamiliarId = @FamiliarId", new { familiarId });
         }
+
+        public async Task EditarFamiliar(Familiar familiar)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"UPDATE Familiares
+                SET FamiliarIdentificacion = @FamiliarIdentificacion, FamiliarNombre = @FamiliarNombre, FamiliarPrimerApellido = @FamiliarPrimerApellido,
+                FamiliarSegundoApellido = @FamiliarSegundoApellido, FamiliarParentesco = @FamiliarParentesco, FamiliarTelefono = @FamiliarTelefono,
+                FamiliarCelular = @FamiliarCelular
+                WHERE FamiliarId = @FamiliarId", familiar);
+        }
     }
 }

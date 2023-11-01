@@ -42,6 +42,34 @@ namespace RRHHCapucasCoffe.Services
                 INNER JOIN Bancos b ON b.BancoId = eb.BancoId
                 WHERE EmpleadoId = @EmpleadoId", new { empleadoId });
         }
+        public async Task EliminarEmpleadoBanco(int[] empleadoBancoIds, int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE EmpleadosBancos
+                WHERE EmpleadoBancoId NOT IN @EmpleadoBancoIds AND EmpleadoId = @EmpleadoId", new { empleadoBancoIds, empleadoId });
+        }
+
+        public async Task EditarEmpleadoBanco(List<EmpleadoBanco> empleadoBancos, int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            foreach (var empleadoBanco in empleadoBancos)
+            {
+                await connection.ExecuteAsync(
+                @"UPDATE EmpleadosBancos
+                SET EmpleadoBancoNoCuenta = @EmpleadoBancoNoCuenta, EmpleadoBancoActiva = @EmpleadoBancoActiva
+                WHERE EmpleadoBancoId = @EmpleadoBancoId AND EmpleadoId = @EmpleadoId", new
+                {
+                    empleadoBanco.EmpleadoBancoId,
+                    empleadoId,
+                    empleadoBanco.BancoId,
+                    empleadoBanco.EmpleadoBancoNoCuenta,
+                    empleadoBanco.EmpleadoBancoActiva
+                });
+            }
+        }
     }
 }
 

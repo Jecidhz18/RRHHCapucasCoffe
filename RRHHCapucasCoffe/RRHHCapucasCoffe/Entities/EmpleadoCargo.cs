@@ -2,6 +2,7 @@
 {
     public class EmpleadoCargo
     {
+        public int EmpleadoCargoId { get; set; }
         public int EmpleadoId { get; set; }
         public int CargoId { get; set; }
         public int ModalidadId { get; set; }
