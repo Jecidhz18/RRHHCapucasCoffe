@@ -86,5 +86,14 @@ namespace RRHHCapucasCoffe.Services
                     });
             }
         }
+
+        public async Task EliminarEmpleadoCargo(int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE FROM EmpleadosCargos
+                WHERE EmpleadoId = @EmpleadoId", new { empleadoId });
+        }
     }
 }

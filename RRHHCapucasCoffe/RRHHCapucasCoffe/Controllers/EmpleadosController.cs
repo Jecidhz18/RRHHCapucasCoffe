@@ -269,6 +269,46 @@ namespace RRHHCapucasCoffe.Controllers
 
             return Ok();
         }
+        //Metodo ajax para eliminar empleado por Id
+        [HttpPost]
+        public async Task<IActionResult> EliminarEmpleado([FromBody] int empleadoId)
+        {
+            var existeEmpleado = await repositorioEmpleado.ObtenerEmpleadoPorId(empleadoId);
+
+            if (existeEmpleado == null)
+            {
+                return BadRequest();
+            }
+
+            await repositorioEmpleadoBanco.EliminarEmpleadoBanco(empleadoId);
+            await repositorioEmpleadoColegiacion.EliminarEmpleadoColegiacion(empleadoId);
+            await repositorioEmpleadoArea.EliminarEmpleadoArea(empleadoId);
+            await repositorioEmpleadoCargo.EliminarEmpleadoCargo(empleadoId);
+
+            await repositorioEmpleado.EliminarEmpleado(empleadoId);
+
+            await repositorioDireccionEmpleado.EliminarDireccionEmpleado(existeEmpleado.EmpleadoDirNacimientoId);
+            await repositorioDireccionEmpleado.EliminarDireccionEmpleado(existeEmpleado.EmpleadoDireccionId);
+
+            var existeReferenciaFamiliar = await repositorioFamiliar.VerificarReferenciaFamiliar(existeEmpleado.FamiliarId);
+
+            if (!existeReferenciaFamiliar)
+            {
+                await repositorioFamiliar.EliminarFamiliar(existeEmpleado.FamiliarId);
+            }
+
+            return Ok();
+        }
+
+        //Metodo AJAX para obtener Empleados
+        [HttpPost]
+        public async Task<IActionResult> ObtenerEmpleado([FromBody] int empleadoId)
+        {
+            var empleado = await repositorioEmpleado.ObtenerEmpleadoPorIdCompleto(empleadoId);
+            empleado.EmpleadoCargos = await repositorioEmpleadoCargo.ObtenerEmpleadoCargoPorEmpleadoId(empleadoId);
+            empleado.CargoNombre = empleado.EmpleadoCargos.First(x => x.EmpleadoCargoActivo).CargoNombre;
+            return Ok(empleado);
+        }
 
         //Metodo AJAX para obtener departamentos
         [HttpPost]

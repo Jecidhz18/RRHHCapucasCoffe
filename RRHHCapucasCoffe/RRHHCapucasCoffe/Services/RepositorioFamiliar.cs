@@ -21,7 +21,7 @@ namespace RRHHCapucasCoffe.Services
 
             return await connection.QueryFirstOrDefaultAsync<Familiar>(
                 @"SELECT * FROM Familiares
-                WHERE FamiliarIdentificacion = @FamiliarIdentificacion", new { familiarIdentificacion});
+                WHERE FamiliarIdentificacion = @FamiliarIdentificacion", new { familiarIdentificacion });
         }
 
         public async Task<int> CrearFamiliar(Familiar familiar)
@@ -54,6 +54,29 @@ namespace RRHHCapucasCoffe.Services
                 FamiliarSegundoApellido = @FamiliarSegundoApellido, FamiliarParentesco = @FamiliarParentesco, FamiliarTelefono = @FamiliarTelefono,
                 FamiliarCelular = @FamiliarCelular
                 WHERE FamiliarId = @FamiliarId", familiar);
+        }
+
+        public async Task EliminarFamiliar(int familiarId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE FROM Familiares
+                WHERE FamiliarId = @FamiliarId", new { familiarId });
+        }
+
+        public async Task<bool> VerificarReferenciaFamiliar(int familiarId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            var existeReferenciaFamiliar = await connection.QueryFirstOrDefaultAsync<int>(
+                @"SELECT 1
+                FROM Familiares
+                WHERE FamiliarId = @FamiliarId AND EXISTS (
+	                SELECT 1 FROM Empleados 
+	                WHERE FamiliarId = @FamiliarId)", new { familiarId });
+
+            return existeReferenciaFamiliar == 1;
         }
     }
 }

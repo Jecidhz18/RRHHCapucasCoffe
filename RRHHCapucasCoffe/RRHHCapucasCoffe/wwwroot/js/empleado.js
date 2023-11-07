@@ -788,6 +788,51 @@ async function obtenerDataEmpleado() {
     return EmpleadoData;
 }
 
+$('[name="btn-modal-eliminar-empleado"]').on('click', async function () {
+    var empleadoId = $(this).data('empleadoid');
+    await obtenerEmpleadoPorId(empleadoId);
+});
+
+async function obtenerEmpleadoPorId(empleadoId) {
+
+    const result = await fetch(urlGetEmpleado, {
+        method: 'POST',
+        body: JSON.stringify(empleadoId),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (result.ok) {
+        const json = await result.json();
+
+        var direccionResidencia = '';
+
+        if (json.aldeaRes) {
+            direccionResidencia += json.aldeaRes + ", ";
+        }
+
+        direccionResidencia += json.municipioRes + ", " + json.departamentoRes + ", " + json.paisRes;
+
+        // Modificar el contenido del modal usando jQuery
+        $('[name="delEmpleadoId"]').val(json.empleadoId);
+        $('[name="delEmpleadoIdentificacion"]').text(json.empleadoIdentificacion);
+        $('[name="delEmpleadoNombreApellido"]').text(json.empleadoNombre + " " + json.empleadoPrimerApellido);
+        $('[name="delEmpleadoNombreCompleto"]').text(json.empleadoNombre + " " + json.empleadoPrimerApellido + " " + json.empleadoSegundoApellido);
+        $('[name="delEmpleadoFotografiaImg"]').attr("src", "data:image/jpeg;base64," + json.empleadoFotografia);
+        $('[name="delEmpleadoCelular"]').text(json.empleadoCelular);
+        $('[name="delEmpleadoEmail"]').text(json.empleadoEmail);
+        $('[name="delProfesionNombre"]').text(json.profesionNombre);
+        $('[name="delEmpleadoResidencia"]').text(direccionResidencia);
+        $('[name="delEmpleadoDireccion"]').text(json.empleadoDireccion);
+        $('[name="delEmpleadoCargoActivo"]').text(json.cargoNombre);
+
+        // Abrir el modal
+        $('#modal-eliminar-empleado').modal('show');
+    }
+}
+
+
 async function crearEmpleado(empleado) {
     try {
         const result = await fetch(urlCrearEmpleado, {
@@ -832,5 +877,48 @@ async function editarEmpleado(empleado) {
         }
     } catch (error) {
         
+    }
+}
+
+$('#btn-eliminar-empleado').on('click', async function () {
+    const empleadoId = $('[name="delEmpleadoId"]').val();
+
+    Swal.fire({
+        title: '¿Estas seguro de eliminar este registro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#5e656c',
+        confirmButtonText: 'Si, Eliminar registro!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarEmpleado(empleadoId);
+        }
+    })
+});
+
+async function eliminarEmpleado(empleadoId) {
+    const result = await fetch(urlDeleteEmpleado, {
+        method: 'POST',
+        body: empleadoId, // Envía el objeto con una propiedad "empleadoId"
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (result.ok) {
+        $('#modal-eliminar-empleado').modal('hide');
+        Swal.fire({
+            text: 'Registro eliminado con exito!',
+            icon: 'success',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            } else {
+                location.reload();
+            }
+        })
     }
 }

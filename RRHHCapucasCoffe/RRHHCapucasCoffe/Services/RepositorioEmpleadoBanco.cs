@@ -70,6 +70,15 @@ namespace RRHHCapucasCoffe.Services
                 });
             }
         }
+
+        public async Task EliminarEmpleadoBanco(int empleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE FROM EmpleadosBancos
+                WHERE EmpleadoId = @EmpleadoId", new { empleadoId });
+        }
     }
 }
 

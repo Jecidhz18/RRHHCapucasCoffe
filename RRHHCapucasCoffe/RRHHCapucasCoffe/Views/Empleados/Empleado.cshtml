@@ -44,7 +44,7 @@
                                     <a class="btn btn-outline-primary me-1" asp-action="EditarEmpleado" asp-route-empleadoId="@item.EmpleadoId" title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a class="btn btn-outline-danger me-1" asp-action="EliminarEmpleado" asp-route-empleadoId="@item.EmpleadoId" title="Eliminar">
+                                    <a class="btn btn-outline-danger me-1" name="btn-modal-eliminar-empleado" data-empleadoid="@item.EmpleadoId" title="Eliminar">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
@@ -63,10 +63,16 @@
                 </tbody>
             </table>
         </div>
-
+        <partial name="_ModalEliminarEmpleado" model="Model"></partial>
     </div>
 </div>
 
 @section Scripts {
     <script src="~/js/table.js" asp-append-version="true"></script>
+    <script src="~/js/empleado.js" asp-append-version="true"></script>
+
+    <script>
+        const urlGetEmpleado = '@Url.Action("ObtenerEmpleado")';
+        const urlDeleteEmpleado = '@Url.Action("EliminarEmpleado")';
+    </script>
 }

@@ -1,16 +1,61 @@
-﻿<div class="modal fade" id="eliminar-empleado" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+﻿<div class="modal fade" id="modal-eliminar-empleado" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Empleado</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <section class="section profile">
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="profile-card pt-4 d-flex flex-column align-items-center">
+                                <img name="delEmpleadoFotografiaImg" src="" alt="Profile" class="rounded-circle">
+                                <h2 name="delEmpleadoNombreApellido"></h2>
+                                <h3 name="delEmpleadoCargoActivo"></h3>
+                            </div>
+                        </div>
+                        <div class="col-xl-8">
+                            <div class="profile-overview" id="profile-overview">
+@*                                 <h5 class="card-title">About</h5>
+                                <h5 class="card-title">Profile Details</h5> *@
+                                <input type="hidden" name="delEmpleadoId"/>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label ">Identificación</div>
+                                    <div class="col-lg-8 col-md-8" name="delEmpleadoIdentificacion"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label ">Nombre Completo</div>
+                                    <div class="col-lg-8 col-md-8" name="delEmpleadoNombreCompleto"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Celular</div>
+                                    <div class="col-lg-8 col-md-8" name="delEmpleadoCelular"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Email</div>
+                                    <div class="col-lg-8 col-md-8" name="delEmpleadoEmail"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Profesión</div>
+                                    <div class="col-lg-8 col-md-8" name="delProfesionNombre"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Residencia</div>
+                                    <div class="col-lg-8 col-md-8" name="delEmpleadoResidencia"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Dirección</div>
+                                    <div class="col-lg-8 col-md-8" name="delEmpleadoDireccion"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
+                <button type="button" class="btn btn-danger" id="btn-eliminar-empleado" title="Eliminar">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="Cancelar">Cancelar</button>
             </div>
         </div>
     </div>

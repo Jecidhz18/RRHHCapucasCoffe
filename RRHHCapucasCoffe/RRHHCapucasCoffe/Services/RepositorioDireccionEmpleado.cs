@@ -70,5 +70,14 @@ namespace RRHHCapucasCoffe.Services
                 SET PaisId = @PaisId, DepartamentoId = @DepartamentoId, MunicipioId = @MunicipioId, AldeaId = @AldeaId
                 WHERE DireccionEmpleadoId = @DireccionEmpleadoId", direccionEmpleadoResidencia);
         }
+
+        public async Task EliminarDireccionEmpleado(int direccionEmpleadoId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE FROM DireccionesEmpleados
+                WHERE DireccionEmpleadoId = @DireccionEmpleadoId", new { direccionEmpleadoId });
+        }
     }
 }

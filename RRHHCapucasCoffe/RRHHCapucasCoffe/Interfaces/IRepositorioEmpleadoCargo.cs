@@ -8,6 +8,7 @@ namespace RRHHCapucasCoffe.Interfaces
         Task CrearEmpleadoCargo(List<EmpleadoCargo> empleadoCargos, int empleadoId);
         Task EditarEmpleadoCargo(List<EmpleadoCargo> empleadoCargos, int empleadoId);
         Task EliminarEmpleadoCargo(int[] empleadoCargoIds, int empleadoId);
+        Task EliminarEmpleadoCargo(int empleadoId);
         Task<IEnumerable<EmpleadoCargoViewModel>> ObtenerEmpleadoCargoPorEmpleadoId(int empleadoId);
     }
 }

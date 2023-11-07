@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Interfaces;
@@ -75,6 +76,15 @@ namespace RRHHCapucasCoffe.Services
                         empleadoColegiacion.EmpleadoColegiacionActivo
                     });
             }
+        }
+
+        public async Task EliminarEmpleadoColegiacion(int empleadoId)
+        {
+            await using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE FROM EmpleadosColegiaciones
+                WHERE EmpleadoId = @EmpleadoId", new { empleadoId });
         }
     }
 }

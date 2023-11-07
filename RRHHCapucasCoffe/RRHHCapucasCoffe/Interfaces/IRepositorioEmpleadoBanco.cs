@@ -8,6 +8,7 @@ namespace RRHHCapucasCoffe.Interfaces
         Task CrearEmpleadoBanco(List<EmpleadoBanco> empleadoBancos, int empleadoId);
         Task EditarEmpleadoBanco(List<EmpleadoBanco> empleadoBancos, int empleadoId);
         Task EliminarEmpleadoBanco(int[] empleadoBancoIds, int empleadoId);
+        Task EliminarEmpleadoBanco(int empleadoId);
         Task<IEnumerable<EmpleadoBancoViewModel>> ObtenerEmpleadoBancoPorEmpleadoId(int empleadoId);
     }
 }
