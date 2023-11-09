@@ -2,6 +2,7 @@
 using RRHHCapucasCoffe.Entities;
 using RRHHCapucasCoffe.Models.Agencias;
 using RRHHCapucasCoffe.Models.Aldeas;
+using RRHHCapucasCoffe.Models.Deducciones;
 using RRHHCapucasCoffe.Models.Departamentos;
 using RRHHCapucasCoffe.Models.DireccionesEmpleados;
 using RRHHCapucasCoffe.Models.Empleados;
@@ -51,6 +52,9 @@ namespace RRHHCapucasCoffe.Services
                 .ForMember(dest => dest.EmpleadoDirDeptoId, opt => opt.MapFrom(src => src.DepartamentoId))
                 .ForMember(dest => dest.EmpleadoDirMpioId, opt => opt.MapFrom(src => src.MunicipioId))
                 .ForMember(dest => dest.EmpleadoDirAldeaId, opt => opt.MapFrom(src => src.AldeaId)).ReverseMap();
+
+            //Deduccion
+            CreateMap<DeduccionCrearViewModel, Deduccion>().ReverseMap();
         }
     }
 }

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="C:\RRHHCapucas\DEV\RRHHCapucasCoffe\RRHHCapucasCoffe\.editorconfig" />
     <None Include="Views\Aldeas\Aldea.cshtml" />
     <None Include="Views\Aldeas\CrearAldea.cshtml" />
     <None Include="Views\ColegiosProfesionales\ColegioProfesional.cshtml" />
@@ -47,6 +48,10 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Departamentos\EditarDepartamento.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\RRHHCapucas\DEV\RRHHCapucasCoffe\RRHHCapucasCoffe\.editorconfig" />
   </ItemGroup>
 
 </Project>

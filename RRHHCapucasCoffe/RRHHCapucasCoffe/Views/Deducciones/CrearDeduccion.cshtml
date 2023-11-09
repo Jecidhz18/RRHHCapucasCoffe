@@ -12,17 +12,11 @@
 <div class="card">
     <div class="card-body">
         <h3 class="card-title">Crear Banco</h3>
-        <form class="row g-3" asp-action="CrearDeduccion">
+        <form class="row g-3" id="crear-deduccion">
             <div class="col-12">
-                <label asp-for="DeduccioneDescripcion" class="form-label"></label>
-                <input asp-for="DeduccioneDescripcion" type="text" class="form-control">
-                <span asp-validation-for="DeduccioneDescripcion" class="text-danger"></span>
-            </div>
-            <div class="col-12">
-                <div class="form-check form-switch">
-                    <label asp-for="DeduccionActiva" class="form-check-label"></label>
-                    <input asp-for="DeduccionActiva" class="form-check-input" type="checkbox" checked>
-                </div>
+                <label asp-for="DeduccionDescripcion" class="form-label"></label>
+                <input asp-for="DeduccionDescripcion" type="text" class="form-control">
+                <span asp-validation-for="DeduccionDescripcion" class="text-danger"></span>
             </div>
             <div class="col-6">
                 <label asp-for="DeduccionAplicacion" class="form-label"></label>
@@ -36,6 +30,12 @@
                     <option selected>Seleccione una opción</option>
                 </select>
             </div>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <label asp-for="DeduccionActiva" class="form-check-label"></label>
+                    <input asp-for="DeduccionActiva" class="form-check-input" type="checkbox" checked>
+                </div>
+            </div>
             <div class="accordion accordion-flush" id="accordionFlush">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-headingOne">
@@ -48,22 +48,31 @@
                             <div class="row g-3" id="header-cobro">
                                 <div class="col-3">
                                     <label class="form-label">Desde</label>
-                                    <input id="input-desde" class="form-control" type="text" placeholder="0.00" disabled autocomplete="off" />
+                                    <div class="input-group">
+                                        <span class="input-group-text">L</span>
+                                        <input id="input-desde" class="form-control mask-money2" type="text" placeholder="0.00" disabled autocomplete="off" />
+                                    </div>
                                 </div>
                                 <div class="col-3">
                                     <label class="form-label">Hasta</label>
-                                    <input id="input-hasta" class="form-control" type="text" placeholder="0.00" disabled autocomplete="off" />
+                                    <div class="input-group">
+                                        <span class="input-group-text">L</span>
+                                        <input id="input-hasta" class="form-control mask-money2" type="text" placeholder="0.00" disabled autocomplete="off" />
+                                    </div>
                                 </div>
                                 <div class="col-2">
                                     <label class="form-label">Porcentaje</label>
-                                    <input id="input-porcentaje" class="form-control" type="text" placeholder="%" disabled autocomplete="off" />
+                                    <input id="input-porcentaje" class="form-control percent" type="text" placeholder="0.00 %" disabled autocomplete="off" />
                                 </div>
                                 <div class="col-3">
                                     <label class="form-label">Monto</label>
-                                    <input id="input-monto" class="form-control" type="text" placeholder="0.00" disabled autocomplete="off" />
+                                    <div class="input-group">
+                                        <span class="input-group-text">L</span>
+                                        <input id="input-monto" class="form-control mask-money2" type="text" placeholder="0.00" disabled autocomplete="off" />
+                                    </div>
                                 </div>
                                 <div class="col-1 d-flex align-items-end">
-                                    <button id="btn-agregar" type="button" onclick="addCobro()" class="btn btn-outline-primary" title="Agregar" disabled>
+                                    <button id="btn-agregar-cobro" type="button" class="btn btn-outline-primary" title="Agregar" disabled>
                                         <i class="bi bi-file-plus d-block d-lg-none"></i>
                                         <span class="d-none d-lg-block">Agregar</span>
                                     </button>
@@ -81,7 +90,7 @@
                                                 <th>Monto</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="data-table-body">
+                                        <tbody id="data-table-body-cobro">
 
                                         </tbody>
                                     </table>
@@ -102,4 +111,8 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/deduccion.js" asp-append-version="true"></script>
+
+    <script>
+        const urlCrearDeduccion = '@Url.Action("CrearDeduccion")';
+    </script>
 }

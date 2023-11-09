@@ -667,10 +667,6 @@ $(document).on("change", "input[type=\"radio\"]", function () {
     $('input[type="radio"]:not(:checked)').val('false');
 });
 
-$(document).on("click", "#btn-eliminar-fila", function () {
-    $(this).closest("tr").remove();
-});
-
 $("#crear-empleado").submit(async function (event) {
     event.preventDefault();
 

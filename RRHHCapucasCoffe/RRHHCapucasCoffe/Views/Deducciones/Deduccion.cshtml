@@ -1,4 +1,4 @@
-﻿@model RRHHCapucasCoffe.Models.Deducciones.DeduccionViewModel
+﻿@model IEnumerable<RRHHCapucasCoffe.Models.Deducciones.DeduccionViewModel>
 
 @{
     ViewData["Title"] = "Deducciones";
@@ -27,9 +27,9 @@
                     <tr>
                         <th class="no-export"></th>
                         <th>Deduccion</th>
-                        <th class="no-export">Activo</th>
                         <th>Aplicación</th>
                         <th>Tipo Cobro</th>
+                        <th class="no-export">Activo</th>
                         <th>Usuario Grabo</th>
                         <th>Fecha Grabo</th>
                         <th>Usuario Modifico</th>
@@ -37,41 +37,47 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @*@foreach (var banco in Model)
+                    @foreach (var item in Model)
                     {
                         <tr>
                             <td class="no-export">
                                 <div class="d-flex">
-                                    <a class="btn btn-outline-primary me-1" asp-action="EditarBanco" asp-route-bancoId="@banco.BancoId" title="Editar">
+                                    <a class="btn btn-outline-primary me-1" asp-action="EditarBanco" asp-route-deduccionId="@item.DeduccionId" title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a class="btn btn-outline-danger" asp-action="EliminarBanco" asp-route-bancoId="@banco.BancoId" title="Eliminar">
+                                    <a class="btn btn-outline-danger" title="Eliminar">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
                             </td>
                             <td>
-                                @banco.BancoNombre
+                                @item.DeduccionDescripcion
+                            </td>
+                            <td>
+                                @item.DAplicacion
+                            </td>
+                            <td>
+                                @item.DTipoCobro
                             </td>
                             <td class="no-export">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" disabled checked="@banco.BancoActivo">
+                                    <input class="form-check-input" type="checkbox" disabled checked="@item.DeduccionActiva">
                                 </div>
                             </td>
                             <td>
-                                @banco.BUsuarioGrabo
+                                @item.DUsuarioGrabo
                             </td>
                             <td>
-                                @banco.BancoFechaGrabo
+                                @item.DeduccionFechaGrabo
                             </td>
                             <td>
-                                @banco.BUsuarioModifico
+                                @item.DUsuarioModifico
                             </td>
                             <td>
-                                @banco.BancoFechaModifico
+                                @item.DeduccionFechaModifico
                             </td>
                         </tr>
-                    }*@
+                    }
                 </tbody>
             </table>
         </div>

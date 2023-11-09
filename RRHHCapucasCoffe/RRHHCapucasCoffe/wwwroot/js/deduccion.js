@@ -4,17 +4,15 @@ var selectElement = document.getElementById("DeduccionTipoCobro");
 var headerCobro = document.getElementById("header-cobro");
 var bodyCobro = document.getElementById("body-cobro");
 //Obtener Inputs
-var inputCobroDesde = document.getElementById("input-desde");
-var inputCobroHasta = document.getElementById("input-hasta");
-var inputCobroPorcentaje = document.getElementById("input-porcentaje");
-var inputCobroMonto = document.getElementById("input-monto");
+const cobroDesde = $("#input-desde");
+const cobroHasta = $("#input-hasta");
+const cobroPorcentaje = $("#input-porcentaje");
+const cobroMonto = $("#input-monto");
 //obtener elementos accordion
 var accordionButtonDeduccion = document.getElementById("accordion-button-deduccion");
 var accordionBody = document.getElementById("flush-collapse-deduccion")
 //obtener boton agregar cobros
-botonAgregarCobro = document.getElementById("btn-agregar");
-
-var i = 0;
+botonAgregarCobro = document.getElementById("btn-agregar-cobro");
 
 function expandirAccordion() {
     accordionButtonDeduccion.classList.remove("collapsed");
@@ -26,58 +24,55 @@ function deduccionFija() {
     eliminarElementosCobros();
 
     botonAgregarCobro.disabled = false;
-    inputCobroHasta.disabled = false;
-    inputCobroDesde.disabled = false;
-    inputCobroPorcentaje.disabled = true;
-    inputCobroMonto.disabled = false;
+    cobroHasta.prop('disabled', false);
+    cobroDesde.prop('disabled', false);
+    cobroPorcentaje.prop('disabled', true);
+    cobroMonto.prop('disabled', false);
 
     expandirAccordion();
-
-    i = 0;
 }
 
 function deduccionPorRango() {
     eliminarElementosCobros();
 
     botonAgregarCobro.disabled = false;
-    inputCobroHasta.disabled = false;
-    inputCobroDesde.disabled = false;
-    inputCobroPorcentaje.disabled = false;
-    inputCobroMonto.disabled = true;
+    cobroHasta.prop('disabled', false);
+    cobroDesde.prop('disabled', false);
+    cobroPorcentaje.prop('disabled', false);
+    cobroMonto.prop('disabled', true);
 
     expandirAccordion();
-
-    i = 0;
 }
 
 function deduccionVariable() {
     eliminarElementosCobros();
 
     botonAgregarCobro.disabled = false;
-    inputCobroHasta.disabled = true;
-    inputCobroDesde.disabled = true;
-    inputCobroPorcentaje.disabled = true;
-    inputCobroMonto.disabled = false;
+    cobroHasta.prop('disabled', true);
+    cobroDesde.prop('disabled', true);
+    cobroPorcentaje.prop('disabled', true);
+    cobroMonto.prop('disabled', false);
 
     expandirAccordion();
-
-    i = 0;
 }
 
 function eliminarElementosCobros() {
     botonAgregarCobro.disabled = true;
-    inputCobroHasta.disabled = true;
-    inputCobroDesde.disabled = true;
-    inputCobroPorcentaje.disabled = true;
-    inputCobroMonto.disabled = true;
+    cobroHasta.prop('disabled', true);
+    cobroDesde.prop('disabled', true);
+    cobroPorcentaje.prop('disabled', true);
+    cobroMonto.prop('disabled', true);
 
-    const dataTableBody = document.getElementById("data-table-body");
+    cobroHasta.val("");
+    cobroDesde.val("");
+    cobroPorcentaje.val("");
+    cobroMonto.val("");
+
+    const dataTableBody = document.getElementById("data-table-body-cobro");
     // Elimina todas las filas dentro del tbody
     while (dataTableBody.firstChild) {
         dataTableBody.removeChild(dataTableBody.firstChild);
     }
-
-    i = 0;
 }
 
 selectElement.addEventListener("change", function () {
@@ -101,72 +96,115 @@ selectElement.addEventListener("change", function () {
     }
 });
 
-function addCobro() {
-    //obtener el body de la tabla
-    const dataTableBody = document.getElementById("data-table-body");
-    //Crear elementos html
-    const nuevaFila = document.createElement("tr");
-    const celdaAcciones = document.createElement("td");
-    const celdaCobroDesde = document.createElement("td");
-    const celdaCobroHasta = document.createElement("td");
-    const celdaCobroPorcentaje = document.createElement("td");
-    const celdaCobroMonto = document.createElement("td");
-
-    const inputDesdeValue = document.createElement("input");
-    inputDesdeValue.type = "hidden";
-    inputDesdeValue.setAttribute("name", `DeduccionesCobros[${i}].DeduccionCobroDesde`);
-    inputDesdeValue.value = inputCobroDesde.value;
-
-    const inputHastaValue = document.createElement("input");
-    inputDesdeValue.type = "hidden";
-    inputHastaValue.setAttribute("name", `DeduccionesCobros[${i}].DeduccionCobroHasta`);
-    inputHastaValue.value = inputCobroHasta.value;
-
-    const inputPorcentajeValue = document.createElement("input");
-    inputDesdeValue.type = "hidden";
-    inputPorcentajeValue.setAttribute("name", `DeduccionesCobros[${i}].DeduccionCobroPorcentaje`);
-    inputPorcentajeValue.value = inputCobroPorcentaje.value;
-
-    const inputMontoValue = document.createElement("input");
-    inputDesdeValue.type = "hidden";
-    inputMontoValue.setAttribute("name", `DeduccionesCobros[${i}].DeduccionCobroMonto`);
-    inputMontoValue.value = inputCobroMonto.value;
-
-    //Boton eliminar Cobros
-    const botonEliminarCobro = document.createElement("button");
-    botonEliminarCobro.classList.add("btn", "btn-outline-danger", "btn-sm", "bi", "bi-trash");
-    botonEliminarCobro.addEventListener("click", function () {
-        dataTableBody.removeChild(nuevaFila);
+$('#btn-agregar-cobro').click(function () {
+    const celdaAccionesCobro = $('<td>');
+    const buttonEliminarCobro = $('<button>', {
+        type: 'button',
+        class: 'btn btn-outline-danger btn-sm bi bi-trash',
+        id: 'btn-eliminar-fila'
     });
 
-    celdaAcciones.appendChild(botonEliminarCobro);
-    celdaCobroDesde.textContent = inputCobroDesde.value;
-    celdaCobroDesde.appendChild(inputDesdeValue);
-    celdaCobroHasta.textContent = inputCobroHasta.value;
-    celdaCobroHasta.appendChild(inputHastaValue);
-    celdaCobroPorcentaje.textContent = inputCobroPorcentaje.value;
-    celdaCobroPorcentaje.appendChild(inputPorcentajeValue);
-    celdaCobroMonto.textContent = inputCobroMonto.value;
-    celdaCobroMonto.appendChild(inputMontoValue);
+    const celdaCobroDesde = $('<td>', {
+        text: "L " + cobroDesde.val()
+    });
+    const inputCobroDesde = $('<input>', {
+        type: 'hidden',
+        name: 'DeduccionCobroDesde',
+        value: cobroDesde.val().replace(/,/g, "")
+    });
 
-    nuevaFila.appendChild(celdaAcciones);
-    nuevaFila.appendChild(celdaCobroDesde);
-    nuevaFila.appendChild(celdaCobroHasta);
-    nuevaFila.appendChild(celdaCobroPorcentaje);
-    nuevaFila.appendChild(celdaCobroMonto);
+    const celdaCobroHasta = $('<td>', {
+        text: "L " + cobroHasta.val()
+    });
+    const inputCobroHasta = $('<input>', {
+        type: 'hidden',
+        name: 'DeduccionCobroHasta',
+        value: cobroHasta.val().replace(/,/g, "")
+    });
 
-    dataTableBody.appendChild(nuevaFila);
+    const celdaCobroPorcentaje = $('<td>', {
+        text: cobroPorcentaje.val()
+    });
+    const inputCobroPorcentaje = $('<input>', {
+        type: 'hidden',
+        name: 'DeduccionCobroPorcentaje',
+        value: cobroPorcentaje.val().trim().replace(/\s+/g, '').replace(/%/g, "")
+    });
 
-    inputCobroDesde.value = "";
-    inputCobroHasta.value = "";
-    inputCobroMonto.value = "";
-    inputCobroPorcentaje.value = "";
+    const celdaCobroMonto = $('<td>', {
+        text: "L " + cobroMonto.val()
+    });
+    const inputCobroMonto = $('<input>', {
+        type: 'hidden',
+        name: 'DeduccionCobroMonto',
+        value: cobroMonto.val().replace(/,/, "")
+    });
 
-    i++;
+    celdaAccionesCobro.append(buttonEliminarCobro);
+    celdaCobroDesde.append(inputCobroDesde);
+    celdaCobroHasta.append(inputCobroHasta);
+    celdaCobroPorcentaje.append(inputCobroPorcentaje);
+    celdaCobroMonto.append(inputCobroMonto);
+
+    const nuevaFilaCobro = $('<tr>').append(celdaAccionesCobro, celdaCobroDesde, celdaCobroHasta, celdaCobroPorcentaje, celdaCobroMonto);
+
+    $("#data-table-body-cobro").append(nuevaFilaCobro);
+
+    cobroDesde.val("");
+    cobroHasta.val("");
+    cobroPorcentaje.val("");
+    cobroMonto.val("");
+});
+
+$('#crear-deduccion').submit(async function (e) {
+    e.preventDefault();
+
+    const deduccion = await obtenerDataDeduccion();
+
+    await crearDeduccion(deduccion);
+});
+
+async function obtenerDataDeduccion() {
+    var deduccionCobros = []
+
+    $('#data-table-body-cobro tr').each(function () {
+        var fila = $(this);
+        var cobro = {
+            DeduccionCobroId: fila.find("td input[name='DeduccionCobroId']").val(),
+            DeduccionCobroDesde: fila.find("td input[name='DeduccionCobroDesde']").val() || null,
+            DeduccionCobroHasta: fila.find("td input[name='DeduccionCobroHasta']").val() || null,
+            DeduccionCobroPorcentaje: fila.find("td input[name='DeduccionCobroPorcentaje']").val() || null,
+            DeduccionCobroMonto: fila.find("td input[name='DeduccionCobroMonto']").val() || null
+        }
+
+        deduccionCobros.push(cobro);
+    });
+
+    var DeduccionData = {
+        DeduccionId: $("[name='DeduccionId']").val(),
+        DeduccionDescripcion: $("[name='DeduccionDescripcion']").val(),
+        DeduccionActiva: $("[name='DeduccionActiva']").is(":checked"),
+        DeduccionAplicacion: $("[name='DeduccionAplicacion']").val() || null,
+        DeduccionTipoCobro: $("[name='DeduccionTipoCobro']").val() || null,
+        DeduccionCobros: deduccionCobros
+    }
+
+    return DeduccionData;
 }
 
+async function crearDeduccion(deduccion) {
+    const result = await fetch(urlCrearDeduccion, {
+        method: 'POST',
+        body: JSON.stringify(deduccion),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
 
-
-
-
+    if (result.ok) {
+        window.location.href = "/Deducciones/Deduccion";
+    } else {
+        console.error("Error al crear la deduccion")
+    }
+}
 
