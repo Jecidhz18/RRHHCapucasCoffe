@@ -55,6 +55,7 @@ namespace RRHHCapucasCoffe.Services
 
             //Deduccion
             CreateMap<DeduccionCrearViewModel, Deduccion>().ReverseMap();
+            CreateMap<Deduccion, DeduccionEditarViewModel>().ReverseMap();
         }
     }
 }

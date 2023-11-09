@@ -36,5 +36,26 @@ namespace RRHHCapucasCoffe.Services
                 INNER JOIN Usuarios ug ON ug.UsuarioId = d.DeduccionUsuarioGrabo
                 LEFT JOIN Usuarios ua ON ua.UsuarioId = d.DeduccionUsuarioModifico");
         }
+
+        public async Task<Deduccion> ObtenerDeduccionPorId(int deduccionId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QueryFirstOrDefaultAsync<Deduccion>(
+                @"SELECT * FROM Deducciones
+                WHERE DeduccionId = @DeduccionId", new { deduccionId });
+        }
+
+        public async Task EditarDeduccion(Deduccion deduccion)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"UPDATE Deducciones 
+                SET DeduccionDescripcion = @DeduccionDescripcion, DeduccionActiva = @DeduccionActiva, DeduccionAplicacion = @DeduccionAplicacion,
+                DeduccionTipoCobro = @DeduccionTipoCobro, DeduccionUsuarioModifico = @DeduccionUsuarioModifico,
+                DeduccionFechaModifico = @DeduccionFechaModifico
+                WHERE DeduccionId = @DeduccionId", deduccion);
+        }
     }
 }

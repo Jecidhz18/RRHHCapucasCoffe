@@ -14,6 +14,8 @@ var accordionBody = document.getElementById("flush-collapse-deduccion")
 //obtener boton agregar cobros
 botonAgregarCobro = document.getElementById("btn-agregar-cobro");
 
+switchTipoCobroEditar();
+
 function expandirAccordion() {
     accordionButtonDeduccion.classList.remove("collapsed");
     accordionButtonDeduccion.ariaExpanded = true;
@@ -21,8 +23,6 @@ function expandirAccordion() {
 }
 
 function deduccionFija() {
-    eliminarElementosCobros();
-
     botonAgregarCobro.disabled = false;
     cobroHasta.prop('disabled', false);
     cobroDesde.prop('disabled', false);
@@ -33,8 +33,6 @@ function deduccionFija() {
 }
 
 function deduccionPorRango() {
-    eliminarElementosCobros();
-
     botonAgregarCobro.disabled = false;
     cobroHasta.prop('disabled', false);
     cobroDesde.prop('disabled', false);
@@ -45,8 +43,6 @@ function deduccionPorRango() {
 }
 
 function deduccionVariable() {
-    eliminarElementosCobros();
-
     botonAgregarCobro.disabled = false;
     cobroHasta.prop('disabled', true);
     cobroDesde.prop('disabled', true);
@@ -82,12 +78,15 @@ selectElement.addEventListener("change", function () {
     // Luego, puedes ejecutar una función en función del valor seleccionado
     switch (selectedValue) {
         case "1":
+            eliminarElementosCobros();
             deduccionFija();
             break;
         case "2":
+            eliminarElementosCobros();
             deduccionPorRango();
             break;
         case "3":
+            eliminarElementosCobros();
             deduccionVariable();
             break;
         default:
@@ -95,6 +94,31 @@ selectElement.addEventListener("change", function () {
             break;
     }
 });
+
+function switchTipoCobroEditar() {
+    var selectedValue = selectElement.value;
+
+    // Luego, puedes ejecutar una función en función del valor seleccionado
+    switch (selectedValue) {
+        case "1":
+            deduccionFija();
+            $('[name="DeduccionCobroPorcentaje"]').attr('hidden', true);
+            break;
+        case "2":
+            deduccionPorRango();
+            $('[name="DeduccionCobroMonto"]').attr('hidden', true);
+            break;
+        case "3":
+            deduccionVariable();
+            $('[name="DeduccionCobroDesde"]').attr('hidden', true);
+            $('[name="DeduccionCobroHasta"]').attr('hidden', true);
+            $('[name="DeduccionCobroPorcentaje"]').attr('hidden', true);
+            break;
+        default:
+            eliminarElementosCobros();
+            break;
+    }
+}
 
 $('#btn-agregar-cobro').click(function () {
     const celdaAccionesCobro = $('<td>');
@@ -105,7 +129,7 @@ $('#btn-agregar-cobro').click(function () {
     });
 
     const celdaCobroDesde = $('<td>', {
-        text: "L " + cobroDesde.val()
+        text: cobroDesde.val()
     });
     const inputCobroDesde = $('<input>', {
         type: 'hidden',
@@ -114,7 +138,7 @@ $('#btn-agregar-cobro').click(function () {
     });
 
     const celdaCobroHasta = $('<td>', {
-        text: "L " + cobroHasta.val()
+        text: cobroHasta.val()
     });
     const inputCobroHasta = $('<input>', {
         type: 'hidden',
@@ -132,7 +156,7 @@ $('#btn-agregar-cobro').click(function () {
     });
 
     const celdaCobroMonto = $('<td>', {
-        text: "L " + cobroMonto.val()
+        text: cobroMonto.val()
     });
     const inputCobroMonto = $('<input>', {
         type: 'hidden',
@@ -164,6 +188,14 @@ $('#crear-deduccion').submit(async function (e) {
     await crearDeduccion(deduccion);
 });
 
+$('#editar-deduccion').submit(async function (e) {
+    e.preventDefault();
+
+    const deduccion = await obtenerDataDeduccion();
+
+    await editarDeduccion(deduccion);
+});
+
 async function obtenerDataDeduccion() {
     var deduccionCobros = []
 
@@ -171,10 +203,10 @@ async function obtenerDataDeduccion() {
         var fila = $(this);
         var cobro = {
             DeduccionCobroId: fila.find("td input[name='DeduccionCobroId']").val(),
-            DeduccionCobroDesde: fila.find("td input[name='DeduccionCobroDesde']").val() || null,
-            DeduccionCobroHasta: fila.find("td input[name='DeduccionCobroHasta']").val() || null,
-            DeduccionCobroPorcentaje: fila.find("td input[name='DeduccionCobroPorcentaje']").val() || null,
-            DeduccionCobroMonto: fila.find("td input[name='DeduccionCobroMonto']").val() || null
+            DeduccionCobroDesde: fila.find("td input[name='DeduccionCobroDesde']").val().replace(/,/, "") || null,
+            DeduccionCobroHasta: fila.find("td input[name='DeduccionCobroHasta']").val().replace(/,/, "") || null,
+            DeduccionCobroPorcentaje: fila.find("td input[name='DeduccionCobroPorcentaje']").val().trim().replace(/\s+/g, '').replace(/%/g, "") || null,
+            DeduccionCobroMonto: fila.find("td input[name='DeduccionCobroMonto']").val().replace(/,/, "") || null
         }
 
         deduccionCobros.push(cobro);
@@ -182,7 +214,7 @@ async function obtenerDataDeduccion() {
 
     var DeduccionData = {
         DeduccionId: $("[name='DeduccionId']").val(),
-        DeduccionDescripcion: $("[name='DeduccionDescripcion']").val(),
+        DeduccionDescripcion: $("[name='DeduccionDescripcion']").val().replace,
         DeduccionActiva: $("[name='DeduccionActiva']").is(":checked"),
         DeduccionAplicacion: $("[name='DeduccionAplicacion']").val() || null,
         DeduccionTipoCobro: $("[name='DeduccionTipoCobro']").val() || null,
@@ -207,4 +239,21 @@ async function crearDeduccion(deduccion) {
         console.error("Error al crear la deduccion")
     }
 }
+
+async function editarDeduccion(deduccion) {
+    const result = await fetch(urlEditarDeduccion, {
+        method: 'POST',
+        body: JSON.stringify(deduccion),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (result.ok) {
+        window.location.href = "/Deducciones/Deduccion";
+    } else {
+        console.error("Error al editar la deduccion");
+    }
+}
+
 

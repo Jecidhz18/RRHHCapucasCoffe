@@ -59,11 +59,39 @@ namespace RRHHCapucasCoffe.Controllers
 
             return Ok();
         }
+        [HttpGet]
         public async Task<IActionResult> EditarDeduccion(int deduccionId)
         {
+            var modelo = new DeduccionEditarViewModel();
 
+            var deduccion = await repositorioDeduccion.ObtenerDeduccionPorId(deduccionId);
+            mapper.Map(deduccion, modelo);
+
+            modelo.DeduccionesCobros = await repositorioDeduccionCobro.ObtenerDeduccionCobrosPorDeduccionId(deduccionId);
+
+            return View(modelo);
         }
+        [HttpPost]
+        public async Task<IActionResult> EditarDeduccion([FromBody] DeduccionEditarViewModel modelo)
+        {
+            var deduccion = new Deduccion();
+            mapper.Map(modelo, deduccion);
+            var usuario = await repositorioUsuario.ObtenerUsuario();
+            deduccion.DeduccionUsuarioModifico = usuario.UsuarioId;
+            deduccion.DeduccionFechaModifico = DateTime.Now;
 
+            await repositorioDeduccion.EditarDeduccion(deduccion);
+
+            int[] deduccionCobroIds = modelo.DeduccionCobros.Select(x => x.DeduccionCobroId).ToArray();
+            var deduccionCobroEditar = modelo.DeduccionCobros.Where(x => x.DeduccionCobroId != 0).ToList();
+            var deduccionCobroCrear = modelo.DeduccionesCobros.Where(x => x.DeduccionCobroId == 0).ToList();
+
+            await repositorioDeduccionCobro.EliminarDeduccionCobro(deduccionCobroIds, modelo.DeduccionId);
+            await repositorioDeduccionCobro.CrearDeduccionCobro(deduccionCobroCrear, modelo.DeduccionId);
+            await repositorioDeduccionCobro.EditarDeduccionCobro(deduccionCobroEditar, modelo.DeduccionId);
+
+            return Ok();
+        }
 
         private async Task<string> GetDisplayNameEnum(Enum value)
         {

@@ -1,0 +1,139 @@
+﻿@using RRHHCapucasCoffe.Enums;
+@model RRHHCapucasCoffe.Models.Deducciones.DeduccionEditarViewModel
+
+@{
+    ViewData["Title"] = "Editar Deduccion";
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Editar Banco</h3>
+        <form class="row g-3" id="editar-deduccion">
+            <input type="hidden" asp-for="DeduccionId"/>
+            <div class="col-12">
+                <label asp-for="DeduccionDescripcion" class="form-label"></label>
+                <input asp-for="DeduccionDescripcion" type="text" class="form-control">
+                <span asp-validation-for="DeduccionDescripcion" class="text-danger"></span>
+            </div>
+            <div class="col-6">
+                <label asp-for="DeduccionAplicacion" class="form-label"></label>
+                <select asp-for="DeduccionAplicacion" class="form-select" asp-items="Html.GetEnumSelectList<DeduccionAplicaciones>()">
+                    <option selected>Seleccione una opción</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label asp-for="DeduccionTipoCobro" class="form-label"></label>
+                <select asp-for="DeduccionTipoCobro" class="form-select" asp-items="Html.GetEnumSelectList<DeduccionTiposCobros>()">
+                    <option selected>Seleccione una opción</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <label asp-for="DeduccionActiva" class="form-check-label"></label>
+                    <input asp-for="DeduccionActiva" class="form-check-input" type="checkbox" checked>
+                </div>
+            </div>
+            <div class="accordion accordion-flush" id="accordionFlush">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button id="accordion-button-deduccion" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-deduccion" aria-expanded="false" aria-controls="flush-collapse-deduccion">
+                            Cobros:
+                        </button>
+                    </h2>
+                    <div id="flush-collapse-deduccion" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlush">
+                        <div class="accordion-body">
+                            <div class="row g-3" id="header-cobro">
+                                <div class="col-3">
+                                    <label class="form-label">Desde</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">L</span>
+                                        <input id="input-desde" class="form-control mask-money2" type="text" placeholder="0.00" disabled autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label">Hasta</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">L</span>
+                                        <input id="input-hasta" class="form-control mask-money2" type="text" placeholder="0.00" disabled autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <label class="form-label">Porcentaje</label>
+                                    <input id="input-porcentaje" class="form-control percent" type="text" placeholder="0.00 %" disabled autocomplete="off" />
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label">Monto</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">L</span>
+                                        <input id="input-monto" class="form-control mask-money2" type="text" placeholder="0.00" disabled autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="col-1 d-flex align-items-end">
+                                    <button id="btn-agregar-cobro" type="button" class="btn btn-outline-primary" title="Agregar" disabled>
+                                        <i class="bi bi-file-plus d-block d-lg-none"></i>
+                                        <span class="d-none d-lg-block">Agregar</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row" id="body-cobro">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Desde</th>
+                                                <th>Hasta</th>
+                                                <th>Porcentaje</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data-table-body-cobro">
+                                            @foreach(var item in Model.DeduccionesCobros)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" name="DeduccionCobroId" value="@item.DeduccionCobroId">
+                                                        <button class="btn btn-outline-danger btn-sm bi bi-trash" id="btn-eliminar-fila"></button>
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control form-control-sm mask-money2" name="DeduccionCobroDesde" value="@item.DeduccionCobroDesde">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control form-control-sm mask-money2" name="DeduccionCobroHasta" value="@item.DeduccionCobroHasta">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control form-control-sm percent" name="DeduccionCobroPorcentaje" value="@item.DeduccionCobroPorcentaje">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control form-control-sm mask-money2" name="DeduccionCobroMonto" value="@item.DeduccionCobroMonto"> 
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary" title="Confirmar">Confirmar</button>
+                <button type="reset" class="btn btn-secondary" onclick="location.href='@Url.Action("Deduccion", "Deducciones")'" title="Cancelar">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/deduccion.js" asp-append-version="true"></script>
+
+    <script>
+        const urlEditarDeduccion = '@Url.Action("EditarDeduccion")';
+    </script>
+}
