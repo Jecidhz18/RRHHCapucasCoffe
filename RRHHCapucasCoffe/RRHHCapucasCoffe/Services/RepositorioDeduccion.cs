@@ -31,7 +31,7 @@ namespace RRHHCapucasCoffe.Services
 
             return await connection.QueryAsync<DeduccionViewModel>(
                 @"SELECT d.DeduccionId, d.DeduccionDescripcion, d.DeduccionAplicacion, d.DeduccionTipoCobro, d.DeduccionActiva, ug.UsuarioCuenta AS DUsuarioGrabo,
-	                d.DeduccionFechaGrabo, ua.UsuarioCuenta AS DUsuarioModifico, d.DeduccionUsuarioModifico
+	                d.DeduccionFechaGrabo, ua.UsuarioCuenta AS DUsuarioModifico, d.DeduccionUsuarioModifico, d.DeduccionFechaModifico
                 FROM Deducciones d
                 INNER JOIN Usuarios ug ON ug.UsuarioId = d.DeduccionUsuarioGrabo
                 LEFT JOIN Usuarios ua ON ua.UsuarioId = d.DeduccionUsuarioModifico");
@@ -56,6 +56,28 @@ namespace RRHHCapucasCoffe.Services
                 DeduccionTipoCobro = @DeduccionTipoCobro, DeduccionUsuarioModifico = @DeduccionUsuarioModifico,
                 DeduccionFechaModifico = @DeduccionFechaModifico
                 WHERE DeduccionId = @DeduccionId", deduccion);
+        }
+
+        public async Task<DeduccionViewModel> ObtenerDeduccionPorIdCompleto(int deduccionId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            return await connection.QuerySingleAsync<DeduccionViewModel>(
+                @"SELECT d.DeduccionId, d.DeduccionDescripcion, d.DeduccionAplicacion, d.DeduccionTipoCobro, d.DeduccionActiva, ug.UsuarioCuenta AS DUsuarioGrabo,
+	                d.DeduccionFechaGrabo, ua.UsuarioCuenta AS DUsuarioModifico, d.DeduccionUsuarioModifico
+                FROM Deducciones d
+                INNER JOIN Usuarios ug ON ug.UsuarioId = d.DeduccionUsuarioGrabo
+                LEFT JOIN Usuarios ua ON ua.UsuarioId = d.DeduccionUsuarioModifico
+                WHERE DeduccionId = @DeduccionId", new { deduccionId });
+        }
+
+        public async Task EliminarDeduccion(int deduccionId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE FROM Deducciones
+                WHERE DeduccionId = @DeduccionId", new { deduccionId });
         }
     }
 }

@@ -84,7 +84,7 @@ namespace RRHHCapucasCoffe.Controllers
 
             int[] deduccionCobroIds = modelo.DeduccionCobros.Select(x => x.DeduccionCobroId).ToArray();
             var deduccionCobroEditar = modelo.DeduccionCobros.Where(x => x.DeduccionCobroId != 0).ToList();
-            var deduccionCobroCrear = modelo.DeduccionesCobros.Where(x => x.DeduccionCobroId == 0).ToList();
+            var deduccionCobroCrear = modelo.DeduccionCobros.Where(x => x.DeduccionCobroId == 0).ToList();
 
             await repositorioDeduccionCobro.EliminarDeduccionCobro(deduccionCobroIds, modelo.DeduccionId);
             await repositorioDeduccionCobro.CrearDeduccionCobro(deduccionCobroCrear, modelo.DeduccionId);
@@ -93,6 +93,28 @@ namespace RRHHCapucasCoffe.Controllers
             return Ok();
         }
 
+        //Metodo Ajax para obtener empleado por id
+        [HttpPost]
+        public async Task<IActionResult> ObtenerDeduccionPorId([FromBody] int deduccionId)
+        {
+            var deduccion = await repositorioDeduccion.ObtenerDeduccionPorIdCompleto(deduccionId);
+
+            DeduccionTiposCobros tipoCobro = (DeduccionTiposCobros)deduccion.DeduccionTipoCobro;
+            DeduccionAplicaciones aplicacion = (DeduccionAplicaciones)deduccion.DeduccionAplicacion;
+
+            deduccion.DTipoCobro = await GetDisplayNameEnum(tipoCobro);
+            deduccion.DAplicacion = await GetDisplayNameEnum(aplicacion);
+
+            return Ok(deduccion);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarDeduccion([FromBody] int deduccionId)
+        {
+            await repositorioDeduccionCobro.EliminarDeduccionCobro(deduccionId);
+            await repositorioDeduccion.EliminarDeduccion(deduccionId);
+            return Ok();
+        }
         private async Task<string> GetDisplayNameEnum(Enum value)
         {
             return await Task.Run(() =>

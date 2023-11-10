@@ -14,7 +14,10 @@ var accordionBody = document.getElementById("flush-collapse-deduccion")
 //obtener boton agregar cobros
 botonAgregarCobro = document.getElementById("btn-agregar-cobro");
 
-switchTipoCobroEditar();
+if (selectElement != null) {
+    // Solo ejecuta la función si selectElement no es nulo
+    switchTipoCobroEditar();
+}
 
 function expandirAccordion() {
     accordionButtonDeduccion.classList.remove("collapsed");
@@ -71,29 +74,31 @@ function eliminarElementosCobros() {
     }
 }
 
-selectElement.addEventListener("change", function () {
-    // Obtiene el valor seleccionado
-    var selectedValue = selectElement.value;
+if (selectElement) {
+    selectElement.addEventListener("change", function () {
+        // Obtiene el valor seleccionado
+        var selectedValue = selectElement.value;
 
-    // Luego, puedes ejecutar una función en función del valor seleccionado
-    switch (selectedValue) {
-        case "1":
-            eliminarElementosCobros();
-            deduccionFija();
-            break;
-        case "2":
-            eliminarElementosCobros();
-            deduccionPorRango();
-            break;
-        case "3":
-            eliminarElementosCobros();
-            deduccionVariable();
-            break;
-        default:
-            eliminarElementosCobros();
-            break;
-    }
-});
+        // Luego, puedes ejecutar una función en función del valor seleccionado
+        switch (selectedValue) {
+            case "1":
+                eliminarElementosCobros();
+                deduccionFija();
+                break;
+            case "2":
+                eliminarElementosCobros();
+                deduccionPorRango();
+                break;
+            case "3":
+                eliminarElementosCobros();
+                deduccionVariable();
+                break;
+            default:
+                eliminarElementosCobros();
+                break;
+        }
+    });
+}
 
 function switchTipoCobroEditar() {
     var selectedValue = selectElement.value;
@@ -161,7 +166,7 @@ $('#btn-agregar-cobro').click(function () {
     const inputCobroMonto = $('<input>', {
         type: 'hidden',
         name: 'DeduccionCobroMonto',
-        value: cobroMonto.val().replace(/,/, "")
+        value: cobroMonto.val().replace(/,/g, "")
     });
 
     celdaAccionesCobro.append(buttonEliminarCobro);
@@ -196,6 +201,31 @@ $('#editar-deduccion').submit(async function (e) {
     await editarDeduccion(deduccion);
 });
 
+$('[name="btn-modal-eliminar-deduccion"]').on('click', async function () {
+    var deduccionId = $(this).data('deduccionid');
+    await obtenerDeduccionPorId(deduccionId);
+    //$('#modal-eliminar-deduccion').modal('show');
+});
+
+$('#btn-eliminar-deduccion').on('click', async function () {
+    const deduccionId = $('[name="delDeduccionId"]').val();
+
+    const result = await Swal.fire({
+        title: '¿Estas seguro de eliminar este registro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#5e656c',
+        confirmButtonText: 'Si, Eliminar registro!',
+        cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+        await eliminarDeduccion(deduccionId);
+    }
+});
+
 async function obtenerDataDeduccion() {
     var deduccionCobros = []
 
@@ -203,10 +233,10 @@ async function obtenerDataDeduccion() {
         var fila = $(this);
         var cobro = {
             DeduccionCobroId: fila.find("td input[name='DeduccionCobroId']").val(),
-            DeduccionCobroDesde: fila.find("td input[name='DeduccionCobroDesde']").val().replace(/,/, "") || null,
-            DeduccionCobroHasta: fila.find("td input[name='DeduccionCobroHasta']").val().replace(/,/, "") || null,
+            DeduccionCobroDesde: fila.find("td input[name='DeduccionCobroDesde']").val().replace(/,/g, "") || null,
+            DeduccionCobroHasta: fila.find("td input[name='DeduccionCobroHasta']").val().replace(/,/g, "") || null,
             DeduccionCobroPorcentaje: fila.find("td input[name='DeduccionCobroPorcentaje']").val().trim().replace(/\s+/g, '').replace(/%/g, "") || null,
-            DeduccionCobroMonto: fila.find("td input[name='DeduccionCobroMonto']").val().replace(/,/, "") || null
+            DeduccionCobroMonto: fila.find("td input[name='DeduccionCobroMonto']").val().replace(/,/g, "") || null
         }
 
         deduccionCobros.push(cobro);
@@ -214,7 +244,7 @@ async function obtenerDataDeduccion() {
 
     var DeduccionData = {
         DeduccionId: $("[name='DeduccionId']").val(),
-        DeduccionDescripcion: $("[name='DeduccionDescripcion']").val().replace,
+        DeduccionDescripcion: $("[name='DeduccionDescripcion']").val(),
         DeduccionActiva: $("[name='DeduccionActiva']").is(":checked"),
         DeduccionAplicacion: $("[name='DeduccionAplicacion']").val() || null,
         DeduccionTipoCobro: $("[name='DeduccionTipoCobro']").val() || null,
@@ -223,6 +253,31 @@ async function obtenerDataDeduccion() {
 
     return DeduccionData;
 }
+
+async function obtenerDeduccionPorId(deduccionId) {
+    const result = await fetch(urlGetDeduccionPorId, {
+        method: 'POST',
+        body: JSON.stringify(deduccionId),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (result.ok) {
+        const json = await result.json();
+        $('[name="delDeduccionId"]').val(json.deduccionId);
+        $('[name="delDeduccionDescripcion"]').text(json.deduccionDescripcion);
+        $('[name="delDeduccionAplicacion"]').text(json.dAplicacion);
+        $('[name="delDeduccionTipoCobro"]').text(json.dTipoCobro);
+
+        $('#modal-eliminar-deduccion').modal('show');
+    } else {
+        console.error("Error al editar la deduccion");
+        const reponseText = await result.text();
+        console.error(reponseText);
+    }
+}
+
 
 async function crearDeduccion(deduccion) {
     const result = await fetch(urlCrearDeduccion, {
@@ -253,7 +308,41 @@ async function editarDeduccion(deduccion) {
         window.location.href = "/Deducciones/Deduccion";
     } else {
         console.error("Error al editar la deduccion");
+        const reponseText = await result.text();
+        console.error(reponseText);
     }
 }
+
+async function eliminarDeduccion(deduccionId) {
+    const result = await fetch(urlDeleteDeduccion, {
+        method: 'POST',
+        body: deduccionId,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (result.ok) {
+        $('#modal-eliminar-deduccion').modal('hide');
+        Swal.fire({
+            text: 'Registro eliminado con exito!',
+            icon: 'success',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setTimeout(() => {
+                    location.reload();
+                }, 320);
+            } else {
+                setTimeout(() => {
+                    location.reload();
+                }, 320);
+            }
+        })
+    }
+}
+
+
+
+
 
 

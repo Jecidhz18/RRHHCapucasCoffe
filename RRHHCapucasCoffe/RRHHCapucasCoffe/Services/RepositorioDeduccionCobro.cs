@@ -65,8 +65,8 @@ namespace RRHHCapucasCoffe.Services
             {
                 await connection.ExecuteAsync(
                     @"UPDATE DeduccionesCobros
-                    SET DeduccionCobroDesde = DeduccionCobroDesde, DeduccionCobroHasta = DeduccionCobroHasta,
-                        DeduccionCobroPorcentaje = DeduccionCobroPorcentaje, DeduccionCobroMonto = DeduccionCobroMonto
+                    SET DeduccionCobroDesde = @DeduccionCobroDesde, DeduccionCobroHasta = @DeduccionCobroHasta,
+                        DeduccionCobroPorcentaje = @DeduccionCobroPorcentaje, DeduccionCobroMonto = @DeduccionCobroMonto
                     WHERE DeduccionCobroId = @DeduccionCobroId AND DeduccionId = @DeduccionId", new
                     {
                         deduccionCobro.DeduccionCobroId,
@@ -77,6 +77,15 @@ namespace RRHHCapucasCoffe.Services
                         deduccionCobro.DeduccionCobroMonto
                     });
             }
+        }
+
+        public async Task EliminarDeduccionCobro(int deduccionId)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync(
+                @"DELETE FROM DeduccionesCobros
+                WHERE DeduccionId = @DeduccionId", new { deduccionId });
         }
     }
 }

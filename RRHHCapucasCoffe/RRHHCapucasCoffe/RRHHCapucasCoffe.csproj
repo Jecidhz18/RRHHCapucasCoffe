@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Models\ColegiosProfesionales\" />
-    <Folder Include="Models\DeducionesCobros\" />
     <Folder Include="Models\EstadosCiviles\" />
     <Folder Include="Models\Paises\" />
     <Folder Include="Models\Remuneraciones\" />

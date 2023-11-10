@@ -45,7 +45,7 @@
                                     <a class="btn btn-outline-primary me-1" asp-action="EditarDeduccion" asp-route-deduccionId="@item.DeduccionId" title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a class="btn btn-outline-danger" title="Eliminar">
+                                    <a class="btn btn-outline-danger" name="btn-modal-eliminar-deduccion" data-deduccionid="@item.DeduccionId" title="Eliminar">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
@@ -74,19 +74,23 @@
                                 @item.DUsuarioModifico
                             </td>
                             <td>
-                                @if (item.DeduccionFechaModifico != null)
-                                {
-                                    @item.DeduccionFechaModifico.Value.ToString("dd/MM/yyyy")
-                                }
+                                @item.DeduccionFechaModifico?.ToString("dd/MM/yyyy")
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
+        <partial name="_ModalEliminarDeduccion" model="Model"></partial>
     </div>
 </div>
 
 @section Scripts {
     <script src="~/js/table.js" asp-append-version="true"></script>
+    <script src="~/js/deduccion.js" asp-append-version="true"></script>
+
+    <script>
+        const urlGetDeduccionPorId = '@Url.Action("ObtenerDeduccionPorId")';
+        const urlDeleteDeduccion = '@Url.Action("EliminarDeduccion")';
+    </script>
 }
